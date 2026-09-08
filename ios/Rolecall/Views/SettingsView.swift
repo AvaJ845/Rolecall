@@ -133,12 +133,21 @@ struct SettingsView: View {
                     }
                 }
 
-                Section("Privacy") {
+                Section {
                     Text("Rolecall keeps everything on this device. No account, no analytics, no trackers. Nothing you do here is sent anywhere.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
+                    Toggle(isOn: $settings.checkLinksOnWiFiOnly) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Check links on Wi-Fi only")
+                            Text("Opening a role fetches the posting to confirm it's still open. On cellular Rolecall skips that unless you tap “Check now”.")
+                                .font(.footnote).foregroundStyle(.secondary)
+                        }
+                    }
                     externalLink("Privacy Policy", "https://rolecalljobs.com/privacy/")
                     externalLink("Terms of Use", "https://rolecalljobs.com/terms/")
+                } header: {
+                    Text("Privacy")
                 }
 
                 Section {

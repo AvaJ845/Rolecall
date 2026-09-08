@@ -4,6 +4,7 @@ struct RoleDetailView: View {
 
     let role: Role
     @EnvironmentObject private var tracked: TrackedRoles
+    @EnvironmentObject private var settings: AppSettings
     @Environment(\.openURL) private var openURL
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var freshness: FreshnessChecker.Status? = nil
@@ -29,7 +30,7 @@ struct RoleDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar { detailToolbar }
         .task { await runCheck() }
-        .onReceive(Timer.publish(every: 60, on: .main, in: .common).autoconnect()) { now = $0 }
+        .onReceive(Timer.publish(every: 300, on: .main, in: .common).autoconnect()) { now = $0 }
     }
 
     @ToolbarContentBuilder
@@ -88,6 +89,12 @@ struct RoleDetailView: View {
                     .font(.footnote)
                     .foregroundStyle(Theme.Palette.inkSecondary)
                     .fixedSize(horizontal: false, vertical: true)
+                if freshness == .skippedOnCellular {
+                    Button("Check now") { Task { await runCheck(force: true) } }
+                        .font(.footnote.weight(.semibold))
+                        .buttonStyle(.borderless)
+                        .padding(.top, 4)
+                }
             }
             Spacer(minLength: 0)
         }
@@ -104,13 +111,15 @@ struct RoleDetailView: View {
             switch freshness {
             case .mayHaveClosed: open()
             case .couldNotCheck: Task { await runCheck() }
+            case .skippedOnCellular: Task { await runCheck(force: true) }
             default: break
             }
         }
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: freshness)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(statusHeadline). \(statusDetail)")
-        .accessibilityHint(freshness == .couldNotCheck ? "Double tap to check again." : "")
+        .accessibilityHint(freshness == .couldNotCheck || freshness == .skippedOnCellular
+                           ? "Double tap to check now." : "")
     }
 
     private var factsBlock: some View {
@@ -239,14 +248,17 @@ struct RoleDetailView: View {
 
     private func open() { openURL(role.url) }
 
-    private func runCheck() async {
+    private func runCheck(force: Bool = false) async {
         #if DEBUG
         if let forced = UITestSupport.forcedFreshness {
             now = Date(); freshness = forced; return
         }
         #endif
         checking = true
-        let result = await FreshnessChecker().check(role.url)
+        let result = await FreshnessChecker().check(
+            role.url,
+            wifiOnly: settings.checkLinksOnWiFiOnly,
+            forceNow: force)
         checking = false
         now = Date()
         freshness = result
@@ -272,6 +284,7 @@ struct RoleDetailView: View {
         switch freshness {
         case .liveJustChecked: return "checkmark.seal.fill"
         case .mayHaveClosed: return "exclamationmark.triangle.fill"
+        case .skippedOnCellular: return "antenna.radiowaves.left.and.right.slash"
         case .couldNotCheck, .none: return "arrow.triangle.2.circlepath"
         }
     }
@@ -280,7 +293,7 @@ struct RoleDetailView: View {
         switch freshness {
         case .liveJustChecked: return Theme.Palette.verified
         case .mayHaveClosed: return Theme.Palette.caution
-        case .couldNotCheck, .none: return Theme.Palette.inkTertiary
+        case .skippedOnCellular, .couldNotCheck, .none: return Theme.Palette.inkTertiary
         }
     }
 
@@ -289,6 +302,7 @@ struct RoleDetailView: View {
         case .liveJustChecked: return "Verified live just now"
         case .mayHaveClosed: return "This posting may have closed"
         case .couldNotCheck: return "Couldn't reach the posting"
+        case .skippedOnCellular: return "Not checked — you're on cellular"
         case .none: return checking ? "Checking the company site…" : "Checking…"
         }
     }
@@ -304,6 +318,11 @@ struct RoleDetailView: View {
             return "You may be offline. Rolecall last confirmed this role "
                 + Freshness.compactAgo(since: role.freshnessDate, relativeTo: now)
                 + ". Tap to check again."
+        case .skippedOnCellular:
+            return "Rolecall didn't fetch \(role.company)'s page to save your cellular data. "
+                + "Rolecall last confirmed this role "
+                + Freshness.compactAgo(since: role.freshnessDate, relativeTo: now)
+                + ". Check now, or allow cellular checks in Settings › Privacy."
         case .none:
             return "Opening \(role.company)'s page to confirm the role is still accepting applications."
         }
