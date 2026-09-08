@@ -1,0 +1,146 @@
+{
+  "identifier" : "CAF96080-D721-4201-934B-6C76EBF8966F",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_billingIssuesEnabled" : false,
+    "_compatibilityTimeRate" : {
+      "P1M" : 2592000,
+      "P1W" : 604800,
+      "P1Y" : 31536000
+    },
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "390274B6-10BF-4E85-BDCC-0414DFC420B7",
+      "localizations" : [
+
+      ],
+      "name" : "Rolecall Plus",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "4.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "2066351D-B34F-4EEB-A018-B7233AF4C4E8",
+          "introductoryOffer" : {
+            "internalID" : "82EE1846-091D-49F5-A6A0-1404669F47BC",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
+          "localizations" : [
+            {
+              "description" : "Saved-search alerts, unlimited saved searches, advanced filters, follow-up reminders, and iCloud sync.",
+              "displayName" : "Rolecall Plus (Monthly)",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "rolecall.plus.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Rolecall Plus Monthly",
+          "subscriptionGroupID" : "390274B6-10BF-4E85-BDCC-0414DFC420B7",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "29.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "CF15D212-433F-4F74-AA4A-A9A83A885764",
+          "introductoryOffer" : {
+            "internalID" : "ADB258EE-4DFC-4196-A279-02EBDCF4E9E6",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
+          "localizations" : [
+            {
+              "description" : "Saved-search alerts, unlimited saved searches, advanced filters, follow-up reminders, and iCloud sync.",
+              "displayName" : "Rolecall Plus (Yearly)",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "rolecall.plus.yearly",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Rolecall Plus Yearly",
+          "subscriptionGroupID" : "390274B6-10BF-4E85-BDCC-0414DFC420B7",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

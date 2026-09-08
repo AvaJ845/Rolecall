@@ -1,12 +1,16 @@
 import SwiftUI
+import StoreKit
 
 struct SettingsView: View {
     @EnvironmentObject private var settings: AppSettings
     @EnvironmentObject private var tracked: TrackedRoles
     @EnvironmentObject private var store: BoardStore
+    @EnvironmentObject private var plus: Store
+    @Environment(\.isPlus) private var isPlus
     @Environment(\.dismiss) private var dismiss
     @State private var confirmingWipe = false
     @State private var iconOption: AppIconOption = .current
+    @State private var showPaywall = false
 
     @State private var notificationsDenied = false
 
@@ -31,6 +35,41 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
+                Section {
+                    if isPlus {
+                        HStack {
+                            Label("Rolecall Plus", systemImage: "sparkles")
+                            Spacer()
+                            Text("Active").foregroundStyle(.secondary)
+                        }
+                        Button("Manage subscription") {
+                            guard let scene = UIApplication.shared.connectedScenes
+                                .compactMap({ $0 as? UIWindowScene })
+                                .first(where: { $0.activationState == .foregroundActive })
+                                ?? UIApplication.shared.connectedScenes
+                                    .compactMap({ $0 as? UIWindowScene }).first
+                            else { return }
+                            Task { try? await AppStore.showManageSubscriptions(in: scene) }
+                        }
+                    } else {
+                        Button {
+                            showPaywall = true
+                        } label: {
+                            HStack(spacing: 10) {
+                                Image(systemName: "sparkles").foregroundStyle(Theme.Palette.accent)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("Rolecall Plus").foregroundStyle(Theme.Palette.ink)
+                                    Text("Alerts, reminders, advanced filters, sync")
+                                        .font(.footnote).foregroundStyle(.secondary)
+                                }
+                                Spacer()
+                                Image(systemName: "chevron.forward")
+                                    .font(.footnote.weight(.semibold)).foregroundStyle(.tertiary)
+                            }
+                        }
+                    }
+                }
+
                 Section("Appearance") {
                     Picker("Theme", selection: $settings.appearance) {
                         ForEach(AppearanceChoice.allCases) { Text($0.label).tag($0) }
@@ -106,6 +145,7 @@ struct SettingsView: View {
                     Button("Done") { dismiss() }.fontWeight(.semibold)
                 }
             }
+            .sheet(isPresented: $showPaywall) { PaywallView() }
             .alert("Notifications are off", isPresented: $notificationsDenied) {
                 Button("Open Settings") {
                     if let url = URL(string: UIApplication.openSettingsURLString) {
