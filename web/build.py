@@ -803,6 +803,27 @@ def render_robots(base_url):
     return "User-agent: *\nAllow: /\n\nSitemap: {}/sitemap.xml\n".format(base_url)
 
 
+def render_404(base_url):
+    body = """
+<section class="tight" style="padding-top:64px;text-align:center">
+  <div class="wrap">
+    <h1 class="page">Not here</h1>
+    <p class="lead">That page moved, or the role closed and dropped off the board.</p>
+    <p class="cta-block"><a class="btn" href="{base}/board/">Browse every live role &rarr;</a></p>
+  </div>
+</section>
+""".format(base=esc(base_url))
+    return shell(
+        title="Not found — Rolecall",
+        description="That page isn't here.",
+        canonical=base_url + "/404.html",
+        body=body,
+        base_url=base_url,
+        is_job=False,
+        landing=False,
+    )
+
+
 HEADERS_FILE = """# Cloudflare Pages / Netlify header rules.
 # The app's feed is served from this same deploy; it must be CORS-open and
 # cached briefly so the iOS app and the web board can both read it.
@@ -864,6 +885,7 @@ def build(base_url: str) -> int:
 
     (DIST / "sitemap.xml").write_text(render_sitemap(data, base_url, now))
     (DIST / "robots.txt").write_text(render_robots(base_url))
+    (DIST / "404.html").write_text(render_404(base_url))  # Pages serves this with a real 404 status
     (DIST / "_headers").write_text(HEADERS_FILE)  # honoured by Cloudflare/Netlify; ignored by GH Pages
     shutil.copyfile(BOARD_PATH, DIST / "board.json")
 
