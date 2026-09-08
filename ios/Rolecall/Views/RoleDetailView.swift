@@ -219,6 +219,11 @@ struct RoleDetailView: View {
     private func open() { openURL(role.url) }
 
     private func runCheck() async {
+        #if DEBUG
+        if let forced = UITestSupport.forcedFreshness {
+            now = Date(); freshness = forced; return
+        }
+        #endif
         checking = true
         let result = await FreshnessChecker().check(role.url)
         checking = false
@@ -269,8 +274,8 @@ struct RoleDetailView: View {
     private var statusDetail: String {
         switch freshness {
         case .liveJustChecked:
-            return "Rolecall just opened \(role.company)'s page and the role is still there. "
-                + Freshness.line(for: role.freshnessDate, verified: true, relativeTo: now)
+            return "Rolecall just opened \(role.company)'s page and the role is still there — "
+                + "no dead link, no ghost posting."
         case .mayHaveClosed:
             return "The page 404'd or bounced to a careers index. Tap to check on the company site."
         case .couldNotCheck:

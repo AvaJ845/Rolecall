@@ -17,6 +17,12 @@ struct RolecallApp: App {
                 .tint(Theme.Palette.accent)
                 .preferredColorScheme(settings.appearance.colorScheme)
                 .task {
+                    #if DEBUG
+                    if UITestSupport.isScreenshotRun {
+                        UITestSupport.applyIfNeeded(store: store, tracked: tracked)
+                        return
+                    }
+                    #endif
                     await store.refresh()
                     tracked.prune(against: store.board)
                     if settings.autoClearOldRoles { tracked.autoClear() }
