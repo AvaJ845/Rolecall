@@ -19,10 +19,12 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  # ---------------------------------------------------------------------------
+  # Job A — pull feeds, classify, verify, export. Parses attacker-influenceable
+  # data from the public internet, so it must NOT see the signing key.
+  # ---------------------------------------------------------------------------
+  build-board:
     runs-on: ubuntu-latest
-    env:
-      HAVE_CF: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -39,19 +41,97 @@ jobs:
           key: engine-state-${{ github.run_id }}
           restore-keys: engine-state-
 
-      - name: Ingest → verify → export → sign
-        env:
-          ROLECALL_SIGNING_KEY: ${{ secrets.ROLECALL_SIGNING_KEY }}
+      - name: Ingest → verify → export → stats
         run: |
           python3 -m engine ingest
           python3 -m engine verify 250 || true
           python3 -m engine export
           python3 -m engine stats
+
+      - name: Save engine state
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: data
+          key: engine-state-${{ github.run_id }}
+
+      # Hand the exported board to the downstream jobs. The signing job needs
+      # board.json; the deploy job needs it too (for the site build).
+      - name: Upload board
+        uses: actions/upload-artifact@v4
+        with:
+          name: board-data
+          path: data/board.json
+          if-no-files-found: error
+          retention-days: 1
+
+  # ---------------------------------------------------------------------------
+  # Job B — sign the board. The ONLY job that sees the signing secret, and it
+  # runs exactly one command: `python3 -m engine sign`. No ingest, no verify, no
+  # network. Blast radius: reads data/board.json, writes data/board.json.sig.
+  # ---------------------------------------------------------------------------
+  sign-board:
+    runs-on: ubuntu-latest
+    needs: build-board
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Download board
+        uses: actions/download-artifact@v4
+        with:
+          name: board-data
+          path: data
+
+      - name: Sign the board
+        env:
+          ROLECALL_SIGNING_KEY: ${{ secrets.ROLECALL_SIGNING_KEY }}
+        run: |
           if [ -n "$ROLECALL_SIGNING_KEY" ]; then
             python3 -m engine sign
           else
             echo "::warning::ROLECALL_SIGNING_KEY not set — board.json will ship unsigned and the app will reject remote updates."
           fi
+
+      - name: Upload signature
+        uses: actions/upload-artifact@v4
+        with:
+          name: board-sig
+          path: data/board.json.sig
+          if-no-files-found: ignore
+          retention-days: 1
+
+  # ---------------------------------------------------------------------------
+  # Job C — build the static site and deploy it. Gets board.json + signature as
+  # artifacts; never signs anything itself.
+  # ---------------------------------------------------------------------------
+  deploy:
+    runs-on: ubuntu-latest
+    needs: sign-board
+    env:
+      HAVE_CF: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Download board
+        uses: actions/download-artifact@v4
+        with:
+          name: board-data
+          path: data
+
+      - name: Download signature
+        continue-on-error: true # absent when the signing secret is unset (see sign-board)
+        uses: actions/download-artifact@v4
+        with:
+          name: board-sig
+          path: data
 
       # SITE_BASE_URL: point the repo/Actions variable at https://rolecalljobs.com once the
       # custom domain is attached in Cloudflare Pages. Until then it builds for the
@@ -60,13 +140,6 @@ jobs:
         env:
           BASE_URL: ${{ vars.SITE_BASE_URL || 'https://rolecalljobs.com' }}
         run: python3 -m web build --base-url "$BASE_URL"
-
-      - name: Save engine state
-        if: always()
-        uses: actions/cache/save@v4
-        with:
-          path: data
-          key: engine-state-${{ github.run_id }}
 
       - name: Sanity check
         run: |
