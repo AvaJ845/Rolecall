@@ -31,48 +31,42 @@ vertical (design · design-eng · research; **PM excluded**), US + US-remote. Th
 
 `dist/` is wiped and rewritten on every build.
 
-## Deploy — GitHub Pages (current)
+## Deploy — Cloudflare Pages (current)
 
 `.github/workflows/pages.yml` runs on push to `main` (when `web/` or `engine/` changes),
 on a 6-hourly cron, and on manual dispatch. It ingests a fresh board, exports it, builds
-the site, and deploys `web/dist/` to Pages. The engine's SQLite DB is cached between runs
-so `first_seen` (and "new today") stays stable.
+`web/dist/`, and deploys it to Cloudflare Pages with `wrangler`. The engine's SQLite DB is
+cached between runs so `first_seen` (and "new today") stays stable. Cloudflare honours the
+`_headers` file, so `board.json` is served CORS-open and briefly cached.
 
 **One-time setup:**
-1. Repo **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-2. **Settings → Pages → Custom domain:** `rolecall.io` (the `CNAME` file already ships it;
-   tick **Enforce HTTPS** once the cert provisions).
-3. DNS at the registrar for the apex `rolecall.io`:
-   - `A` → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - `AAAA` → `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`
-   - `CNAME` `www` → `avaj845.github.io`
-4. Wait for DNS + GitHub's cert. Confirm `https://rolecall.io/board.json` returns JSON.
-5. Trigger a run (push, or **Actions → Deploy rolecall.io → Run workflow**).
+1. In Cloudflare: **Workers & Pages → Create → Pages → "Use direct upload"** and name the
+   project **`rolecall`** (or run `npx wrangler pages project create rolecall
+   --production-branch main`).
+2. **My Profile → API Tokens → Create Token**, template *"Edit Cloudflare Workers"* — or a
+   custom token with **Account · Cloudflare Pages · Edit**. Copy it.
+3. Repo → **Settings → Secrets and variables → Actions → New repository secret**:
+   - `CLOUDFLARE_API_TOKEN` — the token from step 2
+   - `CLOUDFLARE_ACCOUNT_ID` — from any Cloudflare dashboard URL, or `wrangler whoami`
+4. Push (or **Actions → Deploy rolecall.io → Run workflow**). Until the secrets exist the
+   workflow still builds and just skips the deploy with a warning.
+5. First deploy lands at `https://rolecall.pages.dev`.
 
-## Deploy — Cloudflare Pages / Netlify (alternative)
+### Pointing `rolecall.io` at it
+1. Add `rolecall.io` to the Cloudflare account (**Add a site**) and move the registrar's
+   nameservers to the ones Cloudflare shows — DNS then becomes one-click.
+2. Pages project → **Custom domains → Set up a domain → `rolecall.io`** (and `www`).
+   Cloudflare creates the records and the cert automatically.
+3. Set the repo **Actions variable** `SITE_BASE_URL` to `https://rolecall.io`, then re-run
+   the workflow so canonical tags / sitemap / links bake in the real origin.
+4. Confirm `https://rolecall.io/board.json` returns JSON (the iOS app reads it there).
 
-Any static host also works; the `_headers` file is in their format.
-
-### Cloudflare Pages
-1. Push the repo. In the Pages dashboard: **Create project → Connect to Git**.
-2. Build command: `python3 -m web build`  ·  Build output directory: `web/dist`
-   (root directory: repo root, so `../data/board.json` resolves).
-3. Deploy. Pages serves `web/dist/` and honours `web/dist/_headers`.
-
-### Netlify
-1. **Add new site → Import from Git**.
-2. Build command: `python3 -m web build`  ·  Publish directory: `web/dist`.
-3. Deploy. Netlify honours `web/dist/_headers`.
-
-### Pointing the `.io` domain
-1. Add `rolecall.io` as a custom domain in the host's dashboard.
-2. At the registrar, set the nameservers to the host's (Cloudflare), **or** add the
-   records the host shows — typically `CNAME www → <project>.pages.dev` and an
-   apex `A`/`ALIAS`/flattened `CNAME` to the host.
-3. Wait for DNS + the auto-provisioned TLS cert. Confirm `https://rolecall.io/board.json`
-   returns JSON.
-4. Rebuild with the real base URL if it ever differs from `https://rolecall.io`
-   (the canonical tags and sitemap bake it in).
+### Alternatives (same `dist/`, same `_headers`)
+- **Netlify:** *Add new site → Import from Git*, publish directory `web/dist`, or drag-drop
+  `web/dist/`.
+- **Cloudflare Git integration** (no Actions): *Create project → Connect to Git*, build
+  command `python3 -m engine ingest && python3 -m engine export && python3 -m web build`,
+  output `web/dist`. Loses the engine-state cache, so `first_seen` resets each build.
 
 ## AdSense — job pages only
 
