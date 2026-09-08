@@ -131,21 +131,31 @@ enum Digest {
         try? BGTaskScheduler.shared.submit(request)
     }
 
+    /// Does the background task have anything to do? Digests are on, or a Plus subscriber
+    /// has at least one notifying saved search.
+    @MainActor
+    static func hasWorkToDo(settings: AppSettings, searches: SavedSearches, isPlus: Bool) -> Bool {
+        let hasAlerts = isPlus && searches.searches.contains(where: \.notify)
+        return settings.morningRead || settings.weeklyRecap || hasAlerts
+    }
+
     /// The body of the background-refresh task: pull a fresh board, recompute the
     /// digests, and queue the next refresh.
+    ///
+    /// P0-15: no `Store()` / StoreKit init and no `Task.sleep`. `isPlus` is the plain Bool
+    /// `Store.refreshEntitlements()` last cached in the App Group defaults. `AppSettings`
+    /// and `SavedSearches` stay — cheap `UserDefaults` reads. Worst case of a stale Bool:
+    /// a lapsed subscriber gets one extra alert cycle, a new one waits one cycle.
     @MainActor
     static func runBackgroundRefresh() async {
         scheduleBackgroundRefresh()
         let settings = AppSettings()
         let searches = SavedSearches()
-        let plus = Store()
-        // Give the entitlement listener a beat to settle before we read isPlus.
-        try? await Task.sleep(nanoseconds: 400_000_000)
-        let hasAlerts = plus.isPlus && searches.searches.contains(where: \.notify)
-        guard settings.morningRead || settings.weeklyRecap || hasAlerts else { return }
+        let isPlus = SharedContainer.lastKnownIsPlus
+        guard hasWorkToDo(settings: settings, searches: searches, isPlus: isPlus) else { return }
         let store = BoardStore()
         await store.refresh()
         await reschedule(board: store.board, tracked: TrackedRoles(), settings: settings,
-                         searches: searches, isPlus: plus.isPlus)
+                         searches: searches, isPlus: isPlus)
     }
 }
