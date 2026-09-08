@@ -8,12 +8,15 @@ Rolecall engine — Week-0 verification spike.
     python -m engine audit [N]         # hand-check N; prints verified-live accuracy
     python -m engine stats             # snapshot
     python -m engine export            # data/board.json
+    python -m engine sign              # data/board.json.sig  (needs ROLECALL_SIGNING_KEY)
+    python -m engine keygen            # print a new signing keypair (once)
 """
 from __future__ import annotations
 
 import sys
 
 from . import pipeline
+from . import sign as _sign
 
 
 def main(argv):
@@ -35,6 +38,10 @@ def main(argv):
         return pipeline.stats()
     if cmd == "export":
         return pipeline.export()
+    if cmd == "sign":
+        return _sign.sign()
+    if cmd == "keygen":
+        return _sign.keygen()
     print("unknown command: {}\n".format(cmd))
     print(__doc__)
     return 2

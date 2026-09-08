@@ -39,12 +39,19 @@ jobs:
           key: engine-state-${{ github.run_id }}
           restore-keys: engine-state-
 
-      - name: Ingest → verify → export
+      - name: Ingest → verify → export → sign
+        env:
+          ROLECALL_SIGNING_KEY: ${{ secrets.ROLECALL_SIGNING_KEY }}
         run: |
           python3 -m engine ingest
           python3 -m engine verify 250 || true
           python3 -m engine export
           python3 -m engine stats
+          if [ -n "$ROLECALL_SIGNING_KEY" ]; then
+            python3 -m engine sign
+          else
+            echo "::warning::ROLECALL_SIGNING_KEY not set — board.json will ship unsigned and the app will reject remote updates."
+          fi
 
       # SITE_BASE_URL: point the repo/Actions variable at https://rolecalljobs.com once the
       # custom domain is attached in Cloudflare Pages. Until then it builds for the
