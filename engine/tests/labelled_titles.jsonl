@@ -1,0 +1,350 @@
+# Held-out title -> {is_target, family} labels for the classifier (P0-10).
+#
+# SYNTHESIZED: titles are plausible role names constructed from the seniority x specialization
+# patterns in engine/classify.py plus the real classifier false positives recorded in
+# engine/tests/test_classify.py. They are NOT sampled from a live ingest (no ingest corpus was
+# available to hand-label). is_target / family are OUR intended ground truth, assigned by rule
+# and reviewed for the design / design-eng / research / pm boundaries -- deliberately NOT copied
+# from classify() output, so the precision and recall the test computes are meaningful.
+#
+# test_classify_heldout.py asserts family accuracy for target rows and precision & recall
+# against a committed floor. A classify() rule change that moves these must bump
+# engine/config.CLASSIFIER_VERSION (now 2026-09-08) and re-review this file.
+# Row: {"company","title","department","is_target","family"}
+{"company": "Dropbox", "title": "HR Business Partner", "department": "Sales", "is_target": false, "family": null}
+{"company": "Robinhood", "title": "Director of Product", "department": "Product", "is_target": true, "family": "pm"}
+{"company": "Plaid", "title": "Lead Interaction Designer, Growth", "department": "Design & Research", "is_target": true, "family": "design"}
+{"company": "OpenAI", "title": "Technical Recruiter", "department": "Data", "is_target": false, "family": null}
+{"company": "Databricks", "title": "Lead Product Designer, Onboarding", "department": "", "is_target": true, "family": "design"}
+{"company": "Brex", "title": "Senior UX Engineer", "department": "Product", "is_target": true, "family": "design-eng"}
+{"company": "Faire", "title": "Principal Design Systems Engineer", "department": "Engineering", "is_target": true, "family": "design-eng"}
+{"company": "Asana", "title": "Sourcer", "department": "Marketing", "is_target": false, "family": null}
+{"company": "Scale AI", "title": "Principal Product Designer", "department": "", "is_target": true, "family": "design"}
+{"company": "Scale AI", "title": "Actuator Electromagnetic Design Engineer", "department": "Data", "is_target": false, "family": null}
+{"company": "Stripe", "title": "Lead Brand Designer, Marketing", "department": "", "is_target": true, "family": "design"}
+{"company": "Airbnb", "title": "Staff Staff Product Manager", "department": "", "is_target": true, "family": "pm"}
+{"company": "Ramp", "title": "Retail Design Manager", "department": "Hardware", "is_target": false, "family": null}
+{"company": "OpenAI", "title": "Thermal Design Engineer", "department": "People", "is_target": false, "family": null}
+{"company": "Mercury", "title": "Platform Engineer", "department": "G&A", "is_target": false, "family": null}
+{"company": "Mercury", "title": "Content Designer", "department": "", "is_target": true, "family": "research"}
+{"company": "Chime", "title": "Level Designer", "department": "People", "is_target": false, "family": null}
+{"company": "Harvey", "title": "Lead UX Designer", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Dropbox", "title": "Principal UX Researcher", "department": "Product Design", "is_target": true, "family": "research"}
+{"company": "Plaid", "title": "Account Executive", "department": "People", "is_target": false, "family": null}
+{"company": "Figma", "title": "UI Designer, Monetization", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Chime", "title": "Staff Product Designer, Design Systems", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Harvey", "title": "Staff UI Designer, Onboarding", "department": "", "is_target": true, "family": "design"}
+{"company": "Airbnb", "title": "UI Designer, Marketing", "department": "", "is_target": true, "family": "design"}
+{"company": "Mercury", "title": "Systems Design Engineer", "department": "People", "is_target": false, "family": null}
+{"company": "Linear", "title": "Staff Senior Product Manager", "department": "", "is_target": true, "family": "pm"}
+{"company": "Vercel", "title": "Product Manager, Core Experiences", "department": "Product", "is_target": true, "family": "pm"}
+{"company": "Instacart", "title": "UX Designer, AI", "department": "Design", "is_target": true, "family": "design"}
+{"company": "OpenAI", "title": "Principal Product Designer, Monetization", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Mercury", "title": "Product Designer, Enterprise", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Reddit", "title": "Staff UX Writer", "department": "Product", "is_target": true, "family": "research"}
+{"company": "Vercel", "title": "Lead Interaction Designer, Marketing", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Vercel", "title": "Group Senior Product Manager", "department": "", "is_target": true, "family": "pm"}
+{"company": "Duolingo", "title": "Principal Staff Product Manager", "department": "", "is_target": true, "family": "pm"}
+{"company": "Databricks", "title": "Brand Designer, Enterprise", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Airbnb", "title": "Senior Design Systems Engineer", "department": "Engineering", "is_target": true, "family": "design-eng"}
+{"company": "Airbnb", "title": "Head of Product", "department": "", "is_target": true, "family": "pm"}
+{"company": "Airbnb", "title": "Lead UX Designer, Onboarding", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Airbnb", "title": "Principal Brand Designer, Enterprise", "department": "", "is_target": true, "family": "design"}
+{"company": "Ramp", "title": "Senior Product Design Manager", "department": "Design & Research", "is_target": true, "family": "design"}
+{"company": "Harvey", "title": "Staff Product Designer", "department": "", "is_target": true, "family": "design"}
+{"company": "Mercury", "title": "Portfolio Manager", "department": "Sales", "is_target": false, "family": null}
+{"company": "Anthropic", "title": "Landscape Designer", "department": "Marketing", "is_target": false, "family": null}
+{"company": "Reddit", "title": "Product Manager, Payments", "department": "", "is_target": true, "family": "pm"}
+{"company": "Duolingo", "title": "Designer", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Notion", "title": "Senior UX Designer, Growth", "department": "", "is_target": true, "family": "design"}
+{"company": "Reddit", "title": "Lead UI Designer, Marketing", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Gusto", "title": "UX Designer, Onboarding", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Faire", "title": "RF Design Engineer", "department": "Engineering", "is_target": false, "family": null}
+{"company": "Discord", "title": "Design Director", "department": "Design & Research", "is_target": true, "family": "design"}
+{"company": "Notion", "title": "Technical Program Manager", "department": "Sales", "is_target": false, "family": null}
+{"company": "Vercel", "title": "Design", "department": "Sales", "is_target": false, "family": null}
+{"company": "Notion", "title": "Staff Interaction Designer, Consumer", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Airbnb", "title": "Designer", "department": "Engineering", "is_target": false, "family": null}
+{"company": "Discord", "title": "Senior Group Product Manager", "department": "Product", "is_target": true, "family": "pm"}
+{"company": "Reddit", "title": "VP, Product", "department": "Product", "is_target": true, "family": "pm"}
+{"company": "DoorDash", "title": "Solutions Engineer", "department": "Sales", "is_target": false, "family": null}
+{"company": "Discord", "title": "Product Designer, Monetization", "department": "", "is_target": true, "family": "design"}
+{"company": "DoorDash", "title": "Prototype Engineer", "department": "People", "is_target": false, "family": null}
+{"company": "Coinbase", "title": "Textile Designer", "department": "", "is_target": false, "family": null}
+{"company": "DoorDash", "title": "Staff UI Designer, Design Systems", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Linear", "title": "Senior Staff Product Manager", "department": "Product", "is_target": true, "family": "pm"}
+{"company": "DoorDash", "title": "Lead Brand Designer, Enterprise", "department": "", "is_target": true, "family": "design"}
+{"company": "Plaid", "title": "Senior Product Design Manager, Payments", "department": "", "is_target": true, "family": "design"}
+{"company": "Anthropic", "title": "Design Verification Engineer", "department": "Sales", "is_target": false, "family": null}
+{"company": "Linear", "title": "Staff Product Designer, Onboarding", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Databricks", "title": "Analog Design Engineer", "department": "Sales", "is_target": false, "family": null}
+{"company": "Harvey", "title": "Optical Design Engineer", "department": "Sales", "is_target": false, "family": null}
+{"company": "Plaid", "title": "Visual Designer", "department": "", "is_target": true, "family": "design"}
+{"company": "Duolingo", "title": "UX Writer", "department": "Product", "is_target": true, "family": "research"}
+{"company": "DoorDash", "title": "Principal UI Designer, Payments", "department": "", "is_target": true, "family": "design"}
+{"company": "Discord", "title": "Senior Product Marketing Manager", "department": "Marketing", "is_target": false, "family": null}
+{"company": "Gusto", "title": "Senior Senior Content Designer", "department": "Design & Research", "is_target": true, "family": "research"}
+{"company": "Instacart", "title": "Member of Technical Staff (Software Engineer, Design System)", "department": "G&A", "is_target": false, "family": null}
+{"company": "Faire", "title": "Staff Group Product Manager", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Instacart", "title": "Product Operations Analyst", "department": "Engineering", "is_target": false, "family": null}
+{"company": "Figma", "title": "Staff Content Designer", "department": "Product Design", "is_target": true, "family": "research"}
+{"company": "Anthropic", "title": "Design Manager", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Scale AI", "title": "Senior UX Researcher", "department": "Design & Research", "is_target": true, "family": "research"}
+{"company": "Scale AI", "title": "Design Lead", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Ramp", "title": "Hardware Engineer", "department": "People", "is_target": false, "family": null}
+{"company": "Linear", "title": "Designer", "department": "Sales", "is_target": false, "family": null}
+{"company": "Notion", "title": "Principal Lead Product Manager", "department": "", "is_target": true, "family": "pm"}
+{"company": "Chime", "title": "Staff Product Manager", "department": "", "is_target": true, "family": "pm"}
+{"company": "Coinbase", "title": "Director of Product Design", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Mercury", "title": "Principal UX Designer", "department": "Design & Research", "is_target": true, "family": "design"}
+{"company": "Pinterest", "title": "Product Manager, Mobile", "department": "Product", "is_target": true, "family": "pm"}
+{"company": "Vercel", "title": "Senior VP, Product", "department": "Product", "is_target": true, "family": "pm"}
+{"company": "OpenAI", "title": "Principal Product Manager", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Coinbase", "title": "Physical Design Engineer", "department": "Data", "is_target": false, "family": null}
+{"company": "Perplexity", "title": "Head of Design", "department": "Design & Research", "is_target": true, "family": "design"}
+{"company": "Linear", "title": "Senior Software Engineer", "department": "People", "is_target": false, "family": null}
+{"company": "Airbnb", "title": "Staff Visual Designer, Core Experiences", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Chime", "title": "Group Head of Product", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Duolingo", "title": "Sales Engineer", "department": "Sales", "is_target": false, "family": null}
+{"company": "Reddit", "title": "Staff UX Engineer", "department": "", "is_target": true, "family": "design-eng"}
+{"company": "OpenAI", "title": "Lead UX Designer, Marketing", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Notion", "title": "Brand Designer, Monetization", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Discord", "title": "Design Engineer", "department": "Engineering", "is_target": true, "family": "design-eng"}
+{"company": "Coinbase", "title": "Design for Test Engineer", "department": "Data", "is_target": false, "family": null}
+{"company": "Gusto", "title": "Staff Principal Product Manager", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Harvey", "title": "Learning Experience Designer", "department": "G&A", "is_target": false, "family": null}
+{"company": "OpenAI", "title": "Design Technologist", "department": "", "is_target": true, "family": "design-eng"}
+{"company": "Stripe", "title": "Electrical Engineer", "department": "Engineering", "is_target": false, "family": null}
+{"company": "Discord", "title": "Office Manager", "department": "", "is_target": false, "family": null}
+{"company": "Vercel", "title": "User Researcher", "department": "Product", "is_target": true, "family": "research"}
+{"company": "Discord", "title": "Senior Interaction Designer, Consumer", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Faire", "title": "Packaging Designer", "department": "Sales", "is_target": false, "family": null}
+{"company": "Harvey", "title": "Principal UX Writer", "department": "", "is_target": true, "family": "research"}
+{"company": "Figma", "title": "Lead Interaction Designer, Monetization", "department": "", "is_target": true, "family": "design"}
+{"company": "Vercel", "title": "ASIC Design Engineer", "department": "", "is_target": false, "family": null}
+{"company": "Pinterest", "title": "Design Director, Payments", "department": "", "is_target": true, "family": "design"}
+{"company": "Mercury", "title": "Product Manager, Monetization", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Ramp", "title": "Staff Design Technologist", "department": "", "is_target": true, "family": "design-eng"}
+{"company": "Reddit", "title": "Senior User Researcher", "department": "", "is_target": true, "family": "research"}
+{"company": "Ramp", "title": "Mechanical Design Engineer", "department": "Data", "is_target": false, "family": null}
+{"company": "Brex", "title": "Lead Product Manager", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Duolingo", "title": "Staff Design Systems Engineer", "department": "Design", "is_target": true, "family": "design-eng"}
+{"company": "Reddit", "title": "Principal Design Engineer", "department": "Product", "is_target": true, "family": "design-eng"}
+{"company": "Mercury", "title": "Senior Senior Product Manager", "department": "", "is_target": true, "family": "pm"}
+{"company": "Notion", "title": "Data Center Design Engineer, Electrical", "department": "", "is_target": false, "family": null}
+{"company": "OpenAI", "title": "Staff Brand Designer, Growth", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Notion", "title": "Product Manager, Onboarding", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Chime", "title": "Lead Visual Designer, Core Experiences", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Airbnb", "title": "Lead Product Designer", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Discord", "title": "Staff Brand Designer, Onboarding", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Airbnb", "title": "Senior Visual Designer, Enterprise", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Reddit", "title": "Senior UI Designer, Enterprise", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "OpenAI", "title": "Principal Motion Designer, AI", "department": "Design", "is_target": true, "family": "design"}
+{"company": "DoorDash", "title": "Design Recruiter", "department": "Hardware", "is_target": false, "family": null}
+{"company": "Brex", "title": "Staff Head of Product", "department": "", "is_target": true, "family": "pm"}
+{"company": "Robinhood", "title": "Principal UX Designer, Design Systems", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Databricks", "title": "Staff UX Researcher", "department": "Design & Research", "is_target": true, "family": "research"}
+{"company": "Pinterest", "title": "Principal Product Manager", "department": "Product", "is_target": true, "family": "pm"}
+{"company": "Harvey", "title": "Narrative Designer", "department": "Facilities", "is_target": false, "family": null}
+{"company": "Duolingo", "title": "Senior UI Engineer", "department": "Engineering", "is_target": true, "family": "design-eng"}
+{"company": "Databricks", "title": "Frontend Engineer", "department": "Marketing", "is_target": false, "family": null}
+{"company": "Ramp", "title": "Principal UX Designer, Payments", "department": "", "is_target": true, "family": "design"}
+{"company": "Vercel", "title": "Product Security Engineer", "department": "", "is_target": false, "family": null}
+{"company": "Ramp", "title": "Store Design Manager", "department": "People", "is_target": false, "family": null}
+{"company": "Robinhood", "title": "Product Design Manager, Payments", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Chime", "title": "DevOps Engineer", "department": "Engineering", "is_target": false, "family": null}
+{"company": "OpenAI", "title": "Senior UX Research Manager", "department": "Design", "is_target": true, "family": "research"}
+{"company": "Coinbase", "title": "Interaction Designer, Design Systems", "department": "Design & Research", "is_target": true, "family": "design"}
+{"company": "Scale AI", "title": "Principal Interaction Designer", "department": "Design & Research", "is_target": true, "family": "design"}
+{"company": "Perplexity", "title": "Director of Product Design, Payments", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Figma", "title": "Senior Brand Designer, Growth", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Dropbox", "title": "Principal Content Designer", "department": "", "is_target": true, "family": "research"}
+{"company": "Mercury", "title": "Design", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Instacart", "title": "Staff Brand Designer", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Airbnb", "title": "Product Manager", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Gusto", "title": "Chief of Staff", "department": "G&A", "is_target": false, "family": null}
+{"company": "Stripe", "title": "Principal Interaction Designer, Mobile", "department": "Design & Research", "is_target": true, "family": "design"}
+{"company": "Reddit", "title": "Principal Design Researcher", "department": "Design", "is_target": true, "family": "research"}
+{"company": "Notion", "title": "Software Engineer", "department": "Marketing", "is_target": false, "family": null}
+{"company": "Perplexity", "title": "Lead Motion Designer", "department": "", "is_target": true, "family": "design"}
+{"company": "Instacart", "title": "Senior UI Designer, Monetization", "department": "", "is_target": true, "family": "design"}
+{"company": "Scale AI", "title": "Lead UI Designer, Consumer", "department": "", "is_target": true, "family": "design"}
+{"company": "Figma", "title": "Product Manager, Marketing", "department": "", "is_target": true, "family": "pm"}
+{"company": "Coinbase", "title": "Senior Director of Product", "department": "", "is_target": true, "family": "pm"}
+{"company": "Notion", "title": "Exhibit Designer", "department": "G&A", "is_target": false, "family": null}
+{"company": "Chime", "title": "Staff UX Designer, Onboarding", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Ramp", "title": "Product Manager, Consumer", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Brex", "title": "Product Marketing Manager", "department": "G&A", "is_target": false, "family": null}
+{"company": "Pinterest", "title": "Data Engineer", "department": "Sales", "is_target": false, "family": null}
+{"company": "Scale AI", "title": "Interaction Designer, Mobile", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Stripe", "title": "Senior UX Designer, Payments", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Robinhood", "title": "Head of Product Design, Payments", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Robinhood", "title": "Lead Brand Designer, Growth", "department": "", "is_target": true, "family": "design"}
+{"company": "Reddit", "title": "Embedded Engineer", "department": "G&A", "is_target": false, "family": null}
+{"company": "Ramp", "title": "Staff Motion Designer", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Airbnb", "title": "Lead Visual Designer, Marketing", "department": "Design & Research", "is_target": true, "family": "design"}
+{"company": "Duolingo", "title": "VP, Design, Payments", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Samsara", "title": "Product Manager, AI", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Duolingo", "title": "Lead Motion Designer, Enterprise", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Samsara", "title": "Senior Program Manager", "department": "Sales", "is_target": false, "family": null}
+{"company": "Plaid", "title": "Staff Interaction Designer, Monetization", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Stripe", "title": "Senior UX Writer", "department": "", "is_target": true, "family": "research"}
+{"company": "OpenAI", "title": "Senior Interaction Designer, Mobile", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Harvey", "title": "Principal Design Technologist", "department": "Product", "is_target": true, "family": "design-eng"}
+{"company": "Instacart", "title": "Senior Product Designer, Monetization", "department": "", "is_target": true, "family": "design"}
+{"company": "Brex", "title": "Interaction Designer, Enterprise", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Airbnb", "title": "iOS Engineer", "department": "Silicon", "is_target": false, "family": null}
+{"company": "Discord", "title": "Product Specialist", "department": "Marketing", "is_target": false, "family": null}
+{"company": "Ramp", "title": "Staff UX Designer, Marketing", "department": "", "is_target": true, "family": "design"}
+{"company": "Discord", "title": "Senior Brand Designer, Consumer", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Asana", "title": "Motion Designer, Mobile", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Brex", "title": "Principal VP, Product", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Duolingo", "title": "Visual Designer, Monetization", "department": "", "is_target": true, "family": "design"}
+{"company": "Perplexity", "title": "Senior Design Manager, Payments", "department": "", "is_target": true, "family": "design"}
+{"company": "Mercury", "title": "Principal Brand Designer, Consumer", "department": "Design & Research", "is_target": true, "family": "design"}
+{"company": "Chime", "title": "Lighting Designer", "department": "", "is_target": false, "family": null}
+{"company": "Dropbox", "title": "Product Designer, Marketing", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Databricks", "title": "UI Designer, AI", "department": "", "is_target": true, "family": "design"}
+{"company": "Instacart", "title": "UI Engineer", "department": "Design", "is_target": true, "family": "design-eng"}
+{"company": "Airbnb", "title": "Motion Designer, Payments", "department": "", "is_target": true, "family": "design"}
+{"company": "Figma", "title": "Firmware Engineer", "department": "People", "is_target": false, "family": null}
+{"company": "Faire", "title": "CMF Designer II", "department": "People", "is_target": false, "family": null}
+{"company": "Samsara", "title": "Staff Design Engineer", "department": "", "is_target": true, "family": "design-eng"}
+{"company": "Samsara", "title": "Product Manager, Growth", "department": "Product", "is_target": true, "family": "pm"}
+{"company": "Anthropic", "title": "Principal Product Designer, Growth", "department": "Design & Research", "is_target": true, "family": "design"}
+{"company": "Discord", "title": "Group Director of Product", "department": "", "is_target": true, "family": "pm"}
+{"company": "OpenAI", "title": "Product Manager, Design Systems", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Airbnb", "title": "Chip Design Engineer", "department": "Marketing", "is_target": false, "family": null}
+{"company": "OpenAI", "title": "Principal Visual Designer, Enterprise", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Linear", "title": "Senior Design Engineer", "department": "Design", "is_target": true, "family": "design-eng"}
+{"company": "Airbnb", "title": "Staff Visual Designer, Onboarding", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Coinbase", "title": "Executive Assistant, Design", "department": "Engineering", "is_target": false, "family": null}
+{"company": "Brex", "title": "Group Product Manager", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Dropbox", "title": "Staff User Researcher", "department": "", "is_target": true, "family": "research"}
+{"company": "Instacart", "title": "Senior Product Manager", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Discord", "title": "Principal UI Engineer", "department": "Design", "is_target": true, "family": "design-eng"}
+{"company": "Airbnb", "title": "Principal Senior Content Designer", "department": "Design & Research", "is_target": true, "family": "research"}
+{"company": "Harvey", "title": "Principal Visual Designer, Payments", "department": "", "is_target": true, "family": "design"}
+{"company": "Plaid", "title": "Principal Visual Designer, AI", "department": "", "is_target": true, "family": "design"}
+{"company": "Brex", "title": "Game Designer", "department": "Marketing", "is_target": false, "family": null}
+{"company": "Mercury", "title": "Principal Head of Product", "department": "Product", "is_target": true, "family": "pm"}
+{"company": "Ramp", "title": "Android Engineer, Design System", "department": "Engineering", "is_target": false, "family": null}
+{"company": "Notion", "title": "UX Researcher", "department": "Product Design", "is_target": true, "family": "research"}
+{"company": "Brex", "title": "Staff Lead Product Manager", "department": "", "is_target": true, "family": "pm"}
+{"company": "Mercury", "title": "Principal UI Designer, Enterprise", "department": "", "is_target": true, "family": "design"}
+{"company": "OpenAI", "title": "Environmental Designer", "department": "Hardware", "is_target": false, "family": null}
+{"company": "Figma", "title": "Site Reliability Engineer", "department": "Sales", "is_target": false, "family": null}
+{"company": "Gusto", "title": "Director of Design", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Duolingo", "title": "Designer", "department": "UX", "is_target": true, "family": "design"}
+{"company": "Pinterest", "title": "Senior Motion Designer, Design Systems", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Gusto", "title": "Senior Frontend Engineer - Design Systems", "department": "Hardware", "is_target": false, "family": null}
+{"company": "Stripe", "title": "Principal Motion Designer", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Scale AI", "title": "Industrial Designer", "department": "People", "is_target": false, "family": null}
+{"company": "Brex", "title": "Group VP, Product", "department": "Product", "is_target": true, "family": "pm"}
+{"company": "Plaid", "title": "Training Designer", "department": "Facilities", "is_target": false, "family": null}
+{"company": "Dropbox", "title": "Senior Head of Product", "department": "", "is_target": true, "family": "pm"}
+{"company": "Harvey", "title": "Project Manager", "department": "Facilities", "is_target": false, "family": null}
+{"company": "Figma", "title": "Instructional Designer", "department": "G&A", "is_target": false, "family": null}
+{"company": "Instacart", "title": "Senior Design Manager", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Faire", "title": "Physical Security Design Lead", "department": "Sales", "is_target": false, "family": null}
+{"company": "Anthropic", "title": "Staff Senior Content Designer", "department": "Design & Research", "is_target": true, "family": "research"}
+{"company": "Gusto", "title": "People Partner - Product and Product Design", "department": "Facilities", "is_target": false, "family": null}
+{"company": "Samsara", "title": "Principal Brand Designer, Onboarding", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Harvey", "title": "Principal UX Research Manager", "department": "Design", "is_target": true, "family": "research"}
+{"company": "Plaid", "title": "Set Designer", "department": "Facilities", "is_target": false, "family": null}
+{"company": "Notion", "title": "Design Manager, Payments", "department": "", "is_target": true, "family": "design"}
+{"company": "Harvey", "title": "Staff UI Engineer", "department": "Engineering", "is_target": true, "family": "design-eng"}
+{"company": "Dropbox", "title": "Senior UX Designer, AI", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Mercury", "title": "Group Design Manager", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Figma", "title": "Lead Motion Designer, Consumer", "department": "", "is_target": true, "family": "design"}
+{"company": "Coinbase", "title": "Senior Motion Designer, Mobile", "department": "Design & Research", "is_target": true, "family": "design"}
+{"company": "Dropbox", "title": "Administrative Assistant", "department": "Hardware", "is_target": false, "family": null}
+{"company": "Perplexity", "title": "Senior Content Designer", "department": "Product", "is_target": true, "family": "research"}
+{"company": "Vercel", "title": "Lead Visual Designer, Payments", "department": "", "is_target": true, "family": "design"}
+{"company": "Plaid", "title": "Product Support Specialist", "department": "Facilities", "is_target": false, "family": null}
+{"company": "Linear", "title": "Product Manager", "department": "", "is_target": true, "family": "pm"}
+{"company": "Plaid", "title": "Staff Motion Designer, AI", "department": "Design & Research", "is_target": true, "family": "design"}
+{"company": "Airbnb", "title": "Senior Motion Designer, AI", "department": "Design & Research", "is_target": true, "family": "design"}
+{"company": "Vercel", "title": "Head of Design, Payments", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Figma", "title": "Principal Principal Product Manager", "department": "", "is_target": true, "family": "pm"}
+{"company": "Notion", "title": "Group Product Marketing Manager", "department": "Engineering", "is_target": false, "family": null}
+{"company": "Gusto", "title": "Designer", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Figma", "title": "Data Product Manager", "department": "Hardware", "is_target": false, "family": null}
+{"company": "Reddit", "title": "Principal Motion Designer, Marketing", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Vercel", "title": "RTL Design Engineer", "department": "Hardware", "is_target": false, "family": null}
+{"company": "Duolingo", "title": "Design Services Engineer", "department": "Marketing", "is_target": false, "family": null}
+{"company": "Dropbox", "title": "Customer Success Manager", "department": "Facilities", "is_target": false, "family": null}
+{"company": "Discord", "title": "Director of Design, Payments", "department": "Design & Research", "is_target": true, "family": "design"}
+{"company": "Instacart", "title": "Manager, Software Engineering, Fullstack", "department": "Sales", "is_target": false, "family": null}
+{"company": "Faire", "title": "Senior Industrial Designer", "department": "Facilities", "is_target": false, "family": null}
+{"company": "Brex", "title": "Designer", "department": "Brand", "is_target": true, "family": "design"}
+{"company": "Instacart", "title": "Group Design Manager, Payments", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Discord", "title": "Senior UI Designer, Payments", "department": "", "is_target": true, "family": "design"}
+{"company": "OpenAI", "title": "Senior Design Technologist", "department": "Engineering", "is_target": true, "family": "design-eng"}
+{"company": "Notion", "title": "PCB Design Engineer", "department": "Silicon", "is_target": false, "family": null}
+{"company": "OpenAI", "title": "Group Group Product Manager", "department": "", "is_target": true, "family": "pm"}
+{"company": "Brex", "title": "Design Systems Engineer", "department": "", "is_target": true, "family": "design-eng"}
+{"company": "Duolingo", "title": "Senior Visual Designer", "department": "", "is_target": true, "family": "design"}
+{"company": "Asana", "title": "Staff VP, Product", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "OpenAI", "title": "Group Lead Product Manager", "department": "", "is_target": true, "family": "pm"}
+{"company": "Ramp", "title": "Principal UI Designer, Core Experiences", "department": "", "is_target": true, "family": "design"}
+{"company": "Airbnb", "title": "Senior Product Designer, AI", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Ramp", "title": "Head of Product Design", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Harvey", "title": "Visual Designer, Mobile", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Coinbase", "title": "UX Designer, Marketing", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Harvey", "title": "Principal User Researcher", "department": "Design", "is_target": true, "family": "research"}
+{"company": "Reddit", "title": "Full Stack Engineer", "department": "G&A", "is_target": false, "family": null}
+{"company": "Airbnb", "title": "Senior Design Researcher", "department": "Design & Research", "is_target": true, "family": "research"}
+{"company": "Asana", "title": "Curriculum Designer", "department": "G&A", "is_target": false, "family": null}
+{"company": "Ramp", "title": "Staff UX Research Manager", "department": "", "is_target": true, "family": "research"}
+{"company": "Gusto", "title": "Program Manager", "department": "People", "is_target": false, "family": null}
+{"company": "Pinterest", "title": "Senior Principal Product Manager", "department": "Product", "is_target": true, "family": "pm"}
+{"company": "Scale AI", "title": "UX Engineer", "department": "Engineering", "is_target": true, "family": "design-eng"}
+{"company": "Perplexity", "title": "Group Principal Product Manager", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Harvey", "title": "Technical Product Marketing Manager", "department": "G&A", "is_target": false, "family": null}
+{"company": "Figma", "title": "Staff Design Researcher", "department": "", "is_target": true, "family": "research"}
+{"company": "Brex", "title": "Principal Director of Product", "department": "Product", "is_target": true, "family": "pm"}
+{"company": "Linear", "title": "Infrastructure Engineer", "department": "People", "is_target": false, "family": null}
+{"company": "Airbnb", "title": "Principal Senior Product Manager", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Harvey", "title": "Senior Visual Designer, Consumer", "department": "", "is_target": true, "family": "design"}
+{"company": "Vercel", "title": "Senior Product Analyst", "department": "Hardware", "is_target": false, "family": null}
+{"company": "Chime", "title": "Interior Designer", "department": "People", "is_target": false, "family": null}
+{"company": "Ramp", "title": "Lead Product Designer, Growth", "department": "Design & Research", "is_target": true, "family": "design"}
+{"company": "Plaid", "title": "Actuator Design Engineer", "department": "Facilities", "is_target": false, "family": null}
+{"company": "Notion", "title": "Business Development Representative", "department": "Marketing", "is_target": false, "family": null}
+{"company": "Samsara", "title": "Principal Interaction Designer, Onboarding", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Reddit", "title": "Staff Director of Product", "department": "Product", "is_target": true, "family": "pm"}
+{"company": "Duolingo", "title": "Senior Product Designer, Design Systems", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Ramp", "title": "Talent Partner", "department": "G&A", "is_target": false, "family": null}
+{"company": "Duolingo", "title": "Senior Interaction Designer, Payments", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Stripe", "title": "Structural Design Engineer", "department": "", "is_target": false, "family": null}
+{"company": "Robinhood", "title": "Staff Motion Designer, Mobile", "department": "", "is_target": true, "family": "design"}
+{"company": "Coinbase", "title": "Backend Engineer", "department": "Hardware", "is_target": false, "family": null}
+{"company": "Asana", "title": "Wayfinding Designer", "department": "G&A", "is_target": false, "family": null}
+{"company": "Notion", "title": "Principal Group Product Manager", "department": "", "is_target": true, "family": "pm"}
+{"company": "Discord", "title": "CMF Designer", "department": "People", "is_target": false, "family": null}
+{"company": "Dropbox", "title": "Product Analyst", "department": "People", "is_target": false, "family": null}
+{"company": "Faire", "title": "Product Counsel", "department": "Facilities", "is_target": false, "family": null}
+{"company": "Notion", "title": "Principal UX Engineer", "department": "Engineering", "is_target": true, "family": "design-eng"}
+{"company": "Scale AI", "title": "Senior Content Designer", "department": "", "is_target": true, "family": "research"}
+{"company": "OpenAI", "title": "Design Lead, Payments", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Asana", "title": "UX Research Manager", "department": "Product Design", "is_target": true, "family": "research"}
+{"company": "Gusto", "title": "Staff Visual Designer, Design Systems", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Airbnb", "title": "Brand Designer, Onboarding", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Mercury", "title": "Senior Lead Product Manager", "department": "Product", "is_target": true, "family": "pm"}
+{"company": "Reddit", "title": "Lead UI Designer, Core Experiences", "department": "", "is_target": true, "family": "design"}
+{"company": "Figma", "title": "Senior Brand Designer, Design Systems", "department": "", "is_target": true, "family": "design"}
+{"company": "Coinbase", "title": "Apparel Designer", "department": "Marketing", "is_target": false, "family": null}
+{"company": "Chime", "title": "Group Staff Product Manager", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Pinterest", "title": "Product Manager, Enterprise", "department": "Design", "is_target": true, "family": "pm"}
+{"company": "Samsara", "title": "Design Researcher", "department": "Design & Research", "is_target": true, "family": "research"}
+{"company": "Faire", "title": "VP, Design", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Linear", "title": "Staff UX Designer, Enterprise", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Scale AI", "title": "Policy Design Manager, Conventional Weapons", "department": "Facilities", "is_target": false, "family": null}
+{"company": "Linear", "title": "Staff UI Designer, AI", "department": "Product Design", "is_target": true, "family": "design"}
+{"company": "Stripe", "title": "Motion Designer, Onboarding", "department": "Design", "is_target": true, "family": "design"}
+{"company": "Plaid", "title": "Security Engineer", "department": "People", "is_target": false, "family": null}
+{"company": "Mercury", "title": "Group Product Manager", "department": "", "is_target": true, "family": "pm"}
+{"company": "Pinterest", "title": "Staff Interaction Designer, AI", "department": "Design", "is_target": true, "family": "design"}
+{"company": "OpenAI", "title": "Product Design Manager", "department": "Product", "is_target": true, "family": "design"}
+{"company": "Perplexity", "title": "Solidworks Designer", "department": "People", "is_target": false, "family": null}
