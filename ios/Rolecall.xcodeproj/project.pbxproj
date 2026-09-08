@@ -55,6 +55,7 @@
 		8C6C89B661BE10BAB53A346C /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014094CECD5AB44C436C2483 /* Haptics.swift */; };
 		951FF7D7327DADC3CB3370D3 /* ListLogicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFDE4BC83931727F1CBC2B2 /* ListLogicTests.swift */; };
 		957A03B8C98EDB7E3B3C39D6 /* FreshnessCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82A7FC3EA19B2460D96568B /* FreshnessCache.swift */; };
+		98878ED3F4790E94E5E790E8 /* ed25519_cross_impl.json in Resources */ = {isa = PBXBuildFile; fileRef = 855814611D6A97EE52486470 /* ed25519_cross_impl.json */; };
 		9B51ED742B519270F31DDFB5 /* SavedSearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECC34198C2FCC72DA1E9B0D9 /* SavedSearchTests.swift */; };
 		9E99B44881A052E91711155E /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E178EF27AAD907122B2B0E /* Board.swift */; };
 		A7BF78D3A045C4F758F9537C /* BoardSignature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564E54AF548210D5788A5106 /* BoardSignature.swift */; };
@@ -149,6 +150,7 @@
 		7A312F6DBECFEA599C93FB18 /* BoardSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardSource.swift; sourceTree = "<group>"; };
 		7DE001E858CB9EC79AA9D240 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		7DF9F8D531778E835BF7C66B /* NetworkStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkStatus.swift; sourceTree = "<group>"; };
+		855814611D6A97EE52486470 /* ed25519_cross_impl.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ed25519_cross_impl.json; sourceTree = "<group>"; };
 		8BD1753C00400063C0B67FA6 /* TrackedRolesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedRolesTests.swift; sourceTree = "<group>"; };
 		8C14B5A3DB373DD3985A3087 /* Role.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Role.swift; sourceTree = "<group>"; };
 		8CDA608D6CE12A3955B7AFD3 /* Reminders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminders.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 		81090B45C6A7E24E18BB7F33 /* RolecallTests */ = {
 			isa = PBXGroup;
 			children = (
+				E1C865E3D1F1A10FA9A51880 /* Fixtures */,
 				E5E836D335E2689ED880144A /* BoardDecodingTests.swift */,
 				A8C7297CFB759CA4B094DC9C /* BoardSignatureTests.swift */,
 				E9667FC916FD8E3C911BF5AF /* BoardStoreTests.swift */,
@@ -362,6 +365,14 @@
 				67A1057451EF45E9F791DC2C /* TrackedRoles.swift */,
 			);
 			path = Shared;
+			sourceTree = "<group>";
+		};
+		E1C865E3D1F1A10FA9A51880 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				855814611D6A97EE52486470 /* ed25519_cross_impl.json */,
+			);
+			path = Fixtures;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -509,6 +520,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				47831395BD6B0D62467589C1 /* board.json in Resources */,
+				98878ED3F4790E94E5E790E8 /* ed25519_cross_impl.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,6 @@
+{
+  "_comment": "Ed25519 (public_key, message, signature) triple produced by the vendored Python implementation engine/ed25519.py (RFC 8032). ed25519CrossImplFixtureTest in BoardSignatureTests verifies it with Apple CryptoKit, so a regression in either implementation that would break board-signature verification is caught. Secret key used: RFC 8032 TEST 1 secret (9d61b1...7f60). Regenerate with the snippet in engine/tests/test_ed25519.py's module docstring.",
+  "public_key_hex": "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+  "message_utf8": "{\"generated_utc\":1725800000,\"count\":1,\"roles\":[{\"company\":\"Rolecall\",\"title\":\"Cross-Impl Fixture\",\"url\":\"https://rolecalljobs.com/\"}]}",
+  "signature_hex": "24633216364efaac4383c458c3ac9ee2e20e10cac0632c531618950ca943e367219f161ba284fc0e81808c8eda1b4e5deacf2e2b5315475ec31a4f2106e81e0c"
+}
