@@ -20,16 +20,38 @@ Reads `../data/board.json` and writes `web/dist/`:
 | `jobs/<company>-<title>.html` | One SEO page per role — semantic HTML, canonical, unique title + meta description, JSON-LD `JobPosting`, "Apply on <company>'s site" button, "verified live · <relative time>" | **the single AdSense unit** (commented out) + a minimal cookie notice |
 | `sitemap.xml` | landing + board + every job page | |
 | `robots.txt` | allow all, points at the sitemap | |
-| `board.json` | byte-for-byte copy of `../data/board.json` — the same deploy hosts the app's feed | |
-| `_headers` | CORS (`Access-Control-Allow-Origin: *`) + cache-control for `board.json` and pages | |
+| `board.json` | the **full** `../data/board.json` — the same deploy hosts the iOS app's feed (the app does its own filtering) | |
+| `CNAME` | `rolecall.io` — binds the GitHub Pages custom domain | |
+| `.nojekyll` | stops GitHub Pages' Jekyll from dropping `_`-prefixed files | |
+| `_headers` | CORS + cache-control — honoured by Cloudflare/Netlify, **ignored by GitHub Pages** (the iOS app doesn't need CORS; the web board never `fetch`es) | |
 
-`dist/` is wiped and rewritten on every build. Rebuild whenever `data/board.json`
-is regenerated (wire it into the same cron that runs `python3 -m engine export`).
+The **rendered pages** show the same slice the app leads with: the product-design
+vertical (design · design-eng · research; **PM excluded**), US + US-remote. The copied
+`board.json` stays the full board so the app's own PM / worldwide toggles work.
 
-## Deploy (free tier)
+`dist/` is wiped and rewritten on every build.
 
-Any static host works. The `_headers` file is written in the Cloudflare Pages / Netlify
-format.
+## Deploy — GitHub Pages (current)
+
+`.github/workflows/pages.yml` runs on push to `main` (when `web/` or `engine/` changes),
+on a 6-hourly cron, and on manual dispatch. It ingests a fresh board, exports it, builds
+the site, and deploys `web/dist/` to Pages. The engine's SQLite DB is cached between runs
+so `first_seen` (and "new today") stays stable.
+
+**One-time setup:**
+1. Repo **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+2. **Settings → Pages → Custom domain:** `rolecall.io` (the `CNAME` file already ships it;
+   tick **Enforce HTTPS** once the cert provisions).
+3. DNS at the registrar for the apex `rolecall.io`:
+   - `A` → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+   - `AAAA` → `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`
+   - `CNAME` `www` → `avaj845.github.io`
+4. Wait for DNS + GitHub's cert. Confirm `https://rolecall.io/board.json` returns JSON.
+5. Trigger a run (push, or **Actions → Deploy rolecall.io → Run workflow**).
+
+## Deploy — Cloudflare Pages / Netlify (alternative)
+
+Any static host also works; the `_headers` file is in their format.
 
 ### Cloudflare Pages
 1. Push the repo. In the Pages dashboard: **Create project → Connect to Git**.
@@ -48,7 +70,7 @@ format.
    records the host shows — typically `CNAME www → <project>.pages.dev` and an
    apex `A`/`ALIAS`/flattened `CNAME` to the host.
 3. Wait for DNS + the auto-provisioned TLS cert. Confirm `https://rolecall.io/board.json`
-   returns JSON with `Access-Control-Allow-Origin: *` (the iOS app depends on this).
+   returns JSON.
 4. Rebuild with the real base URL if it ever differs from `https://rolecall.io`
    (the canonical tags and sitemap bake it in).
 

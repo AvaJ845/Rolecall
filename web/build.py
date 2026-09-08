@@ -70,6 +70,39 @@ def iso_dt(ts: float) -> str:
     return datetime.fromtimestamp(ts, timezone.utc).strftime("%Y-%m-%dT%H:%M:%S+00:00")
 
 
+# The public site tells the same story as the app: the product-design vertical, US +
+# US-remote. PM roles are classified by the engine but stay off the board.
+_DESIGN_FAMILIES = {"design", "design-eng", "research"}
+_NON_US = (
+    "united kingdom", "england", "london", "canada", "toronto", "vancouver", "ontario",
+    "germany", "berlin", "munich", "france", "paris", "netherlands", "amsterdam",
+    "ireland", "dublin", "singapore", "australia", "sydney", "melbourne", "india",
+    "bangalore", "bengaluru", "hyderabad", "israel", "tel aviv", "spain", "barcelona",
+    "madrid", "poland", "warsaw", "brazil", "ão paulo", "sao paulo", "japan", "tokyo",
+    "milan", "italy", "rome", "sweden", "stockholm", "portugal", "lisbon", "mexico",
+    "emea", "apac", "latam", "switzerland", "zurich", "denmark", "copenhagen",
+    "norway", "oslo", "finland", "helsinki", "belgium", "brussels", "austria", "vienna",
+)
+_US_HINT = (
+    "united states", "usa", "u.s", "remote", "anywhere", "san francisco", "new york",
+    "nyc", "seattle", "austin", "chicago", "boston", "los angeles", "denver", "atlanta",
+    "portland", "miami", "washington", "brooklyn",
+)
+
+
+def in_scope(role: dict) -> bool:
+    if role.get("family") not in _DESIGN_FAMILIES:
+        return False
+    if role.get("remote") is True:
+        return True
+    loc = (role.get("location") or "").lower()
+    if not loc:
+        return True
+    if any(h in loc for h in _US_HINT):
+        return True
+    return not any(h in loc for h in _NON_US)
+
+
 def rel_time(ts, now: float) -> str:
     if not ts:
         return "recently"
@@ -720,9 +753,14 @@ def build(base_url: str) -> int:
         return 1
     base_url = base_url.rstrip("/")
     data = json.loads(BOARD_PATH.read_text())
-    roles = data.get("roles", [])
+    all_roles = data.get("roles", [])
+    roles = [r for r in all_roles if in_scope(r)]
+    data["roles"] = roles
+    data["count"] = len(roles)
     now = time.time()
     assign_slugs(roles)
+    print("  in scope: {} of {} roles (design vertical, US + remote)".format(
+        len(roles), len(all_roles)))
 
     if DIST.exists():
         shutil.rmtree(DIST)
@@ -736,8 +774,15 @@ def build(base_url: str) -> int:
 
     (DIST / "sitemap.xml").write_text(render_sitemap(data, base_url, now))
     (DIST / "robots.txt").write_text(render_robots(base_url))
-    (DIST / "_headers").write_text(HEADERS_FILE)
+    (DIST / "_headers").write_text(HEADERS_FILE)  # honoured by Cloudflare/Netlify; ignored by GH Pages
     shutil.copyfile(BOARD_PATH, DIST / "board.json")
+
+    # GitHub Pages: CNAME binds the custom domain; .nojekyll stops Jekyll from
+    # dropping files/dirs that begin with "_".
+    host = re.sub(r"^https?://", "", base_url).split("/")[0]
+    if host and "localhost" not in host and not host.startswith("staging."):
+        (DIST / "CNAME").write_text(host + "\n")
+    (DIST / ".nojekyll").write_text("")
 
     print("built {} pages -> {}".format(2 + len(roles), DIST))
     print("  landing : index.html")
