@@ -9,6 +9,10 @@ final class MockURLProtocol: URLProtocol {
     /// fine here.
     nonisolated(unsafe) static var handler: ((URLRequest) throws -> (HTTPURLResponse, Data))?
 
+    /// Requests actually started since the last `reset()` — lets a test assert that a
+    /// cache hit or a Wi-Fi-only short-circuit prevented a network call.
+    nonisolated(unsafe) static var requestCount = 0
+
     static func stub(statusCode: Int,
                      finalURL: URL? = nil,
                      headers: [String: String] = [:],
@@ -23,12 +27,13 @@ final class MockURLProtocol: URLProtocol {
         }
     }
 
-    static func reset() { handler = nil }
+    static func reset() { handler = nil; requestCount = 0 }
 
     override class func canInit(with request: URLRequest) -> Bool { true }
     override class func canonicalRequest(for request: URLRequest) -> URLRequest { request }
 
     override func startLoading() {
+        MockURLProtocol.requestCount += 1
         guard let handler = MockURLProtocol.handler else {
             client?.urlProtocol(self, didFailWithError: URLError(.badServerResponse))
             return

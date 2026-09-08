@@ -1,8 +1,14 @@
 import Foundation
+import Network
 
 /// The on-device liveness check. When the reader opens a role, Rolecall fetches the
 /// posting URL itself, follows redirects, and decides whether the job still looks open —
 /// so a designer never taps through to a dead link. No server sees the request.
+///
+/// P0-4: results are cached in an in-memory `FreshnessCache` (≈15 min TTL, LRU-capped),
+/// so reopening a role does not re-fetch; and when "check links on Wi-Fi only" is on and
+/// the path is cellular the check short-circuits to `.skippedOnCellular` instead of
+/// spending metered data the reader didn't ask for.
 struct FreshnessChecker {
 
     enum Status: Equatable {
@@ -12,6 +18,9 @@ struct FreshnessChecker {
         case mayHaveClosed
         /// Offline, timed out, or an ambiguous response — say nothing misleading.
         case couldNotCheck
+        /// Not checked on purpose: the reader is on cellular and asked to hold checks
+        /// to Wi-Fi. Distinct from `.couldNotCheck` so the UI can offer "Check now".
+        case skippedOnCellular
     }
 
     /// Phrases an ATS puts on a pulled posting.
@@ -30,21 +39,54 @@ struct FreshnessChecker {
     /// Path shapes an ATS redirects a closed role to (the careers index).
     static let indexPathHints = ["/jobs", "/careers", "/job-board", "/postings", "/openings", "/search"]
 
-    private let session: URLSession
+    static let defaultTTL: TimeInterval = 15 * 60
 
-    init(session: URLSession = .shared) {
+    private let session: URLSession
+    private let cache: FreshnessCache
+    private let ttl: TimeInterval
+    private let isCellular: @Sendable () async -> Bool
+
+    init(session: URLSession = .shared,
+         cache: FreshnessCache = .shared,
+         ttl: TimeInterval = FreshnessChecker.defaultTTL,
+         isCellular: @escaping @Sendable () async -> Bool = { await NetworkStatus.shared.onCellular() }) {
         self.session = session
+        self.cache = cache
+        self.ttl = ttl
+        self.isCellular = isCellular
     }
 
     /// Test seam so `MockURLProtocol` can be injected without touching the network.
-    static func ephemeral(protocolClasses: [AnyClass]) -> FreshnessChecker {
+    static func ephemeral(protocolClasses: [AnyClass],
+                          cache: FreshnessCache = FreshnessCache(),
+                          ttl: TimeInterval = FreshnessChecker.defaultTTL,
+                          isCellular: @escaping @Sendable () async -> Bool = { false }) -> FreshnessChecker {
         let config = URLSessionConfiguration.ephemeral
         config.protocolClasses = protocolClasses
         config.requestCachePolicy = .reloadIgnoringLocalCacheData
-        return FreshnessChecker(session: URLSession(configuration: config))
+        return FreshnessChecker(session: URLSession(configuration: config),
+                                cache: cache, ttl: ttl, isCellular: isCellular)
     }
 
-    func check(_ url: URL) async -> Status {
+    /// - Parameters:
+    ///   - wifiOnly: hold the check to Wi-Fi — on a cellular path, return `.skippedOnCellular`.
+    ///   - forceNow: ignore both the cache and `wifiOnly` (the "Check now" button).
+    func check(_ url: URL, wifiOnly: Bool = false, forceNow: Bool = false) async -> Status {
+        if !forceNow, let cached = await cache.value(for: url, ttl: ttl) {
+            return cached
+        }
+        if !forceNow, wifiOnly, await isCellular() {
+            return .skippedOnCellular
+        }
+        let status = await fetchAndClassify(url)
+        // Only cache a definitive verdict; a transient failure must not stick for the TTL.
+        if status == .liveJustChecked || status == .mayHaveClosed {
+            await cache.store(status, for: url)
+        }
+        return status
+    }
+
+    private func fetchAndClassify(_ url: URL) async -> Status {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.timeoutInterval = 12

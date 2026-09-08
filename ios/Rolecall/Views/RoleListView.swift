@@ -104,7 +104,7 @@ struct RoleListView: View {
             if phase == .active { now = Date(); rebuild() }
         }
         .onChange(of: store.lastRefreshOutcome) { _, outcome in showBanner(outcome) }
-        .onReceive(Timer.publish(every: 60, on: .main, in: .common).autoconnect()) { now = $0 }
+        .onReceive(Timer.publish(every: 300, on: .main, in: .common).autoconnect()) { now = $0 }
     }
 
     // MARK: board content

@@ -43,6 +43,13 @@ final class AppSettings: ObservableObject {
     @Published var alternateIconName: String? {
         didSet { defaults.set(alternateIconName, forKey: Keys.icon) }
     }
+    /// Hold the on-device "is this posting still open?" check to Wi-Fi. On by default:
+    /// a privacy-first job board should not spend a reader's cellular data on fetches
+    /// they didn't explicitly ask for. On cellular the check is skipped with a manual
+    /// "Check now" override.
+    @Published var checkLinksOnWiFiOnly: Bool {
+        didSet { defaults.set(checkLinksOnWiFiOnly, forKey: Keys.wifiOnly) }
+    }
 
     private let defaults: UserDefaults
 
@@ -52,6 +59,7 @@ final class AppSettings: ObservableObject {
         static let morningRead = "settings.morningRead.v1"
         static let weeklyRecap = "settings.weeklyRecap.v1"
         static let icon = "settings.icon.v1"
+        static let wifiOnly = "settings.checkLinksOnWiFiOnly.v1"
     }
 
     init(defaults: UserDefaults = SharedContainer.defaults) {
@@ -62,6 +70,8 @@ final class AppSettings: ObservableObject {
         self.morningRead = defaults.bool(forKey: Keys.morningRead)
         self.weeklyRecap = defaults.bool(forKey: Keys.weeklyRecap)
         self.alternateIconName = defaults.string(forKey: Keys.icon)
+        // Default true — `bool(forKey:)` can't express "unset means on", so read the object.
+        self.checkLinksOnWiFiOnly = defaults.object(forKey: Keys.wifiOnly) as? Bool ?? true
     }
 
     /// Settings → "Reset everything". Wipes preferences too; the caller also wipes
@@ -72,5 +82,6 @@ final class AppSettings: ObservableObject {
         morningRead = false
         weeklyRecap = false
         alternateIconName = nil
+        checkLinksOnWiFiOnly = true
     }
 }

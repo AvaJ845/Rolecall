@@ -52,7 +52,7 @@ struct TrackedRolesView: View {
                 }
             }
         }
-        .onReceive(Timer.publish(every: 60, on: .main, in: .common).autoconnect()) { now = $0 }
+        .onReceive(Timer.publish(every: 300, on: .main, in: .common).autoconnect()) { now = $0 }
     }
 
     private var emptyTitle: String {
