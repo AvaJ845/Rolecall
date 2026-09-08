@@ -42,7 +42,9 @@ struct RoleListView: View {
             .navigationDestination(for: Role.self) { RoleDetailView(role: $0) }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { toolbarContent }
-            .searchable(text: $query, prompt: "Company or role")
+            .searchable(text: $query,
+                        placement: .navigationBarDrawer(displayMode: .automatic),
+                        prompt: "Company or role")
             .autocorrectionDisabled()
             .textInputAutocapitalization(.never)
             .refreshable { await store.refresh(userInitiated: true) }
@@ -83,7 +85,7 @@ struct RoleListView: View {
             filteredEmptyState.padding(.top, 40)
         } else {
             ForEach(sections) { section in
-                sectionView(section)
+                sectionView(section, showHeader: sections.count > 1)
             }
         }
     }
@@ -99,7 +101,8 @@ struct RoleListView: View {
         )
     }
 
-    private func sectionView(_ section: RoleSection) -> some View {
+    @ViewBuilder
+    private func sectionView(_ section: RoleSection, showHeader: Bool) -> some View {
         Section {
             let roles = section.roles
             ForEach(Array(roles.enumerated()), id: \.element.id) { index, role in
@@ -113,11 +116,13 @@ struct RoleListView: View {
                 if index < roles.count - 1 {
                     Divider()
                         .overlay(Theme.Palette.hairline)
-                        .padding(.leading, Theme.Metric.gutter)
+                        .padding(.leading, Theme.Metric.gutter + 53)  // clears the monogram
                 }
             }
         } header: {
-            sectionHeader(section.band.rawValue, count: section.roles.count)
+            if showHeader {
+                sectionHeader(section.band.rawValue, count: section.roles.count)
+            }
         }
     }
 
@@ -133,6 +138,19 @@ struct RoleListView: View {
                 .font(.subheadline)
                 .foregroundStyle(Theme.Palette.inkSecondary)
                 .fixedSize(horizontal: false, vertical: true)
+
+            if mode == .board && !store.board.roles.isEmpty {
+                Label {
+                    Text("All \(visibleCount) checked live · \(Freshness.compactAgo(since: store.board.generatedUTC, relativeTo: now))")
+                } icon: {
+                    Image(systemName: "checkmark.seal.fill")
+                }
+                .font(.footnote.weight(.medium))
+                .foregroundStyle(Theme.Palette.verified)
+                .padding(.top, 4)
+                .fixedSize(horizontal: false, vertical: true)
+                .accessibilityLabel("All \(visibleCount) roles were checked against their company's own careers feed \(Freshness.compactAgo(since: store.board.generatedUTC, relativeTo: now)).")
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, Theme.Metric.gutter)

@@ -1,52 +1,57 @@
 import SwiftUI
 
-/// One posting in the list. Company and title carry the hierarchy; the freshness line is
-/// the trust signal and is never truncated away.
+/// One posting in the list. A calm identity tile anchors it; the title carries the
+/// hierarchy; the freshness line is the trust signal and is never truncated away.
 struct RoleRow: View {
     let role: Role
     var now: Date = Date()
     var status: RoleStatus? = nil
     var isNew: Bool = false
 
-    @ScaledMetric(relativeTo: .body) private var vPadding: CGFloat = 16
+    @ScaledMetric(relativeTo: .body) private var vPadding: CGFloat = 15
+    @ScaledMetric(relativeTo: .body) private var tile: CGFloat = 40
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
-                if isNew {
-                    Text("NEW")
-                        .font(.caption2.weight(.bold))
-                        .foregroundStyle(Theme.Palette.accent)
-                        .tracking(0.5)
+        HStack(alignment: .top, spacing: 13) {
+            CompanyMonogram(company: role.company, size: tile)
+
+            VStack(alignment: .leading, spacing: 5) {
+                HStack(alignment: .firstTextBaseline, spacing: 6) {
+                    if isNew {
+                        Text("NEW")
+                            .font(.caption2.weight(.bold))
+                            .foregroundStyle(Theme.Palette.accent)
+                            .tracking(0.5)
+                    }
+                    Text(role.company)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(Theme.Palette.inkSecondary)
+                    Spacer(minLength: 6)
+                    statusAccessory
+                    Text(role.family.shortLabel)
+                        .font(.caption2.weight(.medium))
+                        .foregroundStyle(Theme.Palette.inkTertiary)
                 }
-                Text(role.company)
-                    .font(.subheadline.weight(.semibold))
+
+                Text(role.title)
+                    .font(.rolecallTitle(.title3))
+                    .foregroundStyle(Theme.Palette.ink)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Text(role.locationLine)
+                    .font(.subheadline)
                     .foregroundStyle(Theme.Palette.inkSecondary)
-                Spacer(minLength: 8)
-                statusAccessory
-                Text(role.family.shortLabel)
-                    .font(.caption2.weight(.medium))
-                    .foregroundStyle(Theme.Palette.inkTertiary)
+
+                HStack(spacing: 5) {
+                    Image(systemName: freshnessIcon)
+                        .font(.caption2)
+                        .foregroundStyle(freshnessTint)
+                    Text(freshnessText)
+                        .font(.footnote)
+                        .foregroundStyle(Theme.Palette.inkSecondary)
+                }
+                .padding(.top, 1)
             }
-
-            Text(role.title)
-                .font(.rolecallTitle(.title3))
-                .foregroundStyle(Theme.Palette.ink)
-                .fixedSize(horizontal: false, vertical: true)
-
-            Text(role.locationLine)
-                .font(.subheadline)
-                .foregroundStyle(Theme.Palette.inkSecondary)
-
-            HStack(spacing: 6) {
-                Circle()
-                    .fill(Theme.Palette.verified)
-                    .frame(width: 6, height: 6)
-                Text(freshnessText)
-                    .font(.footnote)
-                    .foregroundStyle(Theme.Palette.inkSecondary)
-            }
-            .padding(.top, 2)
         }
         .padding(.vertical, vPadding)
         .padding(.horizontal, Theme.Metric.gutter)
@@ -73,6 +78,14 @@ struct RoleRow: View {
         default:
             EmptyView()
         }
+    }
+
+    private var freshnessIcon: String {
+        status?.isApplied == true ? "arrow.right.circle" : "checkmark.seal.fill"
+    }
+
+    private var freshnessTint: Color {
+        status?.isApplied == true ? Theme.Palette.inkTertiary : Theme.Palette.verified
     }
 
     private var freshnessText: String {

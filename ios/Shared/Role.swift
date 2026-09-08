@@ -46,6 +46,34 @@ struct Role: Codable, Identifiable, Hashable {
     }
 
     var isRemote: Bool { remote == true }
+
+    /// The board's promise is "one region you can actually cover" — the US, plus
+    /// US-remote. A role whose location clearly names somewhere else is filtered out by
+    /// default. Deliberately conservative: unknown / empty / US-looking all pass; only an
+    /// explicit non-US place is dropped.
+    var looksNonUS: Bool {
+        guard !isRemote else { return false }
+        let l = (location ?? "").lowercased()
+        guard !l.isEmpty else { return false }
+        if Self.usHints.contains(where: l.contains) { return false }
+        return Self.nonUSHints.contains(where: l.contains)
+    }
+
+    private static let usHints: [String] = [
+        "united states", "usa", "u.s", "remote", "anywhere",
+        "san francisco", "new york", "nyc", "seattle", "austin", "chicago", "boston",
+        "los angeles", "denver", "atlanta", "portland", "miami", "washington", "brooklyn",
+    ]
+    private static let nonUSHints: [String] = [
+        "united kingdom", "england", "london", "canada", "toronto", "vancouver", "ontario",
+        "germany", "berlin", "munich", "france", "paris", "netherlands", "amsterdam",
+        "ireland", "dublin", "singapore", "australia", "sydney", "melbourne", "india",
+        "bangalore", "bengaluru", "hyderabad", "israel", "tel aviv", "spain", "barcelona",
+        "madrid", "poland", "warsaw", "brazil", "são paulo", "sao paulo", "japan", "tokyo",
+        "milan", "italy", "rome", "sweden", "stockholm", "portugal", "lisbon", "mexico",
+        "emea", "apac", "latam", "switzerland", "zurich", "denmark", "copenhagen",
+        "norway", "oslo", "finland", "helsinki", "belgium", "brussels", "austria", "vienna",
+    ]
 }
 
 extension Role {

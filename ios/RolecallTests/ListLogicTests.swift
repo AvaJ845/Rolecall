@@ -8,12 +8,38 @@ final class ListLogicTests: XCTestCase {
                       company: String = "Acme",
                       title: String = "Product Designer",
                       family: RoleFamily = .design,
+                      location: String? = nil,
                       remote: Bool? = nil,
                       firstSeen: Date = Date(),
                       lastVerified: Date? = nil) -> Role {
-        Role(company: company, title: title, family: family, location: nil,
+        Role(company: company, title: title, family: family, location: location,
              remote: remote, url: URL(string: url)!,
              firstSeen: firstSeen, lastVerified: lastVerified)
+    }
+
+    // MARK: US / region filter
+
+    func testLooksNonUS() {
+        XCTAssertFalse(role("https://x/1", location: nil).looksNonUS, "unknown location passes")
+        XCTAssertFalse(role("https://x/2", location: "New York, NY").looksNonUS)
+        XCTAssertFalse(role("https://x/3", location: "United States").looksNonUS)
+        XCTAssertFalse(role("https://x/4", location: "Remote within Canada or United States").looksNonUS,
+                       "a US option present -> passes")
+        XCTAssertFalse(role("https://x/5", location: "London", remote: true).looksNonUS,
+                       "remote overrides location")
+        XCTAssertTrue(role("https://x/6", location: "London, United Kingdom").looksNonUS)
+        XCTAssertTrue(role("https://x/7", location: "Singapore").looksNonUS)
+        XCTAssertTrue(role("https://x/8", location: "Tel Aviv, Israel").looksNonUS)
+    }
+
+    func testDefaultFilterHidesNonUS() {
+        let f = RoleFilter()
+        XCTAssertTrue(f.matches(role("https://x/1", location: "Austin, TX")))
+        XCTAssertFalse(f.matches(role("https://x/2", location: "Berlin, Germany")))
+        var wide = f
+        wide.usAndRemoteOnly = false
+        XCTAssertTrue(wide.matches(role("https://x/3", location: "Berlin, Germany")))
+        XCTAssertTrue(wide.isActive, "worldwide is a non-default choice")
     }
 
     // MARK: sanitize
