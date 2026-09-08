@@ -38,12 +38,27 @@ struct Application: Codable, Equatable, Hashable {
     var stage: ApplicationStage
     var updatedOn: Date
     var note: String
+    /// When to be nudged to follow up (Rolecall Plus). Cleared automatically once the
+    /// application reaches a terminal stage.
+    var followUpAt: Date?
 
     init(appliedOn: Date = Date(), stage: ApplicationStage = .applied, note: String = "") {
         self.appliedOn = appliedOn
         self.stage = stage
         self.updatedOn = appliedOn
         self.note = note
+        self.followUpAt = nil
+    }
+
+    enum CodingKeys: String, CodingKey { case appliedOn, stage, updatedOn, note, followUpAt }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        appliedOn = try c.decode(Date.self, forKey: .appliedOn)
+        stage = try c.decode(ApplicationStage.self, forKey: .stage)
+        updatedOn = try c.decodeIfPresent(Date.self, forKey: .updatedOn) ?? appliedOn
+        note = try c.decodeIfPresent(String.self, forKey: .note) ?? ""
+        followUpAt = try c.decodeIfPresent(Date.self, forKey: .followUpAt)
     }
 }
 
@@ -145,6 +160,22 @@ final class TrackedRoles: ObservableObject {
         guard case var .applied(app) = states[role.id] else { return }
         mutate(&app)
         app.updatedOn = Date()
+        if app.stage.isClosed { app.followUpAt = nil }   // no point nudging a closed application
+        states[role.id] = .applied(app)
+        persistStates()
+    }
+
+    /// Set (or clear) the follow-up nudge date. The caller re-syncs the local
+    /// notification via `Reminders.sync(...)`.
+    func setFollowUp(_ date: Date?, for role: Role) {
+        updateApplication(for: role) { $0.followUpAt = date }
+    }
+
+    /// Edit the private note without touching `updatedOn` — so typing doesn't re-sort the
+    /// applications list on every keystroke.
+    func setNote(_ text: String, for role: Role) {
+        guard case var .applied(app) = states[role.id] else { return }
+        app.note = text
         states[role.id] = .applied(app)
         persistStates()
     }
