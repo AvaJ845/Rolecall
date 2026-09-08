@@ -1,0 +1,16 @@
+# build outputs / local data
+data/*.db
+data/*.json
+data/*.jsonl
+!data/.gitkeep
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# macOS / editors
+.DS_Store
+.idea/
+.vscode/

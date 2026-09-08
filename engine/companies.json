@@ -1,0 +1,23 @@
+{
+  "vertical": "product-design",
+  "note": "Week-0 seed. Every slug here was confirmed to return HTTP 200 from its public ATS endpoint on 2026-09-07. Growing this to ~1,500 US venture-backed / established tech companies with correct ATS + slug is the Week 1-3 job (the company registry is the moat).",
+  "companies": [
+    {"id": "figma",      "name": "Figma",      "ats": "greenhouse", "slug": "figma",      "stage": "late",  "hq": "US"},
+    {"id": "airtable",   "name": "Airtable",   "ats": "greenhouse", "slug": "airtable",   "stage": "late",  "hq": "US"},
+    {"id": "discord",    "name": "Discord",    "ats": "greenhouse", "slug": "discord",    "stage": "late",  "hq": "US"},
+    {"id": "anthropic",  "name": "Anthropic",  "ats": "greenhouse", "slug": "anthropic",  "stage": "late",  "hq": "US"},
+    {"id": "stripe",     "name": "Stripe",     "ats": "greenhouse", "slug": "stripe",     "stage": "late",  "hq": "US"},
+    {"id": "databricks", "name": "Databricks", "ats": "greenhouse", "slug": "databricks", "stage": "late",  "hq": "US"},
+    {"id": "robinhood",  "name": "Robinhood",  "ats": "greenhouse", "slug": "robinhood",  "stage": "public","hq": "US"},
+    {"id": "coinbase",   "name": "Coinbase",   "ats": "greenhouse", "slug": "coinbase",   "stage": "public","hq": "US"},
+    {"id": "instacart",  "name": "Instacart",  "ats": "greenhouse", "slug": "instacart",  "stage": "public","hq": "US"},
+    {"id": "affirm",     "name": "Affirm",     "ats": "greenhouse", "slug": "affirm",     "stage": "public","hq": "US"},
+    {"id": "linear",     "name": "Linear",     "ats": "ashby",      "slug": "linear",     "stage": "growth","hq": "US"},
+    {"id": "ramp",       "name": "Ramp",       "ats": "ashby",      "slug": "ramp",       "stage": "late",  "hq": "US"},
+    {"id": "vercel",     "name": "Vercel",     "ats": "ashby",      "slug": "vercel",     "stage": "growth","hq": "US"},
+    {"id": "replit",     "name": "Replit",     "ats": "ashby",      "slug": "replit",     "stage": "growth","hq": "US"},
+    {"id": "runway",     "name": "Runway",     "ats": "ashby",      "slug": "runway",     "stage": "growth","hq": "US"},
+    {"id": "mercury",    "name": "Mercury",    "ats": "ashby",      "slug": "mercury",    "stage": "growth","hq": "US"},
+    {"id": "palantir",   "name": "Palantir",   "ats": "lever",      "slug": "palantir",   "stage": "public","hq": "US"}
+  ]
+}
