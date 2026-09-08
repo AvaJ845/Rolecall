@@ -26,16 +26,30 @@ final class BoardStore: ObservableObject {
 
     private let session: URLSession
     private let remoteURL: URL
+    private let remoteURLV2: URL
+    /// The Ed25519 public key a downloaded board must be signed under. Defaults to the
+    /// app's own committed key; injectable so tests can exercise the fetch/verify paths.
+    private let boardPublicKeyHex: String
 
     /// Hard ceiling on a downloaded board (thousands of roles are well under 2 MB). A
     /// response larger than this is treated as hostile and ignored.
     private let maxBoardBytes = 8 * 1024 * 1024
 
+    /// A board plus the signature that covers its exact bytes, fetched together.
+    private struct SignedBoard {
+        let board: Data
+        let signatureHex: String
+    }
+
     init(session: URLSession = .shared,
          remoteURL: URL = BoardSource.remoteURL,
+         remoteURLV2: URL = BoardSource.remoteURLV2,
+         boardPublicKeyHex: String = BoardSignature.publicKeyHex,
          bundledBoard: Board = BoardSource.bundledBoard()) {
         self.session = session
         self.remoteURL = remoteURL
+        self.remoteURLV2 = remoteURLV2
+        self.boardPublicKeyHex = boardPublicKeyHex
 
         // Frame 1: the bundled snapshot and nothing else. `sanitized()` is a single O(n)
         // filter over our own trusted engine output — cheap enough for the first frame;
@@ -69,29 +83,15 @@ final class BoardStore: ObservableObject {
     func refresh(userInitiated: Bool = false) async {
         lastRefreshOutcome = .refreshing
         do {
-            var request = URLRequest(url: remoteURL)
-            request.cachePolicy = .reloadIgnoringLocalCacheData
-            request.timeoutInterval = 15
-            let (data, response) = try await session.data(for: request)
-            guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode) else {
-                lastRefreshOutcome = .upToDate   // nothing published yet; not an error worth showing
-                return
-            }
-            guard data.count <= maxBoardBytes else {
-                lastRefreshOutcome = .upToDate
-                return
-            }
-            // The downloaded board must carry a valid Ed25519 signature from our own key.
-            // A bad or missing signature -> ignore it entirely, keep the trusted board.
-            guard let signatureHex = try? await fetchSignature(),
-                  BoardSignature.isValid(board: data, signatureHex: signatureHex) else {
-                lastRefreshOutcome = userInitiated ? .unreachable : .upToDate
-                return
+            // One consistent (board bytes, signature). Never a decode before the
+            // signature check; the 8 MB cap and 15 s timeout still apply per request.
+            guard let verified = try await fetchVerifiedBoard(userInitiated: userInitiated) else {
+                return   // fetchVerifiedBoard already set lastRefreshOutcome
             }
             // Decode + sanitise + plausibility check + merge + the added-count diff, all
             // off the main actor. Only the assignment and the disk write come back here.
             let current = board
-            guard let outcome = try await Self.decodeAndMerge(remoteData: data, into: current) else {
+            guard let outcome = try await Self.decodeAndMerge(remoteData: verified, into: current) else {
                 lastRefreshOutcome = .upToDate
                 return
             }
@@ -103,15 +103,83 @@ final class BoardStore: ObservableObject {
         }
     }
 
-    private func fetchSignature() async throws -> String {
-        var request = URLRequest(url: BoardSignature.signatureURL)
-        request.cachePolicy = .reloadIgnoringLocalCacheData
-        request.timeoutInterval = 10
-        let (data, response) = try await session.data(for: request)
+    /// Board bytes whose Ed25519 signature is verified against our key, or `nil` (having
+    /// set `lastRefreshOutcome`). P0-7: prefer the `board.v2.json` envelope — one request,
+    /// board + signature can never be out of sync. Fall back to the legacy two files for
+    /// an edge that hasn't picked up v2 yet, and if their signature check fails, retry the
+    /// pair once with a cache-buster to close the Cloudflare deploy-skew window.
+    private func fetchVerifiedBoard(userInitiated: Bool) async throws -> Data? {
+        func fail() -> Data? {
+            lastRefreshOutcome = userInitiated ? .unreachable : .upToDate
+            return nil
+        }
+
+        if let env = try await fetchEnvelope(cacheBust: false) {
+            // The envelope is internally consistent; a bad signature here is a real
+            // failure, not a cache skew, so there is nothing to retry.
+            return BoardSignature.isValid(board: env.board, signatureHex: env.signatureHex,
+                                          keyHex: boardPublicKeyHex)
+                ? env.board : fail()
+        }
+
+        for cacheBust in [false, true] {
+            if let pair = try await fetchLegacyPair(cacheBust: cacheBust),
+               BoardSignature.isValid(board: pair.board, signatureHex: pair.signatureHex,
+                                      keyHex: boardPublicKeyHex) {
+                return pair.board
+            }
+        }
+        return fail()
+    }
+
+    private func fetchEnvelope(cacheBust: Bool) async throws -> SignedBoard? {
+        let (data, response) = try await get(cacheBust ? Self.cacheBusted(remoteURLV2) : remoteURLV2,
+                                             timeout: 15)
         guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode),
-              data.count < 4096
-        else { throw URLError(.badServerResponse) }
-        return String(decoding: data, as: UTF8.self)
+              data.count <= maxBoardBytes,
+              let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let boardText = obj["board"] as? String,
+              let sigHex = obj["sig"] as? String
+        else { return nil }
+        // The envelope embeds board.json verbatim as a JSON string; its UTF-8 bytes are
+        // byte-for-byte what the engine signed.
+        let boardBytes = Data(boardText.utf8)
+        guard boardBytes.count <= maxBoardBytes else { return nil }
+        return SignedBoard(board: boardBytes, signatureHex: sigHex)
+    }
+
+    private func fetchLegacyPair(cacheBust: Bool) async throws -> SignedBoard? {
+        let boardURL = cacheBust ? Self.cacheBusted(remoteURL) : remoteURL
+        let sigURL = cacheBust ? Self.cacheBusted(BoardSignature.signatureURL) : BoardSignature.signatureURL
+
+        let (data, response) = try await get(boardURL, timeout: 15)
+        guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode),
+              data.count <= maxBoardBytes
+        else { return nil }
+
+        let (sigData, sigResponse) = try await get(sigURL, timeout: 10)
+        guard let sigHTTP = sigResponse as? HTTPURLResponse, (200..<300).contains(sigHTTP.statusCode),
+              sigData.count < 4096
+        else { return nil }
+
+        return SignedBoard(board: data, signatureHex: String(decoding: sigData, as: UTF8.self))
+    }
+
+    private func get(_ url: URL, timeout: TimeInterval) async throws -> (Data, URLResponse) {
+        var request = URLRequest(url: url)
+        request.cachePolicy = .reloadIgnoringLocalCacheData
+        request.timeoutInterval = timeout
+        return try await session.data(for: request)
+    }
+
+    /// Append a throwaway query item so a retry bypasses the edge/CDN cache, not just the
+    /// on-device URL cache.
+    private static func cacheBusted(_ url: URL) -> URL {
+        guard var comps = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return url }
+        var items = comps.queryItems ?? []
+        items.append(URLQueryItem(name: "_cb", value: String(Int(Date().timeIntervalSince1970))))
+        comps.queryItems = items
+        return comps.url ?? url
     }
 
     // MARK: - Off-main-actor work
