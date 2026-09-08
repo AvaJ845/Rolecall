@@ -402,6 +402,13 @@ def _shrink_override_set():
         "1", "true", "yes", "on")
 
 
+def _is_https(url: str) -> bool:
+    try:
+        return urllib_parse.urlsplit(url or "").scheme.lower() == "https"
+    except ValueError:
+        return False
+
+
 def export():
     conn = store.connect()
     rows = conn.execute(
@@ -410,6 +417,18 @@ def export():
            FROM postings WHERE status = 'live'
            ORDER BY first_seen_utc DESC"""
     ).fetchall()
+    conn.close()
+
+    # P0-13: the signed artifact must never carry a non-https apply link. The iOS app
+    # drops them client-side too (Board.sanitized()), but web/ job pages and any future
+    # consumer inherit board.json verbatim — enforce it at the source.
+    all_rows = list(rows)
+    kept = [r for r in all_rows if _is_https(r["url"])]
+    dropped = len(all_rows) - len(kept)
+    if dropped:
+        print("::warning::dropped {} non-https URLs from the board".format(dropped))
+        print("dropped {} non-https URLs".format(dropped))
+
     out = [{
         "company": r["company_name"],
         "title": r["title"],
@@ -419,8 +438,7 @@ def export():
         "url": r["url"],
         "first_seen": r["first_seen_utc"],
         "last_verified": r["last_verified_utc"],
-    } for r in rows]
-    conn.close()
+    } for r in kept]
 
     err = _board_shrink_error(len(out), _prev_board_count())
     if err:
