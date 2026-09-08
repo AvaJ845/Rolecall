@@ -3,10 +3,13 @@ import SwiftUI
 
 /// Owns the board the whole app renders.
 ///
-/// Launch path: the bundled snapshot is loaded synchronously in `init`, so the list has
-/// content on the first frame — no spinner, no empty flash. Then `refresh()` tries the
-/// one remote URL and merges anything newer. Everything is on device; there is no
-/// account and no server round-trip beyond fetching the public board file.
+/// Launch path: the bundled snapshot is assigned synchronously in `init`, so the list has
+/// content on the first frame — no spinner, no empty flash — and `init` does **no** JSON
+/// decode, sanitise pass over the cache, merge, or disk write on the main actor. The
+/// cache read + merge happens a beat later off the main actor and swaps in. Then
+/// `refresh()` tries the one remote URL; its decode/sanitise/merge also runs off the main
+/// actor. Everything is on device; there is no account and no server round-trip beyond
+/// fetching the public board file.
 @MainActor
 final class BoardStore: ObservableObject {
 
@@ -28,21 +31,33 @@ final class BoardStore: ObservableObject {
     /// response larger than this is treated as hostile and ignored.
     private let maxBoardBytes = 8 * 1024 * 1024
 
-    init(session: URLSession = .shared, remoteURL: URL = BoardSource.remoteURL) {
+    init(session: URLSession = .shared,
+         remoteURL: URL = BoardSource.remoteURL,
+         bundledBoard: Board = BoardSource.bundledBoard()) {
         self.session = session
         self.remoteURL = remoteURL
 
-        // Prefer a previously merged snapshot the app wrote to the shared container, if it
-        // is newer than what shipped in this build; otherwise the bundled file. Both are
-        // sanitised (https-only, de-duped) before anything renders them.
-        let bundled = BoardSource.bundledBoard().sanitized()
-        if let cached = SharedContainer.currentBoard()?.sanitized(),
-           cached.generatedUTC > bundled.generatedUTC {
-            self.board = cached.merging(bundled)
+        // Frame 1: the bundled snapshot and nothing else. `sanitized()` is a single O(n)
+        // filter over our own trusted engine output — cheap enough for the first frame;
+        // the cache decode + merge + disk write, which are not, move off the main actor.
+        let bundled = bundledBoard.sanitized()
+        self.board = bundled
+
+        // A beat later: read the previously-merged cache, merge it over the bundled
+        // board, publish, and persist — all off the main actor.
+        Task { await self.hydrateFromCache(bundled: bundled) }
+    }
+
+    /// Merge the on-disk cache over the bundled board and publish it, then write the
+    /// result back once. All of the heavy lifting runs on the cooperative pool.
+    private func hydrateFromCache(bundled: Board) async {
+        if let hydrated = await Self.mergedCache(over: bundled) {
+            self.board = hydrated
+            await Self.persist(hydrated)
         } else {
-            self.board = bundled
+            // Nothing newer cached; still make sure the container has a copy for the widget.
+            await Self.persist(bundled)
         }
-        SharedContainer.writeBoard(board)
     }
 
     /// Try the single remote URL and merge a newer snapshot. Never throws to the caller;
@@ -73,17 +88,16 @@ final class BoardStore: ObservableObject {
                 lastRefreshOutcome = userInitiated ? .unreachable : .upToDate
                 return
             }
-            let remote = try Board.decode(from: data).sanitized()
-            guard remote.isPlausibleReplacement(for: board) else {
+            // Decode + sanitise + plausibility check + merge + the added-count diff, all
+            // off the main actor. Only the assignment and the disk write come back here.
+            let current = board
+            guard let outcome = try await Self.decodeAndMerge(remoteData: data, into: current) else {
                 lastRefreshOutcome = .upToDate
                 return
             }
-            let before = Set(board.roles.map(\.id))
-            let merged = board.merging(remote)
-            let added = merged.roles.filter { !before.contains($0.id) }.count
-            board = merged
-            SharedContainer.writeBoard(merged)
-            lastRefreshOutcome = .updated(added: added)
+            board = outcome.board
+            await Self.persist(outcome.board)
+            lastRefreshOutcome = .updated(added: outcome.added)
         } catch {
             lastRefreshOutcome = userInitiated ? .unreachable : .upToDate
         }
@@ -98,5 +112,39 @@ final class BoardStore: ObservableObject {
               data.count < 4096
         else { throw URLError(.badServerResponse) }
         return String(decoding: data, as: UTF8.self)
+    }
+
+    // MARK: - Off-main-actor work
+    //
+    // These are `nonisolated` `async` statics: per SE-0338 they run on the generic
+    // cooperative executor, never the caller's (main) actor. They take and return `Board`
+    // value types, so nothing shared is touched.
+
+    /// The cached snapshot merged over `bundled`, or `nil` when the cache is absent or
+    /// not strictly newer than what shipped in this build.
+    nonisolated static func mergedCache(over bundled: Board) async -> Board? {
+        guard let cached = SharedContainer.currentBoard()?.sanitized(),
+              cached.generatedUTC > bundled.generatedUTC
+        else { return nil }
+        return cached.merging(bundled)
+    }
+
+    /// Decode the downloaded bytes, sanitise, gate on `isPlausibleReplacement`, then merge
+    /// over `current` and count what is new. `nil` means the candidate did not clear the
+    /// plausibility bar and must be ignored.
+    nonisolated static func decodeAndMerge(remoteData: Data,
+                                           into current: Board) async throws -> (board: Board, added: Int)? {
+        let remote = try Board.decode(from: remoteData).sanitized()
+        guard remote.isPlausibleReplacement(for: current) else { return nil }
+        let before = Set(current.roles.map(\.id))
+        let merged = current.merging(remote)
+        let added = merged.roles.filter { !before.contains($0.id) }.count
+        return (merged, added)
+    }
+
+    /// Write the board to the shared container. Off the main actor; runs at most once per
+    /// refresh.
+    nonisolated static func persist(_ board: Board) async {
+        SharedContainer.writeBoard(board)
     }
 }
