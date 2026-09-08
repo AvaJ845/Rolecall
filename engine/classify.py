@@ -18,6 +18,9 @@ import re
 INCLUDE_PM = True
 
 _DESIGN = [
+    # design-eng first: "Design Systems Engineer" is design-eng, not design
+    (r"\bdesign engineer|\bdesign systems? engineer|\bdesign technologist|"
+     r"\bux engineer|\bui engineer", "design-eng"),
     (r"\bproduct design", "design"),
     (r"\bux/?ui design|\bui/?ux design", "design"),
     (r"\bux design|\buser experience design", "design"),
@@ -29,7 +32,6 @@ _DESIGN = [
     (r"\bdesign manager|\bdesign lead|\blead product designer|\bgroup design", "design"),
     (r"\bstaff designer\b|\bprincipal designer\b|\bsenior designer\b|\bdesigner ii?i?\b", "design"),
     (r"\bproduct designer\b|\bux designer\b|\bui designer\b|\bux researcher and designer", "design"),
-    (r"\bdesign engineer|\bdesign technologist|\bux engineer|\bui engineer", "design-eng"),
     (r"\bux research|\buser research|\bdesign research|\bresearch ops|\bux writer|\bux writing|\bcontent design", "research"),
 ]
 
@@ -45,7 +47,7 @@ _PM = [
 _EXCLUDE = [
     r"instructional design|learning design|curriculum design|training design",
     # physical / hardware / silicon engineering that borrows the word "design"
-    r"mechanical|electrical|hardware design|firmware|chip design|silicon|asic|rtl|fpga",
+    r"mechanical|electrical|\bhardware\b|firmware|chip design|silicon|asic|rtl|fpga|prototyp\w* engineer",
     r"circuit design|pcb|analog design|physical design|design verification|design for test",
     r"industrial design|cad\b|solidworks|actuator|electromagnet|\bgear design|thermal design",
     r"data ?cent(er|re)|antenna|\brf design|optical design|structural design",
@@ -53,8 +55,19 @@ _EXCLUDE = [
     r"game design|level design|narrative design|systems design engineer",
     r"interior design|set design|lighting design|landscape design|floral|floor plan",
     r"packaging design|print production|prepress|apparel design|textile|jewelry",
-    # eng-management roles that only match because a design-adjacent team is named
+    r"\bcmf\b|colou?r,? material|retail design|store design|environmental design|exhibit design|wayfinding",
+    # security / policy / physical roles that borrow "design lead/manager"
+    r"physical security|policy design|security design lead",
+    # engineering roles that only match because a design-adjacent team is named
     r"manager,? software engineering|software engineering,",
+    # NB: "systems"/"ux"/"design" deliberately absent so "Design Systems Engineer",
+    # "UX Engineer", "Design Engineer" still pass as design-eng.
+    r"\b(?:android|ios|front-?end|back-?end|full-?stack|mobile|software|platform|"
+    r"data|security|infrastructure|devops|site reliability|sre|firmware|embedded) "
+    r"engineer\b",
+    # non-design staff roles that sit in or name a design/product org
+    r"executive assistant|administrative assistant|chief of staff|office manager",
+    r"people partner|people team|hr business partner|talent partner|recruit|sourcer",
     # "product" roles that are not product management
     r"data product|product marketing|product counsel|product support|product specialist",
     r"product operations analyst|product analyst|product security|technical product marketing",
@@ -76,6 +89,13 @@ def classify(title: str, department: str = ""):
     if _EX_RE.search(t):
         m = _EX_RE.search(t)
         return False, None, "exclude:" + m.group(0)
+
+    # A "Product Manager" is a PM even when the title names a design team
+    # ("Senior Product Manager, Design Systems"). Route it to pm before the design
+    # matchers can claim it. "Product Design Manager" does not contain "product manager"
+    # and is unaffected.
+    if re.search(r"\bproduct manager\b", t):
+        return (True, "pm", "pm:product manager") if INCLUDE_PM else (False, None, "exclude:pm")
 
     for pat, fam in _DESIGN:
         if re.search(pat, t):
