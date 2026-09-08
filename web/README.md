@@ -1,4 +1,4 @@
-# Rolecall — the `rolecall.io` site
+# Rolecall — the `rolecalljobs.com` site
 
 Static marketing + SEO site. Stdlib-only Python generator, consistent with `engine/`.
 No pip installs, no build toolchain, no third-party runtime code (the one exception is a
@@ -7,8 +7,8 @@ No pip installs, no build toolchain, no third-party runtime code (the one except
 ## Build
 
 ```
-python3 -m web build                                  # base URL https://rolecall.io
-python3 -m web build --base-url https://rolecall.pages.dev
+python3 -m web build                                  # base URL https://rolecalljobs.com
+python3 -m web build --base-url https://<project>.pages.dev   # before the domain is attached
 ```
 
 Reads `../data/board.json` and writes `web/dist/`:
@@ -22,8 +22,7 @@ Reads `../data/board.json` and writes `web/dist/`:
 | `robots.txt` | allow all, points at the sitemap | |
 | `board.json` | the **full** `../data/board.json` — the same deploy hosts the iOS app's feed (the app does its own filtering) | |
 | `404.html` | Cloudflare Pages serves this with a real 404 status for unmatched routes | |
-| `_headers` | CORS (`Access-Control-Allow-Origin: *`) + cache-control for `board.json` and pages — honoured by Cloudflare Pages | |
-| `CNAME` / `.nojekyll` | only emitted when `--base-url` host is `rolecall.io`; irrelevant on Cloudflare | |
+| `_headers` | CORS (`Access-Control-Allow-Origin: *`) + cache-control for `board.json` and pages — Cloudflare Pages applies these | |
 
 The **rendered pages** show the same slice the app leads with: the product-design
 vertical (design · design-eng · research; **PM excluded**), US + US-remote. The copied
@@ -48,18 +47,19 @@ cached between runs so `first_seen` (and "new today") stays stable. Cloudflare h
 3. Repo → **Settings → Secrets and variables → Actions → New repository secret**:
    - `CLOUDFLARE_API_TOKEN` — the token from step 2
    - `CLOUDFLARE_ACCOUNT_ID` — from any Cloudflare dashboard URL, or `wrangler whoami`
-4. Push (or **Actions → Build and deploy rolecall.io → Run workflow**). Until the secrets exist the
+4. Push (or **Actions → Build and deploy rolecalljobs.com → Run workflow**). Until the secrets exist the
    workflow still builds and just skips the deploy with a warning.
-5. First deploy lands at `https://rolecall.pages.dev`.
+5. First deploy lands at `https://<project>.pages.dev`.
 
-### Pointing `rolecall.io` at it
-1. Add `rolecall.io` to the Cloudflare account (**Add a site**) and move the registrar's
-   nameservers to the ones Cloudflare shows — DNS then becomes one-click.
-2. Pages project → **Custom domains → Set up a domain → `rolecall.io`** (and `www`).
+### Pointing `rolecalljobs.com` at it
+`rolecalljobs.com` was registered through **Cloudflare Registrar**, so its DNS is already
+on Cloudflare — no "Add a site" step.
+1. Pages project → **Custom domains → Set up a domain → `rolecalljobs.com`** (and `www`).
    Cloudflare creates the records and the cert automatically.
-3. Set the repo **Actions variable** `SITE_BASE_URL` to `https://rolecall.io`, then re-run
-   the workflow so canonical tags / sitemap / links bake in the real origin.
-4. Confirm `https://rolecall.io/board.json` returns JSON (the iOS app reads it there).
+2. Set the repo **Actions variable** `SITE_BASE_URL` to `https://rolecalljobs.com`
+   (the workflow already defaults to this) and re-run the workflow so canonical tags /
+   sitemap bake in the real origin.
+3. Confirm `https://rolecalljobs.com/board.json` returns JSON (the iOS app reads it there).
 
 ### Alternatives (same `dist/`, same `_headers`)
 - **Netlify:** *Add new site → Import from Git*, publish directory `web/dist`, or drag-drop
@@ -109,7 +109,7 @@ The Fellows' monetization ruling, implemented here:
 
 - Real AdSense publisher ID + ad-slot ID (`ADSENSE_CLIENT` / `ADSENSE_SLOT`).
 - Real App Store URL (`APP_STORE_URL` in `web/build.py`) — placeholder `#app-store-link-tbd`.
-- `sponsors@rolecall.io` mailbox (or change `SPONSOR_CONTACT`).
+- `sponsors@rolecalljobs.com` mailbox (or change `SPONSOR_CONTACT`).
 - Domain DNS + TLS at the host.
 - Optional: an App Store badge image (currently a CSS/inline-SVG pill to avoid an
   external request) and OG share image.

@@ -1,4 +1,4 @@
-"""Static site generator for rolecall.io — stdlib only.
+"""Static site generator for rolecalljobs.com — stdlib only.
 
 Design intent (see NORTH_STARS.md and the Fellows' monetization ruling):
   * Site job #1 is the funnel to the iOS app; job #2 is SEO; ads are a distant third.
@@ -25,7 +25,7 @@ BOARD_PATH = ROOT / "data" / "board.json"
 WEB = ROOT / "web"
 DIST = WEB / "dist"
 
-DEFAULT_BASE_URL = "https://rolecall.io"
+DEFAULT_BASE_URL = "https://rolecalljobs.com"
 
 # --------------------------------------------------------------------------
 # AdSense — paste the real publisher id here, then uncomment the slot markup
@@ -36,7 +36,7 @@ ADSENSE_CLIENT = "ca-pub-XXXXXXXXXXXXXXXX"
 ADSENSE_SLOT = "0000000000"
 # --------------------------------------------------------------------------
 
-SPONSOR_CONTACT = "sponsors@rolecall.io"
+SPONSOR_CONTACT = "sponsors@rolecalljobs.com"
 APP_STORE_URL = "#app-store-link-tbd"  # replace with the real App Store URL at launch
 
 FAMILY_LABEL = {
@@ -886,16 +886,8 @@ def build(base_url: str) -> int:
     (DIST / "sitemap.xml").write_text(render_sitemap(data, base_url, now))
     (DIST / "robots.txt").write_text(render_robots(base_url))
     (DIST / "404.html").write_text(render_404(base_url))  # Pages serves this with a real 404 status
-    (DIST / "_headers").write_text(HEADERS_FILE)  # honoured by Cloudflare/Netlify; ignored by GH Pages
+    (DIST / "_headers").write_text(HEADERS_FILE)  # Cloudflare Pages applies these header rules
     shutil.copyfile(BOARD_PATH, DIST / "board.json")
-
-    # GitHub Pages: a CNAME file binds an apex custom domain. Only emit it for the real
-    # domain — never for the *.github.io project-pages URL, which needs no CNAME and
-    # would break if one were present. .nojekyll stops Jekyll from dropping "_" files.
-    host = re.sub(r"^https?://", "", base_url).split("/")[0]
-    if host == "rolecall.io":
-        (DIST / "CNAME").write_text("rolecall.io\n")
-    (DIST / ".nojekyll").write_text("")
 
     print("built {} pages -> {}".format(2 + len(roles), DIST))
     print("  landing : index.html")

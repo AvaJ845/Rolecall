@@ -1,4 +1,4 @@
-name: Build and deploy rolecall.io
+name: Build and deploy rolecalljobs.com
 
 on:
   push:
@@ -46,12 +46,12 @@ jobs:
           python3 -m engine export
           python3 -m engine stats
 
-      # SITE_BASE_URL: point the repo/Actions variable at https://rolecall.io once the
+      # SITE_BASE_URL: point the repo/Actions variable at https://rolecalljobs.com once the
       # custom domain is attached in Cloudflare Pages. Until then it builds for the
       # project's *.pages.dev URL.
       - name: Build site
         env:
-          BASE_URL: ${{ vars.SITE_BASE_URL || 'https://rolecall.pages.dev' }}
+          BASE_URL: ${{ vars.SITE_BASE_URL || 'https://rolecalljobs.com' }}
         run: python3 -m web build --base-url "$BASE_URL"
 
       - name: Save engine state

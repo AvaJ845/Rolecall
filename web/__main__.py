@@ -1,7 +1,7 @@
 """
-Rolecall web — the rolecall.io marketing + SEO static site.
+Rolecall web — the rolecalljobs.com marketing + SEO static site.
 
-    python3 -m web build [--base-url https://rolecall.io]
+    python3 -m web build [--base-url https://rolecalljobs.com]
 
 Reads ../data/board.json and writes web/dist/:
   index.html                     landing page   (no ads, no analytics, no cookies)
