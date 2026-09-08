@@ -4,9 +4,10 @@ import Foundation
 /// talks to exactly one host and nothing else.
 enum BoardSource {
 
-    /// Placeholder until the board is published. It 404s today; `BoardStore` treats any
-    /// non-success as "no update" and keeps the bundled snapshot.
-    static let remoteURL = URL(string: "https://rolecall.app/board.json")!
+    /// Published by the `web/` build to GitHub Pages at the rolecall.io apex. Until DNS
+    /// resolves it 404s / fails to connect; `BoardStore` treats any non-success as
+    /// "no update" and keeps the bundled snapshot.
+    static let remoteURL = URL(string: "https://rolecall.io/board.json")!
 
     /// The snapshot shipped inside the app bundle, copied from `data/board.json` at build.
     static func bundledBoard() -> Board {

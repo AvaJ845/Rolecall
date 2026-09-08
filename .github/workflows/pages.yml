@@ -1,0 +1,78 @@
+name: Deploy rolecall.io
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "web/**"
+      - "engine/**"
+      - ".github/workflows/pages.yml"
+  schedule:
+    - cron: "17 */6 * * *" # refresh the board four times a day
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Persist the engine's SQLite DB between runs so `first_seen` (and therefore
+      # "new today") stays stable instead of resetting every build.
+      - name: Restore engine state
+        uses: actions/cache/restore@v4
+        with:
+          path: data
+          key: engine-state-${{ github.run_id }}
+          restore-keys: engine-state-
+
+      - name: Ingest → verify → export
+        run: |
+          python3 -m engine ingest
+          python3 -m engine verify 250 || true
+          python3 -m engine export
+          python3 -m engine stats
+
+      - name: Build site
+        run: python3 -m web build --base-url https://rolecall.io
+
+      - name: Save engine state
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: data
+          key: engine-state-${{ github.run_id }}
+
+      - name: Sanity check
+        run: |
+          test -f web/dist/index.html
+          test -f web/dist/board.json
+          test -f web/dist/CNAME
+          grep -q rolecall.io web/dist/CNAME
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
