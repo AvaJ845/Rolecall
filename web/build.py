@@ -179,134 +179,154 @@ def parse_locations(location: str):
 CSS = """
 *,*::before,*::after{box-sizing:border-box}
 :root{
-  --bg:#fbfaf8; --fg:#1b1a18; --muted:#6c6862; --faint:#908b83;
-  --line:#e7e3db; --card:#ffffff; --card-2:#f4f1ea;
-  --accent:#1b1a18; --accent-fg:#fbfaf8; --link:#3350c9;
-  --maxw:64rem;
+  --bg:#F6F3EC; --panel:#FFFFFF; --ink:#2C2823; --muted:#6B6357; --faint:#938A7B;
+  --line:#E6E0D3; --tint:#EFE1DA; --accent:#AA5C4A; --accent2:#B65E48;
+  --verified:#3F6B4A; --link:#9A5140;
+  --hero1:#2C2823; --hero2:#3B2A21;
+  --maxw:1040px;
 }
 @media (prefers-color-scheme:dark){
   :root{
-    --bg:#131211; --fg:#ececea; --muted:#a09b93; --faint:#787169;
-    --line:#2b2926; --card:#1b1a18; --card-2:#211f1c;
-    --accent:#ececea; --accent-fg:#131211; --link:#9db0ff;
+    --bg:#17150F; --panel:#221E17; --ink:#EFE9DD; --muted:#A79E8D; --faint:#7C7364;
+    --line:#332E24; --tint:#2E211C; --accent:#D4856B; --accent2:#E0906F;
+    --verified:#8FC79B; --link:#E0906F;
+    --hero1:#100E0A; --hero2:#241A14;
   }
 }
-html{-webkit-text-size-adjust:100%}
-body{
-  margin:0; background:var(--bg); color:var(--fg);
-  font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-}
-.wrap{max-width:var(--maxw); margin:0 auto; padding:0 1.25rem}
-a{color:var(--link); text-decoration:none}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased;line-height:1.55}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+a{color:var(--link);text-decoration:none}
 a:hover{text-decoration:underline}
-h1,h2,h3{line-height:1.25; font-weight:650; letter-spacing:-0.01em; margin:0 0 .5em}
-h1{font-size:clamp(1.9rem,4.5vw,2.9rem)}
-h2{font-size:clamp(1.3rem,3vw,1.75rem); margin-top:0}
-p{margin:0 0 1rem}
-hr{border:0; border-top:1px solid var(--line); margin:2.5rem 0}
-small,.small{font-size:.8125rem; color:var(--muted)}
-header.site{border-bottom:1px solid var(--line)}
-header.site .wrap{display:flex; align-items:center; justify-content:space-between; height:3.75rem}
-.brand{font-weight:680; letter-spacing:-0.02em; color:var(--fg); font-size:1.05rem}
-.brand:hover{text-decoration:none}
-nav.site a{color:var(--muted); margin-left:1.25rem; font-size:.9rem}
-footer.site{border-top:1px solid var(--line); margin-top:4rem; padding:2rem 0; color:var(--muted); font-size:.85rem}
-footer.site .wrap{display:flex; flex-wrap:wrap; gap:.35rem 1.25rem; align-items:baseline}
-footer.site a{color:var(--muted)}
-.btn{
-  display:inline-block; background:var(--accent); color:var(--accent-fg);
-  padding:.8rem 1.35rem; border-radius:.6rem; font-weight:600; font-size:.95rem;
-  border:1px solid var(--accent);
-}
-.btn:hover{text-decoration:none; opacity:.9}
-.btn.ghost{background:transparent; color:var(--fg); border-color:var(--line)}
-.lede{font-size:clamp(1.05rem,2.2vw,1.3rem); color:var(--muted); max-width:40rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;
+  background:var(--tint);padding:.1em .35em;border-radius:.3em}
 
-/* landing */
-.hero{padding:clamp(3rem,9vw,6rem) 0 2rem}
-.hero .promise{max-width:34rem; margin:1.5rem 0 2rem; font-size:1.05rem}
-.cta-row{display:flex; flex-wrap:wrap; gap:.75rem; align-items:center}
-.appstore{
-  display:inline-flex; align-items:center; gap:.6rem; background:var(--accent);
-  color:var(--accent-fg); padding:.7rem 1.15rem; border-radius:.6rem; font-weight:600;
-}
-.appstore:hover{text-decoration:none; opacity:.9}
-.appstore svg{width:1.25rem; height:1.25rem; fill:currentColor}
-.steps{display:grid; gap:1.5rem; grid-template-columns:repeat(auto-fit,minmax(15rem,1fr)); margin:1.5rem 0}
-.step{background:var(--card); border:1px solid var(--line); border-radius:.75rem; padding:1.25rem}
-.step h3{font-size:1rem; margin-bottom:.35rem}
-.step p{margin:0; color:var(--muted); font-size:.9rem}
-.step .n{font-size:.75rem; color:var(--faint); font-weight:600; letter-spacing:.08em}
+/* serif display, matching the app */
+h1,h2,h3{font-family:ui-serif,Georgia,"Times New Roman",serif;font-weight:600;
+  letter-spacing:-.01em;line-height:1.2;margin:0 0 .4em;text-wrap:balance}
+
+/* topbar on inner pages only */
+.topbar{border-bottom:1px solid var(--line);background:var(--bg)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+.topbar .brand{font-family:ui-serif,Georgia,serif;font-weight:600;font-size:19px;color:var(--ink)}
+.topbar .brand:hover{text-decoration:none}
+.topbar nav a{color:var(--muted);font-size:14px;margin-left:20px}
+
+/* hero */
+.hero{background:linear-gradient(160deg,var(--hero1),var(--hero2));color:#F6EFE6;
+  padding:78px 0 64px;text-align:center}
+.hero .wrap{display:flex;flex-direction:column;align-items:center;gap:15px}
+.appicon{width:96px;height:96px;border-radius:22px;box-shadow:0 14px 34px rgba(0,0,0,.35)}
+.hero h1{font-size:clamp(34px,6vw,52px);margin:6px 0 0;color:#F6EFE6}
+.hero .tagline{font-size:clamp(17px,2.6vw,21px);color:#E4D3C6;max-width:30ch;margin:0}
+.hero .sub{color:#C0AC9F;max-width:56ch;margin:0;font-size:15px;line-height:1.6}
+.cta{display:inline-flex;align-items:center;gap:9px;background:var(--accent2);color:#FFF6F1;
+  padding:14px 28px;border-radius:999px;font-weight:700;font-size:16px;
+  box-shadow:0 12px 28px rgba(170,92,74,.42)}
+.cta:hover{filter:brightness(1.06);text-decoration:none}
+.cta svg{width:18px;height:18px;fill:currentColor}
+.ctanote{color:#B39B8D;font-size:13px;margin:2px 0 0;max-width:46ch}
+.pill{margin-top:6px;display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);
+  color:#F6EFE6;padding:9px 17px;border-radius:999px;font-weight:600;font-size:14px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent2);
+  box-shadow:0 0 0 4px rgba(212,133,107,.25)}
+.price{color:#B39B8D;font-size:13.5px;margin:4px 0 0}
+
+/* sections */
+section{padding:58px 0}
+section.tight{padding-top:0}
+h2{font-size:clamp(24px,4vw,32px);text-align:center}
+.lead{color:var(--muted);text-align:center;max-width:62ch;margin:0 auto 32px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
+.card h3{margin:0 0 6px;font-size:17px}
+.card p{margin:0;color:var(--muted);font-size:14.5px}
+.ic{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;
+  margin-bottom:14px;background:var(--tint);color:var(--accent);font-size:20px}
+
+.claim{background:var(--panel);border:1px solid var(--line);border-radius:22px;
+  padding:30px;max-width:820px;margin:0 auto}
+.claim ul{margin:14px 0 0;padding-left:1.1rem;color:var(--muted)}
+.claim li{margin:8px 0}
+.claim li strong{color:var(--ink)}
+.pledge{background:var(--panel);border:1px solid var(--line);border-radius:22px;
+  padding:32px;text-align:center;max-width:760px;margin:0 auto}
+.pledge strong{color:var(--verified)}
+
+.steps{counter-reset:s;display:grid;gap:14px;max-width:660px;margin:0 auto}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:18px 20px;display:flex;gap:14px;align-items:flex-start}
+.step::before{counter-increment:s;content:counter(s,decimal-leading-zero);flex:0 0 auto;
+  font-family:ui-serif,Georgia,serif;color:var(--accent);font-weight:600;font-size:15px;
+  min-width:26px}
+.step b{color:var(--ink)}
+.step p{margin:0;color:var(--muted);font-size:14.5px}
+
+.cta-block{text-align:center;padding:8px 0 4px}
 
 /* board */
-.toolbar{
-  display:flex; flex-wrap:wrap; gap:.75rem; align-items:center;
-  padding:1rem 0 1.25rem; border-bottom:1px solid var(--line); margin-bottom:1.25rem;
-}
-.toolbar input[type=search],.toolbar select{
-  font:inherit; font-size:.9rem; padding:.5rem .7rem; border:1px solid var(--line);
-  border-radius:.5rem; background:var(--card); color:var(--fg); min-width:0;
-}
-.toolbar input[type=search]{flex:1 1 12rem}
-.toolbar label.chk{display:inline-flex; align-items:center; gap:.4rem; font-size:.9rem; color:var(--muted)}
-.count{color:var(--muted); font-size:.85rem; margin-left:auto}
-ul.roles{list-style:none; margin:0; padding:0; display:grid; gap:.5rem}
-li.role{border:1px solid var(--line); border-radius:.7rem; background:var(--card)}
-li.role a.role-link{display:block; padding:1rem 1.15rem; color:var(--fg)}
-li.role a.role-link:hover{text-decoration:none; border-color:var(--faint)}
-.role .co{font-size:.8rem; color:var(--muted); font-weight:600; letter-spacing:.02em}
-.role .ti{font-size:1.02rem; font-weight:600; margin:.15rem 0 .35rem}
-.role .mt{font-size:.82rem; color:var(--muted); display:flex; flex-wrap:wrap; gap:.35rem .9rem}
-.tag{
-  display:inline-block; font-size:.72rem; font-weight:600; letter-spacing:.02em;
-  padding:.12rem .5rem; border-radius:1rem; background:var(--card-2); color:var(--muted);
-}
-.sponsored{
-  border:1px dashed var(--faint); border-radius:.7rem; padding:1rem 1.15rem;
-  margin-bottom:1rem; background:var(--card-2);
-}
-.sponsored .spon-label,.ad .ad-label{
-  display:inline-block; font-size:.68rem; font-weight:700; letter-spacing:.1em;
-  text-transform:uppercase; color:var(--faint); margin-bottom:.35rem;
-}
-.sponsored p{margin:0; font-size:.9rem; color:var(--muted)}
-.empty{padding:3rem 0; text-align:center; color:var(--muted)}
+h1.page{font-family:ui-serif,Georgia,serif;font-size:clamp(28px,5vw,40px);margin:26px 0 4px}
+.small{font-size:13.5px;color:var(--muted)}
+.btn{display:inline-block;background:var(--accent2);color:#FFF6F1;padding:12px 22px;
+  border-radius:999px;font-weight:600;font-size:15px;border:1px solid var(--accent2)}
+.btn:hover{text-decoration:none;filter:brightness(1.05)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.sponsored{border:1px dashed var(--faint);border-radius:14px;padding:16px 18px;
+  margin:18px 0;background:var(--tint)}
+.spon-label,.ad-label{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+.sponsored p{margin:0;font-size:14px;color:var(--muted)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+  padding:14px 0 16px;border-bottom:1px solid var(--line);margin-bottom:16px}
+.toolbar input[type=search],.toolbar select{font:inherit;font-size:14px;padding:9px 12px;
+  border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink)}
+.toolbar input[type=search]{flex:1 1 12rem;min-width:0}
+.toolbar label.chk{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--muted)}
+.count{color:var(--muted);font-size:13px;margin-left:auto}
+ul.roles{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+li.role{border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+li.role a.role-link{display:block;padding:16px 18px;color:var(--ink)}
+li.role a.role-link:hover{text-decoration:none;border-color:var(--faint)}
+.role .co{font-size:13px;color:var(--muted);font-weight:600}
+.role .ti{font-family:ui-serif,Georgia,serif;font-size:18px;font-weight:600;margin:3px 0 6px}
+.role .mt{font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center}
+.tag{display:inline-block;font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:999px;
+  background:var(--tint);color:var(--muted)}
+.empty{padding:48px 0;text-align:center;color:var(--muted)}
 
 /* job detail */
-.job-head{padding:2rem 0 1rem}
-.job-head .co{font-size:.9rem; color:var(--muted); font-weight:600}
-.job-head h1{font-size:clamp(1.5rem,4vw,2.1rem); margin:.25rem 0 .75rem}
-.verified{
-  display:inline-flex; align-items:center; gap:.45rem; font-size:.85rem;
-  color:var(--muted); margin-bottom:1.25rem;
-}
-.verified .dot{width:.5rem; height:.5rem; border-radius:50%; background:#2e9c5a; flex:none}
-.job-meta{display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:1.5rem}
-.apply-row{display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; margin:1.5rem 0}
-.note{background:var(--card); border:1px solid var(--line); border-radius:.75rem; padding:1.1rem 1.25rem; font-size:.9rem; color:var(--muted)}
-.note h2{font-size:.95rem; color:var(--fg); margin-bottom:.4rem}
-.ad{
-  margin:2rem 0; padding:1rem; border:1px solid var(--line); border-radius:.75rem;
-  background:var(--card-2); text-align:center; min-height:6rem;
-}
-.ad .placeholder{color:var(--faint); font-size:.8rem}
-#cookie{
-  position:fixed; left:1rem; right:1rem; bottom:1rem; max-width:34rem; margin:0 auto;
-  background:var(--card); border:1px solid var(--line); border-radius:.75rem;
-  padding:.9rem 1rem; font-size:.82rem; color:var(--muted);
-  display:flex; gap:.75rem; align-items:center; box-shadow:0 6px 24px rgba(0,0,0,.12);
-}
-#cookie button{
-  font:inherit; font-size:.8rem; font-weight:600; padding:.45rem .9rem; flex:none;
-  border:1px solid var(--accent); background:var(--accent); color:var(--accent-fg);
-  border-radius:.5rem; cursor:pointer;
-}
+.job-head{padding:26px 0 10px}
+.job-head .co{font-size:14px;color:var(--muted);font-weight:600}
+.job-head h1{font-size:clamp(24px,4vw,34px);margin:6px 0 12px}
+.verified{display:inline-flex;align-items:center;gap:7px;font-size:14px;color:var(--verified);margin-bottom:18px}
+.verified .dot{width:8px;height:8px;border-radius:50%;background:var(--verified);flex:none;box-shadow:none}
+.job-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.apply-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:22px 0}
+.note{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+  padding:18px 20px;font-size:14px;color:var(--muted)}
+.note h2{font-size:15px;color:var(--ink);margin-bottom:6px;text-align:left}
+.ad{margin:28px 0;padding:18px;border:1px solid var(--line);border-radius:14px;
+  background:var(--tint);text-align:center;min-height:90px}
+.ad .placeholder{color:var(--faint);font-size:13px}
+#cookie{position:fixed;left:16px;right:16px;bottom:16px;max-width:34rem;margin:0 auto;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px;
+  font-size:13px;color:var(--muted);display:flex;gap:12px;align-items:center;
+  box-shadow:0 8px 28px rgba(0,0,0,.14)}
+#cookie button{font:inherit;font-size:13px;font-weight:600;padding:8px 14px;flex:none;
+  border:1px solid var(--accent2);background:var(--accent2);color:#FFF6F1;border-radius:9px;cursor:pointer}
 [hidden]{display:none!important}
-:focus-visible{outline:2px solid var(--link); outline-offset:2px}
-@media (max-width:34rem){
-  .count{margin-left:0; width:100%}
-}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--muted);
+  font-size:13.5px;text-align:center;margin-top:8px}
+footer a{color:var(--muted);text-decoration:underline}
+footer .links{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+footer .fine{max-width:70ch;margin:0 auto 10px;color:var(--faint);font-size:12.5px}
+
+@media (max-width:640px){ .count{margin-left:0;width:100%} }
 """
 
 APPLE_SVG = (
@@ -318,15 +338,24 @@ APPLE_SVG = (
     '4-.8.57.02 2.17.23 3.2 1.73-2.81 1.72-2.36 5.75.32 6.94z"/></svg>'
 )
 
+# Inline app-icon mark (roll-call tick) — keeps the landing page at zero external requests.
+ICON_SVG = (
+    '<svg class="appicon" viewBox="0 0 1024 1024" role="img" aria-label="Rolecall">'
+    '<rect width="1024" height="1024" rx="230" fill="#F3EEE3"/>'
+    '<path d="M218 520 L292 594 L686 208" fill="none" stroke="#211F1C" '
+    'stroke-width="104" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+)
 
-def shell(*, title, description, canonical, body, base_url, is_job=False, extra_head=""):
-    ldj = extra_head
+
+def shell(*, title, description, canonical, body, base_url, is_job=False, landing=False, extra_head=""):
     year = datetime.now(timezone.utc).year
-    footer_note = (
-        "No account, no analytics, no cookies on this page."
-        if not is_job
-        else "This page carries one ad unit; see the notice below."
-    )
+    topbar = "" if landing else """<header class="topbar"><div class="wrap">
+  <a class="brand" href="{base}/">Rolecall</a>
+  <nav><a href="{base}/board/">Board</a><a href="{base}/#how">How it works</a></nav>
+</div></header>""".format(base=esc(base_url))
+    inner = body if landing else '<main class="wrap">{}</main>'.format(body)
+    cookie_line = ("This page carries one ad slot; if ads are enabled the provider may set cookies."
+                   if is_job else "No account, no analytics, no cookies on this page.")
     return """<!doctype html>
 <html lang="en">
 <head>
@@ -340,42 +369,31 @@ def shell(*, title, description, canonical, body, base_url, is_job=False, extra_
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{description}">
 <meta property="og:url" content="{canonical}">
-<meta name="theme-color" content="#fbfaf8" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#131211" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F6F3EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17150F" media="(prefers-color-scheme: dark)">
 <style>{css}</style>
-{ldj}
+{extra_head}
 </head>
 <body>
-<header class="site"><div class="wrap">
-  <a class="brand" href="{base}/">Rolecall</a>
-  <nav class="site">
+{topbar}
+{inner}
+<footer><div class="wrap">
+  <div class="links">
+    <a href="{base}/">Home</a>
     <a href="{base}/board/">Board</a>
-    <a href="{base}/#how">How it works</a>
-  </nav>
-</div></header>
-<main class="wrap">
-{body}
-</main>
-<footer class="site"><div class="wrap">
-  <span>&copy; {year} Rolecall</span>
-  <a href="{base}/">Home</a>
-  <a href="{base}/board/">Board</a>
-  <a href="mailto:{sponsor}">Sponsor a role</a>
-  <span class="small">{footer_note}</span>
+    <a href="mailto:{sponsor}?subject=Sponsored%20listing%20on%20Rolecall">Sponsor a role</a>
+  </div>
+  <div class="fine">Company names identify the employers whose public career feeds Rolecall reads.
+  Rolecall is not affiliated with, endorsed by, or sponsored by any company named.
+  {cookie_line}</div>
+  <div>&copy; {year} AvaResearch LLC &middot; Rolecall &middot; Product-design jobs, straight from the source.</div>
 </div></footer>
 </body>
 </html>
 """.format(
-        title=esc(title),
-        description=esc(description),
-        canonical=esc(canonical),
-        css=CSS,
-        ldj=ldj,
-        base=esc(base_url),
-        body=body,
-        year=year,
-        sponsor=esc(SPONSOR_CONTACT),
-        footer_note=footer_note,
+        title=esc(title), description=esc(description), canonical=esc(canonical),
+        css=CSS, extra_head=extra_head, topbar=topbar, inner=inner,
+        base=esc(base_url), sponsor=esc(SPONSOR_CONTACT), year=year, cookie_line=cookie_line,
     )
 
 
@@ -385,53 +403,124 @@ def shell(*, title, description, canonical, body, base_url, is_job=False, extra_
 
 def render_landing(data, base_url):
     n = data.get("count", len(data.get("roles", [])))
+    base = esc(base_url)
+    live = APP_STORE_URL and not APP_STORE_URL.startswith("#")
+    if live:
+        hero_cta = '<a class="cta" href="{}">{}<span>Download on the App&nbsp;Store</span></a>'.format(
+            esc(APP_STORE_URL), APPLE_SVG)
+        hero_pill = '<span class="pill"><span class="dot"></span>{} roles live right now</span>'.format(n)
+    else:
+        hero_cta = '<a class="cta" href="{}/board/">Browse the board &rarr;</a>'.format(base)
+        hero_pill = '<span class="pill"><span class="dot"></span>Coming soon to the App Store</span>'
+    app_cta = hero_cta
     body = """
-<section class="hero">
-  <h1>Every design job, verified live.</h1>
-  <p class="lede">No ghost jobs, no dead links, no login. A designer&rsquo;s trustworthy
-  shortcut to every live product-design role at a real tech company.</p>
-  <p class="promise">Rolecall pulls roles straight from each company&rsquo;s own
-  applicant-tracking feed and checks every one is still open before you see it. When a
-  role closes, it disappears on the next refresh. Right now {n} roles are live.</p>
-  <div class="cta-row">
-    <a class="appstore" href="{app}">{apple}<span>Download on the App&nbsp;Store</span></a>
-    <a class="btn ghost" href="{base}/board/">Browse the web board &rarr;</a>
-  </div>
-  <p class="small" style="margin-top:1rem">The iOS app is ad-free and tracker-free &mdash;
-  App Privacy &ldquo;Data Not Collected.&rdquo;</p>
-</section>
-
-<hr>
-
-<section id="how">
-  <h2>How it works</h2>
-  <div class="steps">
-    <div class="step"><p class="n">01</p><h3>Straight from the source</h3>
-      <p>We read each company&rsquo;s public ATS feed &mdash; Greenhouse, Lever, Ashby,
-      Workday. No LinkedIn, no Indeed, no reposts.</p></div>
-    <div class="step"><p class="n">02</p><h3>Verified still-live</h3>
-      <p>Every posting is checked that it still resolves to a real open requisition.
-      Target: under one dead link per 100 opens.</p></div>
-    <div class="step"><p class="n">03</p><h3>Fresh within the hour</h3>
-      <p>New roles appear within an hour of going up. Closed roles vanish on the next
-      ingest. Each card shows when it was last verified.</p></div>
-  </div>
-  <p><a href="{base}/board/">See every live role &rarr;</a></p>
-</section>
-
-<hr>
+<header class="hero"><div class="wrap">
+  {icon}
+  <h1>Rolecall</h1>
+  <p class="tagline">Every design job, verified live.</p>
+  <p class="sub">A designer&rsquo;s trustworthy shortcut to every live product-design role at a
+  real tech company. Rolecall reads each company&rsquo;s own applicant-tracking feed and
+  checks every posting is still open before you see it &mdash; no ghost jobs, no dead links,
+  no login.</p>
+  {hero_cta}
+  <p class="ctanote">The iOS app is ad-free and tracker-free &mdash; App Privacy &ldquo;Data Not Collected.&rdquo;</p>
+  {hero_pill}
+  <p class="price">{n} roles live now &middot; free to search &middot; no account &middot; iPhone</p>
+</div></header>
 
 <section>
-  <h2>Built for designers, and their eye</h2>
-  <p class="lede">Product, UX, UI, visual and brand designers; design systems and design
-  engineers; UX researchers. Product managers as a secondary family. One vertical, done
-  properly &mdash; not a catch-all board.</p>
+  <div class="wrap">
+    <h2>Not another job aggregator</h2>
+    <p class="lead">Most boards scrape LinkedIn and Indeed, keep the stale posts, and bury the
+    real ones. Rolecall does the opposite &mdash; one vertical, from the source, kept honest.</p>
+    <div class="grid">
+      <div class="card"><div class="ic">&#10003;</div>
+        <h3>Straight from the company</h3>
+        <p>Every role is pulled from the employer&rsquo;s public ATS feed &mdash; Greenhouse,
+        Lever, Ashby, Workday. No LinkedIn, no Indeed, no reposts, no recruiter middle-layer.</p></div>
+      <div class="card"><div class="ic">&#9201;</div>
+        <h3>Verified still-live</h3>
+        <p>Before a role reaches you, Rolecall confirms it still resolves to a real open
+        requisition. When it closes, it disappears on the next refresh. Every card shows
+        when it was last checked.</p></div>
+      <div class="card"><div class="ic">&#9788;</div>
+        <h3>One vertical, done properly</h3>
+        <p>Product, UX, UI, visual and brand design; design systems and design engineering;
+        UX research. Not a catch-all board &mdash; the roles designers actually want, and
+        nothing else in the way.</p></div>
+      <div class="card"><div class="ic">&#128274;</div>
+        <h3>Nothing to sign into</h3>
+        <p>No account, no email, no analytics SDK, no ad network in the app. Saved roles and
+        your application tracker live only on your device.</p></div>
+      <div class="card"><div class="ic">&#128241;</div>
+        <h3>Built for the eye that judges it</h3>
+        <p>A calm, typographic app made for designers &mdash; and for the Apple editors who
+        share the same taste. Widget, Siri, dark mode, Dynamic Type, VoiceOver from day one.</p></div>
+      <div class="card"><div class="ic">&#8599;</div>
+        <h3>One tap to the real page</h3>
+        <p>Apply opens the company&rsquo;s own application page. Rolecall never re-hosts the
+        form, adds a tracking redirect, or asks you to sign in first.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="tight" id="how">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p class="lead">The engine runs so the app can stay simple.</p>
+    <div class="steps">
+      <div class="step"><p><b>Read the source.</b> Rolecall ingests each company&rsquo;s public
+      ATS feed on a schedule &mdash; the same data the employer publishes on its own careers
+      page, nothing scraped from a job board.</p></div>
+      <div class="step"><p><b>Keep only design.</b> A rules-first classifier keeps product,
+      UX, UI, visual and brand design, design systems, design engineering and UX research
+      &mdash; and drops everything else.</p></div>
+      <div class="step"><p><b>Verify it&rsquo;s live.</b> Each posting is checked that it still
+      opens to a real requisition. A role that has closed drops off &mdash; usually within
+      the hour.</p></div>
+      <div class="step"><p><b>Hand it over.</b> The app shows what&rsquo;s fresh, you tap
+      through to the company&rsquo;s own page, and &mdash; if you want &mdash; track the
+      application by hand through to an offer.</p></div>
+    </div>
+    <p style="text-align:center"><a href="{base}/board/">Browse every live role &rarr;</a></p>
+  </div>
+</section>
+
+<section class="tight">
+  <div class="wrap">
+    <h2>The promise, plainly</h2>
+    <p class="lead">Rolecall is the only design job board that can honestly say all of this at once:</p>
+    <div class="claim">
+      <ul>
+        <li>Every listing is <strong>pulled straight from the company&rsquo;s own ATS feed</strong> &mdash; not LinkedIn, not Indeed, not a repost.</li>
+        <li>Every listing is <strong>checked still-open</strong> before you see it, and again on every refresh.</li>
+        <li>The app has <strong>no account, no analytics, and no ads</strong>, ever.</li>
+        <li><strong>Apply goes to the employer&rsquo;s own page</strong> &mdash; no re-hosted form, no redirect, no sign-in wall.</li>
+        <li>It covers <strong>one vertical completely</strong> &mdash; US product-design roles &mdash; rather than everything, badly.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="tight">
+  <div class="wrap">
+    <div class="pledge">
+      <h2 style="margin-bottom:12px">The honest bit</h2>
+      <p style="color:var(--muted);margin:0">Rolecall shows roles that are <strong>live on the
+      employer&rsquo;s own site</strong> at the time of the last check. It can&rsquo;t promise
+      a role is still open the moment you tap through, and it only covers companies whose
+      feeds it reads &mdash; a growing list, not all of them. If a link is ever dead, that&rsquo;s
+      a bug: tell us at <a href="mailto:{sponsor}">{sponsor}</a>.</p>
+    </div>
+    <div class="cta-block" style="margin-top:32px">
+      {app_cta}
+      <p class="ctanote" style="margin:8px auto 0">{n} roles live now &middot; free to search &middot; no account.</p>
+    </div>
+  </div>
 </section>
 """.format(
-        n=n,
-        app=esc(APP_STORE_URL),
-        apple=APPLE_SVG,
-        base=esc(base_url),
+        icon=ICON_SVG, hero_cta=hero_cta, hero_pill=hero_pill, app_cta=app_cta,
+        base=base, n=n, sponsor=esc(SPONSOR_CONTACT),
     )
     return shell(
         title="Rolecall — every design job, verified live",
@@ -444,6 +533,7 @@ def render_landing(data, base_url):
         body=body,
         base_url=base_url,
         is_job=False,
+        landing=True,
     )
 
 
@@ -492,8 +582,8 @@ def render_board(data, base_url, now):
         )
 
     body = """
-<h1>The board</h1>
-<p class="small">{n} roles live &middot; refreshed {gen} UTC &middot; straight from company ATS feeds</p>
+<h1 class="page">The board</h1>
+<p class="small">{n} roles live &middot; refreshed {gen} UTC &middot; from company ATS feeds &middot; each checked still-open</p>
 
 <div class="sponsored">
   <span class="spon-label">Sponsored role</span>
