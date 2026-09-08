@@ -134,6 +134,13 @@ final class TrackedRoles: ObservableObject {
         persistStates()
     }
 
+    /// Set a role's status directly. Used by data import and screenshot seeding, where
+    /// the exact `Application` (dates included) is supplied by the caller.
+    func setStatus(_ status: RoleStatus?, for role: Role) {
+        states[role.id] = status
+        persistStates()
+    }
+
     func updateApplication(for role: Role, _ mutate: (inout Application) -> Void) {
         guard case var .applied(app) = states[role.id] else { return }
         mutate(&app)

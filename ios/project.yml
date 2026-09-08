@@ -214,6 +214,35 @@ targets:
         Release:
           ONLY_ACTIVE_ARCH: NO
 
+  # ------------------------------------------------------- ui / screenshots ----
+  RolecallUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: RolecallUITests
+    dependencies:
+      - target: Rolecall
+    settings:
+      base:
+        PRODUCT_NAME: RolecallUITests
+        PRODUCT_BUNDLE_IDENTIFIER: com.avaresearch.rolecall.uitests
+        IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ARCHS: "$(ARCHS_STANDARD)"
+        SDKROOT: iphoneos
+        SUPPORTED_PLATFORMS: "iphoneos iphonesimulator"
+        SWIFT_VERSION: "5.0"
+        GENERATE_INFOPLIST_FILE: YES
+        CLANG_ENABLE_MODULES: YES
+        TEST_TARGET_NAME: Rolecall
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: "3L683975L8"
+      configs:
+        Debug:
+          ONLY_ACTIVE_ARCH: YES
+        Release:
+          ONLY_ACTIVE_ARCH: NO
+
 schemes:
   Rolecall:
     build:
@@ -227,3 +256,4 @@ schemes:
       gatherCoverageData: false
       targets:
         - RolecallTests
+        - RolecallUITests
