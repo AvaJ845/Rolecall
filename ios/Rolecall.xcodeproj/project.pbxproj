@@ -10,6 +10,7 @@
 		0B79266BEE89070A0D6C46EC /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C14B5A3DB373DD3985A3087 /* Role.swift */; };
 		0B9323A84541FB1FDA13B6CA /* BoardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA42C4C43AB5E33AF40992 /* BoardStore.swift */; };
 		10723E5CAB0C893D49A48FD7 /* AppliedReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B892B4E14F09FA20522035 /* AppliedReportView.swift */; };
+		2A081FAB164AE733062D51F0 /* IconPickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7DC829E5F967BA44AE7B4F /* IconPickerRow.swift */; };
 		2BD64801F4BA388DC56F4383 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D7AAA421E8C6D856D16E6179 /* PrivacyInfo.xcprivacy */; };
 		2C26C6DD1D177DE141CB7287 /* TrackedRolesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD1753C00400063C0B67FA6 /* TrackedRolesTests.swift */; };
 		2C5DD56270F7007E1AF173C7 /* TrackedRolesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4260CD671703AC3FE3F173F /* TrackedRolesView.swift */; };
@@ -29,6 +30,7 @@
 		67D4534F83D16C51DA581697 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6E7CDF97BF66ACC9E6D59C /* AppSettings.swift */; };
 		6C2D7566C49B904AC60E409D /* RoleRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4935575786063CC269B2F031 /* RoleRow.swift */; };
 		700584ED8193670B86D8DD19 /* RoleFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6421776046395804F5B6E103 /* RoleFamily.swift */; };
+		723C6BDC3E8090ED24AAD67C /* AppIconOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41D5766356C89101E20DD0 /* AppIconOption.swift */; };
 		723CFE35912C9F896F3FBD2B /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C4FBB2D85967A3CE7A0E6 /* MockURLProtocol.swift */; };
 		74648DEAE7AD0229B4EDE45D /* TrackedRoles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A1057451EF45E9F791DC2C /* TrackedRoles.swift */; };
 		7865C38948D9C517E434025B /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6E7CDF97BF66ACC9E6D59C /* AppSettings.swift */; };
@@ -108,6 +110,7 @@
 		8BD1753C00400063C0B67FA6 /* TrackedRolesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedRolesTests.swift; sourceTree = "<group>"; };
 		8C14B5A3DB373DD3985A3087 /* Role.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Role.swift; sourceTree = "<group>"; };
 		8CEDE3401C50B16FC67867B0 /* FreshnessChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreshnessChecker.swift; sourceTree = "<group>"; };
+		8F41D5766356C89101E20DD0 /* AppIconOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconOption.swift; sourceTree = "<group>"; };
 		90E178EF27AAD907122B2B0E /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		9AB2E1F666475A20805172EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9B79DA24CF107491B4917097 /* SharedContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedContainer.swift; sourceTree = "<group>"; };
@@ -127,6 +130,7 @@
 		E365E3EAF3FBD4ACF38701B1 /* RolecallWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RolecallWidget.entitlements; sourceTree = "<group>"; };
 		E4260CD671703AC3FE3F173F /* TrackedRolesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedRolesView.swift; sourceTree = "<group>"; };
 		E5E836D335E2689ED880144A /* BoardDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDecodingTests.swift; sourceTree = "<group>"; };
+		EA7DC829E5F967BA44AE7B4F /* IconPickerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPickerRow.swift; sourceTree = "<group>"; };
 		EF91D32CD4C58BCD1B691371 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		F2D931CFA6BB1424C365C5E1 /* RolecallApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolecallApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -169,6 +173,7 @@
 				10DD99B6FDB00B4E47D2B083 /* CompanyMonogram.swift */,
 				EF91D32CD4C58BCD1B691371 /* EmptyStateView.swift */,
 				45C93CE57026B5DD5A5DAA3B /* FilterSheet.swift */,
+				EA7DC829E5F967BA44AE7B4F /* IconPickerRow.swift */,
 				46694D7F3993715B1A9D7372 /* RefreshBanner.swift */,
 				087A8686ECCCC4512D3ED202 /* RoleDetailView.swift */,
 				BC72955FB9D67016E30285E5 /* RoleListView.swift */,
@@ -183,6 +188,7 @@
 		505190181168F8F19FB5FE28 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				8F41D5766356C89101E20DD0 /* AppIconOption.swift */,
 				7A312F6DBECFEA599C93FB18 /* BoardSource.swift */,
 				C8FA42C4C43AB5E33AF40992 /* BoardStore.swift */,
 				8CEDE3401C50B16FC67867B0 /* FreshnessChecker.swift */,
@@ -407,6 +413,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				723C6BDC3E8090ED24AAD67C /* AppIconOption.swift in Sources */,
 				67D4534F83D16C51DA581697 /* AppSettings.swift in Sources */,
 				10723E5CAB0C893D49A48FD7 /* AppliedReportView.swift in Sources */,
 				C5829972C6EEFE84A30F5040 /* Board.swift in Sources */,
@@ -418,6 +425,7 @@
 				AD7BDBAFD286189F9A765BB6 /* Freshness.swift in Sources */,
 				F0182DA8B755B3C365EFC70D /* FreshnessChecker.swift in Sources */,
 				8C6C89B661BE10BAB53A346C /* Haptics.swift in Sources */,
+				2A081FAB164AE733062D51F0 /* IconPickerRow.swift in Sources */,
 				AB9E53EC8F744984849CDC54 /* RefreshBanner.swift in Sources */,
 				0B79266BEE89070A0D6C46EC /* Role.swift in Sources */,
 				3251BAA27BDE40360930C33E /* RoleDetailView.swift in Sources */,
@@ -501,6 +509,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Rolecall/Rolecall.entitlements;
@@ -633,6 +642,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Rolecall/Rolecall.entitlements;
