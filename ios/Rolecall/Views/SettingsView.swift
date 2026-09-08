@@ -60,7 +60,7 @@ struct SettingsView: View {
                                 Image(systemName: "sparkles").foregroundStyle(Theme.Palette.accent)
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text("Rolecall Plus").foregroundStyle(Theme.Palette.ink)
-                                    Text("Alerts, reminders, advanced filters, sync")
+                                    Text("Alerts, reminders, advanced filters, notes")
                                         .font(.footnote).foregroundStyle(.secondary)
                                 }
                                 Spacer()
@@ -134,6 +134,8 @@ struct SettingsView: View {
                     Text("Rolecall keeps everything on this device. No account, no analytics, no trackers. Nothing you do here is sent anywhere.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
+                    Link("Privacy Policy", destination: URL(string: "https://rolecalljobs.com/privacy/")!)
+                    Link("Terms of Use", destination: URL(string: "https://rolecalljobs.com/terms/")!)
                 }
 
                 Section {

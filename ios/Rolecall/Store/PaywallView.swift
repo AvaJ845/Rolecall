@@ -22,7 +22,7 @@ struct PaywallView: View {
         ("bookmark", "Keep as many saved searches as you like"),
         ("line.3.horizontal.decrease", "Filter by seniority, team and pay band"),
         ("clock.arrow.circlepath", "Follow-up reminders on your applications"),
-        ("icloud", "Sync your search across your devices"),
+        ("square.and.pencil", "A private note on each application"),
     ]
 
     var body: some View {
@@ -185,8 +185,8 @@ struct PaywallView: View {
                 .fixedSize(horizontal: false, vertical: true)
             HStack(spacing: 16) {
                 Button("Restore") { Task { await store.restore() } }
-                Button("Terms") { openURL(URL(string: "https://rolecalljobs.com/")!) }
-                Button("Privacy") { openURL(URL(string: "https://rolecalljobs.com/")!) }
+                Button("Terms") { openURL(URL(string: "https://rolecalljobs.com/terms/")!) }
+                Button("Privacy") { openURL(URL(string: "https://rolecalljobs.com/privacy/")!) }
             }
             .font(.caption2.weight(.medium))
             .foregroundStyle(Theme.Palette.accent)

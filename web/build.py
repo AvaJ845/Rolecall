@@ -37,6 +37,7 @@ ADSENSE_SLOT = "0000000000"
 # --------------------------------------------------------------------------
 
 SPONSOR_CONTACT = "sponsors@rolecalljobs.com"
+SUPPORT_CONTACT = "support@rolecalljobs.com"
 APP_STORE_URL = "#app-store-link-tbd"  # replace with the real App Store URL at launch
 
 FAMILY_LABEL = {
@@ -326,6 +327,15 @@ footer a{color:var(--muted);text-decoration:underline}
 footer .links{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
 footer .fine{max-width:70ch;margin:0 auto 10px;color:var(--faint);font-size:12.5px}
 
+/* legal pages */
+.legal{max-width:68ch;margin:0 auto;padding:8px 0 24px}
+.legal h1.page{text-align:left}
+.legal h2{font-size:18px;text-align:left;margin:28px 0 8px}
+.legal p,.legal li{color:var(--muted);font-size:15px;line-height:1.65}
+.legal ul{padding-left:22px;margin:8px 0}
+.legal a{color:var(--ink);text-decoration:underline}
+.legal .updated{font-size:13px;color:var(--faint);margin:0 0 22px}
+
 @media (max-width:640px){ .count{margin-left:0;width:100%} }
 """
 
@@ -381,6 +391,8 @@ def shell(*, title, description, canonical, body, base_url, is_job=False, landin
   <div class="links">
     <a href="{base}/">Home</a>
     <a href="{base}/board/">Board</a>
+    <a href="{base}/privacy/">Privacy</a>
+    <a href="{base}/terms/">Terms</a>
     <a href="mailto:{sponsor}?subject=Sponsored%20listing%20on%20Rolecall">Sponsor a role</a>
   </div>
   <div class="fine">Company names identify the employers whose public career feeds Rolecall reads.
@@ -789,7 +801,7 @@ def render_job(role, data, base_url, now):
 
 def render_sitemap(data, base_url, now):
     lastmod = iso_date(data.get("generated_utc", now))
-    urls = [base_url + "/", base_url + "/board/"]
+    urls = [base_url + "/", base_url + "/board/", base_url + "/privacy/", base_url + "/terms/"]
     urls += ["{}/jobs/{}.html".format(base_url, r["_slug"]) for r in data.get("roles", [])]
     entries = "\n".join(
         "  <url><loc>{}</loc><lastmod>{}</lastmod></url>".format(esc(u), lastmod) for u in urls
@@ -817,6 +829,156 @@ def render_404(base_url):
         title="Not found — Rolecall",
         description="That page isn't here.",
         canonical=base_url + "/404.html",
+        body=body,
+        base_url=base_url,
+        is_job=False,
+        landing=False,
+    )
+
+
+LEGAL_UPDATED = "September 8, 2026"
+
+
+def render_privacy(base_url):
+    body = """
+<div class="legal">
+  <h1 class="page">Privacy Policy</h1>
+  <p class="updated">Last updated {updated}</p>
+
+  <p>Rolecall is a job board for product-design roles, published by AvaResearch LLC
+  (&ldquo;we&rdquo;). This policy covers the Rolecall iOS app and this website. The short
+  version: we don&rsquo;t have accounts, we don&rsquo;t run analytics or trackers, and we
+  don&rsquo;t sell data &mdash; because we don&rsquo;t collect it.</p>
+
+  <h2>The app</h2>
+  <ul>
+    <li><strong>No account, no sign-in.</strong> The app never asks for your name, email,
+    or any identifier.</li>
+    <li><strong>Everything stays on your device.</strong> The roles you save, the
+    applications you track, your notes, reminders, saved searches, and settings are stored
+    only on your iPhone. We have no server that can see them.</li>
+    <li><strong>No analytics or tracking SDKs.</strong> The app contains no third-party
+    analytics, advertising, or attribution code. Apple&rsquo;s App Privacy label for
+    Rolecall is &ldquo;Data Not Collected.&rdquo;</li>
+    <li><strong>Network use.</strong> The app downloads one file &mdash; the public job
+    board &mdash; from our hosting provider (Cloudflare). That request includes your IP
+    address and a standard user-agent string, which Cloudflare processes to deliver the
+    file and may log transiently for security and abuse prevention. We do not receive or
+    retain it.</li>
+    <li><strong>Notifications.</strong> If you turn on a digest or a follow-up reminder,
+    the app schedules a local notification on your device. Nothing is sent to us or to a
+    push server.</li>
+    <li><strong>Rolecall Plus.</strong> If you subscribe, the purchase is handled entirely
+    by Apple. We never see your payment details, and there is no account tied to the
+    subscription &mdash; your device checks entitlement directly with the App Store.</li>
+  </ul>
+
+  <h2>This website</h2>
+  <ul>
+    <li>The landing page and the job board set no cookies and run no analytics.</li>
+    <li>Individual job-detail pages reserve one advertising slot. It is currently
+    inactive. If we ever enable it, the ad provider (Google AdSense) may set cookies on
+    those pages only; this policy will be updated before that happens, and the pages carry
+    a notice.</li>
+    <li>Our host, Cloudflare, processes server logs (including IP addresses) to serve the
+    site and protect it from abuse, under
+    <a href="https://www.cloudflare.com/privacypolicy/" rel="nofollow noopener" target="_blank">Cloudflare&rsquo;s privacy policy</a>.</li>
+  </ul>
+
+  <h2>Children</h2>
+  <p>Rolecall is intended for adults in the job market and is not directed to children
+  under 13.</p>
+
+  <h2>Your rights</h2>
+  <p>Because we hold no personal data about you, there is nothing for us to export or
+  delete on request. To remove everything the app stores, use Settings &rsaquo; Clear all
+  my data, or delete the app.</p>
+
+  <h2>Changes</h2>
+  <p>If this policy changes, we&rsquo;ll update the date above and, for material changes,
+  note it on the site.</p>
+
+  <h2>Contact</h2>
+  <p>Questions: <a href="mailto:{contact}">{contact}</a>.</p>
+</div>
+""".format(updated=LEGAL_UPDATED, contact=esc(SUPPORT_CONTACT))
+    return shell(
+        title="Privacy Policy — Rolecall",
+        description="Rolecall keeps no account and collects no personal data. The full privacy policy.",
+        canonical=base_url + "/privacy/",
+        body=body,
+        base_url=base_url,
+        is_job=False,
+        landing=False,
+    )
+
+
+def render_terms(base_url):
+    body = """
+<div class="legal">
+  <h1 class="page">Terms of Use</h1>
+  <p class="updated">Last updated {updated}</p>
+
+  <p>These terms cover your use of the Rolecall iOS app and this website, published by
+  AvaResearch LLC. By using Rolecall you agree to them.</p>
+
+  <h2>What Rolecall is</h2>
+  <p>Rolecall aggregates product-design job postings from companies&rsquo; own public
+  applicant-tracking feeds and links you to each company&rsquo;s official application
+  page. We are not a recruiter or an employer, we are not affiliated with the companies
+  listed, and we are not party to any application or hiring decision. Company names are
+  used only to identify the employer whose public feed a listing comes from.</p>
+
+  <h2>The listings</h2>
+  <p>We work to show only roles that are currently open and to drop them promptly once
+  they close, but we don&rsquo;t guarantee that every listing is accurate, current, or
+  still available. Always confirm details on the company&rsquo;s own page. If you find a
+  dead or wrong link, tell us at <a href="mailto:{contact}">{contact}</a>.</p>
+
+  <h2>Acceptable use</h2>
+  <ul>
+    <li>Rolecall is for personal use in your own job search.</li>
+    <li>Don&rsquo;t scrape, resell, or redistribute the board, and don&rsquo;t try to
+    disrupt or overload the service.</li>
+  </ul>
+
+  <h2>Rolecall Plus</h2>
+  <ul>
+    <li>The job board &mdash; searching, viewing roles, saving them, and marking them
+    applied &mdash; is free and always will be.</li>
+    <li>Rolecall Plus is an optional auto-renewing subscription that unlocks convenience
+    features (saved-search alerts, unlimited saved searches, advanced filters, follow-up
+    reminders, and private notes). Pricing is shown in the app before you buy.</li>
+    <li>Payment is charged to your Apple Account at confirmation. The subscription renews
+    automatically for the same period and price unless you cancel at least 24 hours before
+    the current period ends. A free trial, if offered, converts to a paid subscription on
+    the same terms unless cancelled at least 24 hours before it ends; any unused portion of
+    a trial is forfeited when you buy a subscription.</li>
+    <li>Manage or cancel anytime in Settings &rsaquo; Apple Account &rsaquo; Subscriptions
+    on your device. Purchases, refunds, and billing are handled by Apple under the
+    <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" rel="nofollow noopener" target="_blank">Apple Media Services Terms</a> (the standard EULA), which
+    also govern your licence to use the app.</li>
+  </ul>
+
+  <h2>No warranty; limitation of liability</h2>
+  <p>Rolecall is provided &ldquo;as is,&rdquo; without warranties of any kind. To the
+  fullest extent permitted by law, AvaResearch LLC is not liable for any indirect,
+  incidental, or consequential damages arising from your use of Rolecall, and our total
+  liability for any claim relating to the service is limited to the amount you paid us for
+  it in the 12 months before the claim.</p>
+
+  <h2>Changes</h2>
+  <p>We may update these terms; we&rsquo;ll change the date above and, for material
+  changes, note it on the site. Continued use after a change means you accept it.</p>
+
+  <h2>Contact</h2>
+  <p><a href="mailto:{contact}">{contact}</a></p>
+</div>
+""".format(updated=LEGAL_UPDATED, contact=esc(SUPPORT_CONTACT))
+    return shell(
+        title="Terms of Use — Rolecall",
+        description="The terms for using Rolecall and Rolecall Plus.",
+        canonical=base_url + "/terms/",
         body=body,
         base_url=base_url,
         is_job=False,
@@ -877,11 +1039,16 @@ def build(base_url: str) -> int:
         shutil.rmtree(DIST)
     (DIST / "board").mkdir(parents=True)
     (DIST / "jobs").mkdir(parents=True)
+    (DIST / "privacy").mkdir(parents=True)
+    (DIST / "terms").mkdir(parents=True)
 
     (DIST / "index.html").write_text(render_landing(data, base_url))
     (DIST / "board" / "index.html").write_text(render_board(data, base_url, now))
     for r in roles:
         (DIST / "jobs" / (r["_slug"] + ".html")).write_text(render_job(r, data, base_url, now))
+
+    (DIST / "privacy" / "index.html").write_text(render_privacy(base_url))
+    (DIST / "terms" / "index.html").write_text(render_terms(base_url))
 
     (DIST / "sitemap.xml").write_text(render_sitemap(data, base_url, now))
     (DIST / "robots.txt").write_text(render_robots(base_url))
@@ -897,6 +1064,7 @@ def build(base_url: str) -> int:
     print("  board   : board/index.html")
     print("  jobs    : jobs/*.html  ({} pages, matches board.json count={})".format(
         len(roles), data.get("count")))
+    print("  legal   : privacy/index.html, terms/index.html")
     print("  extras  : sitemap.xml, robots.txt, _headers, board.json")
     print("  base URL: {}".format(base_url))
     return 0
