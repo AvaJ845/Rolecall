@@ -888,6 +888,9 @@ def build(base_url: str) -> int:
     (DIST / "404.html").write_text(render_404(base_url))  # Pages serves this with a real 404 status
     (DIST / "_headers").write_text(HEADERS_FILE)  # Cloudflare Pages applies these header rules
     shutil.copyfile(BOARD_PATH, DIST / "board.json")
+    sig = BOARD_PATH.with_suffix(".json.sig")
+    if sig.exists():
+        shutil.copyfile(sig, DIST / "board.json.sig")   # detached Ed25519 signature for the app
 
     print("built {} pages -> {}".format(2 + len(roles), DIST))
     print("  landing : index.html")

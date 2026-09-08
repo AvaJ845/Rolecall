@@ -66,6 +66,13 @@ final class BoardStore: ObservableObject {
                 lastRefreshOutcome = .upToDate
                 return
             }
+            // The downloaded board must carry a valid Ed25519 signature from our own key.
+            // A bad or missing signature -> ignore it entirely, keep the trusted board.
+            guard let signatureHex = try? await fetchSignature(),
+                  BoardSignature.isValid(board: data, signatureHex: signatureHex) else {
+                lastRefreshOutcome = userInitiated ? .unreachable : .upToDate
+                return
+            }
             let remote = try Board.decode(from: data).sanitized()
             guard remote.isPlausibleReplacement(for: board) else {
                 lastRefreshOutcome = .upToDate
@@ -80,5 +87,16 @@ final class BoardStore: ObservableObject {
         } catch {
             lastRefreshOutcome = userInitiated ? .unreachable : .upToDate
         }
+    }
+
+    private func fetchSignature() async throws -> String {
+        var request = URLRequest(url: BoardSignature.signatureURL)
+        request.cachePolicy = .reloadIgnoringLocalCacheData
+        request.timeoutInterval = 10
+        let (data, response) = try await session.data(for: request)
+        guard let http = response as? HTTPURLResponse, (200..<300).contains(http.statusCode),
+              data.count < 4096
+        else { throw URLError(.badServerResponse) }
+        return String(decoding: data, as: UTF8.self)
     }
 }
