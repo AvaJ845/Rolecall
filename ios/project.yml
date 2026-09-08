@@ -33,6 +33,18 @@ targets:
     dependencies:
       - target: RolecallWidget
       - sdk: AppIntents.framework
+    preBuildScripts:
+      # P0-18: fail an archive if the board bundled into the app is stale. Gated on
+      # ACTION=install (archive) so day-to-day debug/test builds are unaffected.
+      - name: "Bundled board freshness (archive only)"
+        basedOnDependencyAnalysis: false
+        script: |
+          if [ "$ACTION" = "install" ]; then
+            python3 "$SRCROOT/../scripts/check_board_fresh.py" \
+              "$SRCROOT/Rolecall/Resources/board.json" --max-age-days 3
+          else
+            echo "not an archive (ACTION=$ACTION) — skipping bundled-board freshness check"
+          fi
     settings:
       base:
         PRODUCT_NAME: Rolecall
