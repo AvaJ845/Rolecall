@@ -5,14 +5,18 @@ import SwiftUI
 struct EmptyStateView: View {
     let title: String
     let message: String
+    /// A quiet SF Symbol that names the situation — "text.magnifyingglass" for a search
+    /// that found nothing, "wifi.slash" when the board is unreachable, and so on.
+    var icon: String = "circle.dashed"
     var actionTitle: String? = nil
     var action: (() -> Void)? = nil
 
     var body: some View {
         VStack(spacing: 14) {
-            Image(systemName: "circle.dashed")
-                .font(.system(size: 34, weight: .light))
+            Image(systemName: icon)
+                .font(.system(size: 32, weight: .light))
                 .foregroundStyle(Theme.Palette.inkTertiary)
+                .symbolRenderingMode(.hierarchical)
                 .accessibilityHidden(true)
 
             Text(title)

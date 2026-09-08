@@ -18,7 +18,8 @@ struct SavedSearchesView: View {
             if searches.searches.isEmpty {
                 EmptyStateView(
                     title: "No saved searches",
-                    message: "From the board, set a filter and choose “Save this search”."
+                    message: "From the board, set a filter and choose “Save this search”.",
+                    icon: "bookmark"
                 )
             } else {
                 List {

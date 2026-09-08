@@ -84,11 +84,14 @@ final class ScreenshotTests: XCTestCase {
             app.buttons["Board"].firstMatch.tap()
         }
 
-        // 4 — filter to your discipline
-        let filter = app.navigationBars.buttons["Filter"]
-        if filter.waitForExistence(timeout: 5) {
-            filter.tap()
-            _ = app.staticTexts["Role family"].waitForExistence(timeout: 5)
+        // 4 — filter to your discipline (the toolbar control is a menu)
+        let filterMenu = app.navigationBars.buttons["Filter and searches"]
+        if filterMenu.waitForExistence(timeout: 5) {
+            filterMenu.tap()
+            let filterItem = app.buttons["Filter"].firstMatch
+            if filterItem.waitForExistence(timeout: 3) { filterItem.tap() }
+            _ = app.buttons["Done"].waitForExistence(timeout: 5)   // the filter sheet is up
+            _ = app.staticTexts["US & remote only"].waitForExistence(timeout: 3)
             shot("04-filter")
             app.buttons["Done"].firstMatch.tap()
         }

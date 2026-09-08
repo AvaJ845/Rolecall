@@ -15,7 +15,7 @@ struct RefreshBanner: View {
                     Theme.Palette.verified)
         case .unreachable:
             return ("wifi.slash",
-                    "Couldn't refresh — showing saved roles",
+                    "Couldn't refresh — showing the last update",
                     Theme.Palette.inkSecondary)
         default:
             return nil

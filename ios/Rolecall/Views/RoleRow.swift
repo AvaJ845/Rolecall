@@ -7,6 +7,10 @@ struct RoleRow: View {
     var now: Date = Date()
     var status: RoleStatus? = nil
     var isNew: Bool = false
+    /// The board shows a "saved" / "applied" marker so you can spot roles you've already
+    /// touched. In the Saved and Applied lists every row is that status, so the marker is
+    /// redundant noise — those lists pass `false`.
+    var showsStatusBadge: Bool = true
 
     @ScaledMetric(relativeTo: .body) private var vPadding: CGFloat = 15
     @ScaledMetric(relativeTo: .body) private var tile: CGFloat = 40
@@ -20,17 +24,26 @@ struct RoleRow: View {
                     if isNew {
                         Text("NEW")
                             .font(.caption2.weight(.bold))
-                            .foregroundStyle(Theme.Palette.accent)
                             .tracking(0.5)
+                            .foregroundStyle(Theme.Palette.accent)
+                            .padding(.horizontal, 5)
+                            .padding(.vertical, 1.5)
+                            .overlay(
+                                Capsule(style: .continuous)
+                                    .stroke(Theme.Palette.accent.opacity(0.35), lineWidth: 1)
+                            )
+                            .accessibilityHidden(true)
                     }
                     Text(role.company)
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(Theme.Palette.inkSecondary)
+                        .lineLimit(1)
                     Spacer(minLength: 6)
-                    statusAccessory
+                    if showsStatusBadge { statusAccessory }
                     Text(role.family.shortLabel)
                         .font(.caption2.weight(.medium))
                         .foregroundStyle(Theme.Palette.inkTertiary)
+                        .fixedSize()
                 }
 
                 Text(role.title)

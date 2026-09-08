@@ -18,6 +18,7 @@ struct RoleDetailView: View {
                 titleBlock
                 freshnessBlock
                 factsBlock
+                sourceNote
                 Spacer(minLength: 8)
             }
             .padding(Theme.Metric.gutter)
@@ -121,7 +122,7 @@ struct RoleDetailView: View {
             factRow("First listed", role.firstSeen.formatted(date: .abbreviated, time: .omitted))
             if let verified = role.lastVerified {
                 Divider().overlay(Theme.Palette.hairline)
-                factRow("Engine last verified", verified.formatted(date: .abbreviated, time: .shortened))
+                factRow("Last checked", verified.formatted(date: .abbreviated, time: .shortened))
             }
         }
         .background(Theme.Palette.surface)
@@ -130,6 +131,23 @@ struct RoleDetailView: View {
             RoundedRectangle(cornerRadius: Theme.Metric.cardRadius, style: .continuous)
                 .stroke(Theme.Palette.hairline, lineWidth: 1)
         )
+    }
+
+    /// A quiet reminder of where this listing comes from and why it can be trusted —
+    /// the same promise the board makes, restated on the page you act from.
+    private var sourceNote: some View {
+        HStack(alignment: .top, spacing: 8) {
+            Image(systemName: "building.2")
+                .font(.caption2)
+                .foregroundStyle(Theme.Palette.inkTertiary)
+                .accessibilityHidden(true)
+            Text("Straight from \(role.company)'s own careers feed. The moment \(role.company) closes this role, it leaves Rolecall — usually within the hour.")
+                .font(.footnote)
+                .foregroundStyle(Theme.Palette.inkSecondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(.horizontal, 4)
+        .accessibilityElement(children: .combine)
     }
 
     private func factRow(_ label: String, _ value: String) -> some View {
@@ -210,7 +228,10 @@ struct RoleDetailView: View {
     private var stageBinding: Binding<ApplicationStage> {
         Binding(
             get: { status?.application?.stage ?? .applied },
-            set: { newStage in tracked.updateApplication(for: role) { $0.stage = newStage } }
+            set: { newStage in
+                Haptics.selection()
+                tracked.updateApplication(for: role) { $0.stage = newStage }
+            }
         )
     }
 
@@ -243,7 +264,8 @@ struct RoleDetailView: View {
         if known.contains(where: host.hasSuffix) {
             return role.company
         }
-        return host.replacingOccurrences(of: "www.", with: "")
+        let clean = host.replacingOccurrences(of: "www.", with: "")
+        return clean.contains(".") ? clean : "the company site"
     }
 
     private var statusIcon: String {
@@ -279,7 +301,7 @@ struct RoleDetailView: View {
         case .mayHaveClosed:
             return "The page 404'd or bounced to a careers index. Tap to check on the company site."
         case .couldNotCheck:
-            return "You may be offline. The engine last saw this role "
+            return "You may be offline. Rolecall last confirmed this role "
                 + Freshness.compactAgo(since: role.freshnessDate, relativeTo: now)
                 + ". Tap to check again."
         case .none:
