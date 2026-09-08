@@ -11,6 +11,7 @@ Commands (see engine/__main__.py):
 from __future__ import annotations
 
 import json
+import os
 import pathlib
 import random
 import re
@@ -341,6 +342,46 @@ def stats():
 
 # --- export -----------------------------------------------------------
 
+# Refuse to publish a board whose live count fell more than this fraction versus the
+# last board we wrote. A bad upstream morning where a chunk of ATS feeds return a valid
+# but partial/empty payload (which *does* mark the missing roles 'gone' — unlike a feed
+# error, which is `continue`d and keeps its rows) would otherwise ship a thin, validly
+# signed board that silently replaces a healthy one on every user's device. See P0-6.
+BOARD_SHRINK_LIMIT = 0.30
+
+
+def _prev_board_count(path=None):
+    """Live-role count of the board currently on disk (the previous run's, restored from
+    the CI cache), or None if there isn't a readable one."""
+    try:
+        prev = json.loads(pathlib.Path(path or BOARD_PATH).read_text())
+        n = int(prev.get("count", len(prev.get("roles", []))))
+        return n if n >= 0 else None
+    except Exception:  # noqa: BLE001 - missing / unreadable / malformed -> no baseline
+        return None
+
+
+def _board_shrink_error(new_count, prev_count, limit=BOARD_SHRINK_LIMIT):
+    """A human-readable reason to refuse the export, or None if the board is fine."""
+    if not prev_count or prev_count <= 0:
+        return None
+    if new_count >= prev_count * (1.0 - limit):
+        return None
+    drop = 100.0 * (prev_count - new_count) / prev_count
+    return (
+        "live role count fell {:.1f}% ({} -> {}), past the {:.0f}% guard. Refusing to "
+        "publish a thin board — a partial upstream failure would silently halve every "
+        "user's board. If this shrink is real (registry pruned, vertical narrowed), "
+        "re-run with ROLECALL_ALLOW_BOARD_SHRINK=1.".format(
+            drop, prev_count, new_count, limit * 100)
+    )
+
+
+def _shrink_override_set():
+    return os.environ.get("ROLECALL_ALLOW_BOARD_SHRINK", "").strip().lower() in (
+        "1", "true", "yes", "on")
+
+
 def export():
     conn = store.connect()
     rows = conn.execute(
@@ -359,8 +400,18 @@ def export():
         "first_seen": r["first_seen_utc"],
         "last_verified": r["last_verified_utc"],
     } for r in rows]
+    conn.close()
+
+    err = _board_shrink_error(len(out), _prev_board_count())
+    if err:
+        if _shrink_override_set():
+            print("::warning::{} (allowed by ROLECALL_ALLOW_BOARD_SHRINK)".format(err))
+        else:
+            print("::error::{}".format(err))
+            print("error: {}".format(err))
+            return 1
+
     BOARD_PATH.write_text(json.dumps(
         {"generated_utc": store.now(), "count": len(out), "roles": out}, indent=2))
     print("wrote {} live roles -> {}".format(len(out), BOARD_PATH))
-    conn.close()
     return 0
