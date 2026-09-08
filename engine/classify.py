@@ -15,7 +15,12 @@ from __future__ import annotations
 
 import re
 
-INCLUDE_PM = True
+from . import config
+
+# Back-compat alias: INCLUDE_PM now lives in engine/config.py (P0-11) so flipping it is a
+# declared config edit that lands in board.json's `meta`. classify() reads config.INCLUDE_PM
+# live; this name is kept for `from engine.classify import INCLUDE_PM` call sites.
+INCLUDE_PM = config.INCLUDE_PM
 
 _DESIGN = [
     # design-eng first: "Design Systems Engineer" is design-eng, not design
@@ -95,12 +100,12 @@ def classify(title: str, department: str = ""):
     # matchers can claim it. "Product Design Manager" does not contain "product manager"
     # and is unaffected.
     if re.search(r"\bproduct manager\b", t):
-        return (True, "pm", "pm:product manager") if INCLUDE_PM else (False, None, "exclude:pm")
+        return (True, "pm", "pm:product manager") if config.INCLUDE_PM else (False, None, "exclude:pm")
 
     for pat, fam in _DESIGN:
         if re.search(pat, t):
             return True, fam, "title:" + pat
-    if INCLUDE_PM:
+    if config.INCLUDE_PM:
         for pat, fam in _PM:
             if re.search(pat, t):
                 return True, fam, "title:" + pat

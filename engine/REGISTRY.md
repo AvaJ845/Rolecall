@@ -52,6 +52,21 @@ The public slug is almost always a deterministic function of the company name:
      extraction pass, gated behind a per-field confidence score, never shown as
      "verified" until a structured re-check passes.
 
+## Classifier versioning (P0-11 / P0-10)
+
+`engine/config.py` holds the declared board-generation config: `INCLUDE_PM`,
+`CLASSIFIER_VERSION`, `VERTICAL`. `export()` stamps all three into `board.json`'s
+`meta` block, so every snapshot records which ruleset produced it (the signature
+covers `meta`).
+
+- **Any** edit to `_DESIGN` / `_PM` / `_EXCLUDE` or the `classify()` logic in
+  `engine/classify.py` **must bump `CLASSIFIER_VERSION`** in `config.py` in the same
+  change. The held-out family test (`engine/tests/test_classify_heldout.py`) tracks
+  precision/recall against `labelled_titles.jsonl`; a rule edit that moves those
+  numbers should be deliberate and versioned.
+- Flipping `INCLUDE_PM` is a one-line `config.py` edit — never a source change in
+  `classify.py` — and shows up in `meta.include_pm`.
+
 ## Migration drift — companies switch ATS
 
 Observed in this seed: **Vercel and Mercury both moved Ashby → Greenhouse** in 2026. A
