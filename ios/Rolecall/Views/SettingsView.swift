@@ -6,6 +6,7 @@ struct SettingsView: View {
     @EnvironmentObject private var store: BoardStore
     @Environment(\.dismiss) private var dismiss
     @State private var confirmingWipe = false
+    @State private var iconOption: AppIconOption = .current
 
     private var version: String {
         let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -21,6 +22,15 @@ struct SettingsView: View {
                         ForEach(AppearanceChoice.allCases) { Text($0.label).tag($0) }
                     }
                     .pickerStyle(.segmented)
+                }
+
+                if UIApplication.shared.supportsAlternateIcons {
+                    Section("App icon") {
+                        IconPickerRow(selection: $iconOption) { option in
+                            settings.alternateIconName = option.alternateName
+                            Task { await AppIconOption.apply(option) }
+                        }
+                    }
                 }
 
                 Section("Applications") {
@@ -75,6 +85,8 @@ struct SettingsView: View {
                 Button("Clear everything", role: .destructive) {
                     tracked.wipeAll()
                     settings.resetAll()
+                    iconOption = .classic
+                    Task { await AppIconOption.apply(.classic) }
                 }
                 Button("Cancel", role: .cancel) { }
             } message: {
