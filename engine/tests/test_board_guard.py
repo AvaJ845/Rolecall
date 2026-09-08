@@ -10,7 +10,7 @@ import os
 import pathlib
 import tempfile
 
-from engine import pipeline, store
+from engine import export, store
 
 CASES = []
 
@@ -24,22 +24,22 @@ def case(fn):
 
 @case
 def test_shrink_error_thresholds():
-    assert pipeline._board_shrink_error(300, 630) is not None      # 52% drop -> refuse
-    assert pipeline._board_shrink_error(440, 630) is not None      # 30.2% drop -> refuse
-    assert pipeline._board_shrink_error(441, 630) is None          # exactly 30% -> ok
-    assert pipeline._board_shrink_error(500, 630) is None          # 20% drop -> ok
-    assert pipeline._board_shrink_error(700, 630) is None          # grew -> ok
+    assert export._board_shrink_error(300, 630) is not None      # 52% drop -> refuse
+    assert export._board_shrink_error(440, 630) is not None      # 30.2% drop -> refuse
+    assert export._board_shrink_error(441, 630) is None          # exactly 30% -> ok
+    assert export._board_shrink_error(500, 630) is None          # 20% drop -> ok
+    assert export._board_shrink_error(700, 630) is None          # grew -> ok
 
 
 @case
 def test_shrink_error_no_baseline():
-    assert pipeline._board_shrink_error(1, None) is None
-    assert pipeline._board_shrink_error(1, 0) is None
+    assert export._board_shrink_error(1, None) is None
+    assert export._board_shrink_error(1, 0) is None
 
 
 @case
 def test_shrink_message_is_clear():
-    msg = pipeline._board_shrink_error(200, 630)
+    msg = export._board_shrink_error(200, 630)
     assert "fell" in msg and "630 -> 200" in msg and "ROLECALL_ALLOW_BOARD_SHRINK" in msg
 
 
@@ -65,13 +65,13 @@ def _seed_live_postings(db_path, n, company_ct=10):
 
 
 def _run_export_with(db_path, board_path):
-    saved_db, saved_board = store.DB_PATH, pipeline.BOARD_PATH
+    saved_db, saved_board = store.DB_PATH, export.BOARD_PATH
     store.DB_PATH = pathlib.Path(db_path)
-    pipeline.BOARD_PATH = pathlib.Path(board_path)
+    export.BOARD_PATH = pathlib.Path(board_path)
     try:
-        return pipeline.export()
+        return export.export()
     finally:
-        store.DB_PATH, pipeline.BOARD_PATH = saved_db, saved_board
+        store.DB_PATH, export.BOARD_PATH = saved_db, saved_board
 
 
 @case

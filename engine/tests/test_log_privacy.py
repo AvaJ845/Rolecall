@@ -8,7 +8,7 @@ full URLs for local debugging.
 from __future__ import annotations
 
 from engine import __main__ as cli
-from engine import pipeline
+from engine import verify
 
 CASES = []
 
@@ -20,7 +20,7 @@ def case(fn):
 
 @case
 def test_short_url_drops_query_and_truncates_path():
-    s = pipeline._short_url(
+    s = verify._short_url(
         "https://boards.greenhouse.io/acme/jobs/4567890?utm_source=x&gh_jid=4567890")
     assert "boards.greenhouse.io" in s
     assert "?" not in s and "utm_source" not in s and "4567890" not in s
@@ -29,14 +29,14 @@ def test_short_url_drops_query_and_truncates_path():
 
 @case
 def test_short_url_keeps_short_paths_whole():
-    assert pipeline._short_url("https://jobs.lever.co/acme") == "jobs.lever.co/acme"
+    assert verify._short_url("https://jobs.lever.co/acme") == "jobs.lever.co/acme"
 
 
 @case
 def test_short_url_handles_garbage():
-    assert pipeline._short_url("") == "?/"
+    assert verify._short_url("") == "?/"
     # never raises, never returns something with a scheme/query
-    out = pipeline._short_url("http://x/a?b=c#d")
+    out = verify._short_url("http://x/a?b=c#d")
     assert "?" not in out and "#" not in out
 
 
@@ -45,7 +45,7 @@ def test_verify_signature_defaults_to_non_verbose():
     # The CI invocation is `python3 -m engine verify 250` — no -v.
     import inspect
 
-    sig = inspect.signature(pipeline.verify)
+    sig = inspect.signature(verify.verify)
     assert sig.parameters["verbose"].default is False
 
 
@@ -58,8 +58,8 @@ def test_cli_parses_verbose_flag_and_limit(monkeypatch=None):
         calls["verbose"] = verbose
         return 0
 
-    saved = pipeline.verify
-    pipeline.verify = fake_verify
+    saved = verify.verify
+    verify.verify = fake_verify
     try:
         cli.main(["verify", "250"])
         assert calls == {"limit": 250, "verbose": False}, calls
@@ -68,7 +68,7 @@ def test_cli_parses_verbose_flag_and_limit(monkeypatch=None):
         cli.main(["verify", "-v"])
         assert calls == {"limit": 300, "verbose": True}, calls
     finally:
-        pipeline.verify = saved
+        verify.verify = saved
 
 
 def run():

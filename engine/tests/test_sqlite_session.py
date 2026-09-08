@@ -11,7 +11,7 @@ import os
 import pathlib
 import tempfile
 
-from engine import pipeline, store
+from engine import export, store
 
 CASES = []
 
@@ -53,12 +53,12 @@ def _seed_live(conn, n):
 
 
 def _export(d):
-    saved_board = pipeline.BOARD_PATH
-    pipeline.BOARD_PATH = pathlib.Path(os.path.join(d, "board.json"))
+    saved_board = export.BOARD_PATH
+    export.BOARD_PATH = pathlib.Path(os.path.join(d, "board.json"))
     try:
-        return pipeline.export(), pipeline.BOARD_PATH
+        return export.export(), export.BOARD_PATH
     finally:
-        pipeline.BOARD_PATH = saved_board
+        export.BOARD_PATH = saved_board
 
 
 @case
