@@ -30,6 +30,7 @@
 		67D4534F83D16C51DA581697 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6E7CDF97BF66ACC9E6D59C /* AppSettings.swift */; };
 		6C2D7566C49B904AC60E409D /* RoleRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4935575786063CC269B2F031 /* RoleRow.swift */; };
 		700584ED8193670B86D8DD19 /* RoleFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6421776046395804F5B6E103 /* RoleFamily.swift */; };
+		72039F29F34F7D4EADB06EC4 /* RolecallIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46761A6FE7D045F5657D3D7 /* RolecallIntents.swift */; };
 		723C6BDC3E8090ED24AAD67C /* AppIconOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41D5766356C89101E20DD0 /* AppIconOption.swift */; };
 		723CFE35912C9F896F3FBD2B /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C4FBB2D85967A3CE7A0E6 /* MockURLProtocol.swift */; };
 		74648DEAE7AD0229B4EDE45D /* TrackedRoles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A1057451EF45E9F791DC2C /* TrackedRoles.swift */; };
@@ -45,6 +46,7 @@
 		AB4E84E2E5277906A46363C4 /* Digest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279FCE1AF1784F3BD179460C /* Digest.swift */; };
 		AB9E53EC8F744984849CDC54 /* RefreshBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46694D7F3993715B1A9D7372 /* RefreshBanner.swift */; };
 		AD7BDBAFD286189F9A765BB6 /* Freshness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A34A687016866AAB163C6A4 /* Freshness.swift */; };
+		B68182104E888974801E16A4 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 597605252330CC321D998919 /* AppIntents.framework */; };
 		C072FDC3E4E1932C732D3F47 /* TrackedRoles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A1057451EF45E9F791DC2C /* TrackedRoles.swift */; };
 		C4714123610E29CAADFBC4FF /* board.json in Resources */ = {isa = PBXBuildFile; fileRef = 28D3B01EA53F47D2EF8C5077 /* board.json */; };
 		C4FC3A24CCC683577462FB92 /* RoleFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6421776046395804F5B6E103 /* RoleFamily.swift */; };
@@ -104,6 +106,7 @@
 		4935575786063CC269B2F031 /* RoleRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleRow.swift; sourceTree = "<group>"; };
 		4B30618D1CA7D87E8E795B8D /* FreshnessFormatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreshnessFormatTests.swift; sourceTree = "<group>"; };
 		4DC06CED1727BB85A8802550 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		597605252330CC321D998919 /* AppIntents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppIntents.framework; path = System/Library/Frameworks/AppIntents.framework; sourceTree = SDKROOT; };
 		6421776046395804F5B6E103 /* RoleFamily.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleFamily.swift; sourceTree = "<group>"; };
 		67A1057451EF45E9F791DC2C /* TrackedRoles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedRoles.swift; sourceTree = "<group>"; };
 		6A34A687016866AAB163C6A4 /* Freshness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Freshness.swift; sourceTree = "<group>"; };
@@ -128,6 +131,7 @@
 		C8FA42C4C43AB5E33AF40992 /* BoardStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardStore.swift; sourceTree = "<group>"; };
 		D1284D1D0C5C04B8F1DDF4E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D2627EFBB510CB19F346E26F /* Rolecall.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Rolecall.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D46761A6FE7D045F5657D3D7 /* RolecallIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolecallIntents.swift; sourceTree = "<group>"; };
 		D7AAA421E8C6D856D16E6179 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		E365E3EAF3FBD4ACF38701B1 /* RolecallWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RolecallWidget.entitlements; sourceTree = "<group>"; };
 		E4260CD671703AC3FE3F173F /* TrackedRolesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedRolesView.swift; sourceTree = "<group>"; };
@@ -136,6 +140,17 @@
 		EF91D32CD4C58BCD1B691371 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		F2D931CFA6BB1424C365C5E1 /* RolecallApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolecallApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		07535DFB1AE24369EDFE6C24 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B68182104E888974801E16A4 /* AppIntents.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		0F9B076491B45D7BA1D65733 /* RolecallWidget */ = {
@@ -196,6 +211,7 @@
 				279FCE1AF1784F3BD179460C /* Digest.swift */,
 				8CEDE3401C50B16FC67867B0 /* FreshnessChecker.swift */,
 				014094CECD5AB44C436C2483 /* Haptics.swift */,
+				D46761A6FE7D045F5657D3D7 /* RolecallIntents.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -215,6 +231,7 @@
 				81090B45C6A7E24E18BB7F33 /* RolecallTests */,
 				0F9B076491B45D7BA1D65733 /* RolecallWidget */,
 				C84FF026A111F1B1D97D73E3 /* Shared */,
+				C04652C20A977089BED1111D /* Frameworks */,
 				3DCAE968CC78FDF98990F651 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -243,6 +260,14 @@
 				C31A62EE4941FB9BD97CA26F /* Rolecall.entitlements */,
 			);
 			path = Rolecall;
+			sourceTree = "<group>";
+		};
+		C04652C20A977089BED1111D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				597605252330CC321D998919 /* AppIntents.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		C84FF026A111F1B1D97D73E3 /* Shared */ = {
@@ -287,6 +312,7 @@
 			buildPhases = (
 				89F03641849628301BAF6CCE /* Sources */,
 				E0E3358C1D2A3A6732AC102E /* Resources */,
+				07535DFB1AE24369EDFE6C24 /* Frameworks */,
 				F4EDD54F51C0741A521124F3 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -438,6 +464,7 @@
 				87D6BBA2E30F04E617A3CB51 /* RoleListView.swift in Sources */,
 				6C2D7566C49B904AC60E409D /* RoleRow.swift in Sources */,
 				42F1A9A0545BF178F0A7E12D /* RolecallApp.swift in Sources */,
+				72039F29F34F7D4EADB06EC4 /* RolecallIntents.swift in Sources */,
 				303A53A2A2C75A7CA59AC057 /* SettingsView.swift in Sources */,
 				FB211D62B2371788971615C2 /* SharedContainer.swift in Sources */,
 				3ABA9C5CBEEBE3C53BFECD5A /* Theme.swift in Sources */,

@@ -27,6 +27,7 @@ targets:
       - path: Shared
     dependencies:
       - target: RolecallWidget
+      - sdk: AppIntents.framework
     settings:
       base:
         PRODUCT_NAME: Rolecall
