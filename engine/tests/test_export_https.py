@@ -12,7 +12,7 @@ import os
 import pathlib
 import tempfile
 
-from engine import pipeline, store
+from engine import export, store
 
 CASES = []
 
@@ -24,12 +24,12 @@ def case(fn):
 
 @case
 def test_is_https_predicate():
-    assert pipeline._is_https("https://boards.greenhouse.io/x/jobs/1")
-    assert not pipeline._is_https("http://boards.greenhouse.io/x/jobs/1")
-    assert not pipeline._is_https("javascript:alert(1)")
-    assert not pipeline._is_https("ftp://x/y")
-    assert not pipeline._is_https("")
-    assert not pipeline._is_https("//protocol-relative/x")
+    assert export._is_https("https://boards.greenhouse.io/x/jobs/1")
+    assert not export._is_https("http://boards.greenhouse.io/x/jobs/1")
+    assert not export._is_https("javascript:alert(1)")
+    assert not export._is_https("ftp://x/y")
+    assert not export._is_https("")
+    assert not export._is_https("//protocol-relative/x")
 
 
 def _seed(db_path, urls):
@@ -50,13 +50,13 @@ def _seed(db_path, urls):
 
 
 def _run_export(db_path, board_path):
-    saved_db, saved_board = store.DB_PATH, pipeline.BOARD_PATH
+    saved_db, saved_board = store.DB_PATH, export.BOARD_PATH
     store.DB_PATH = pathlib.Path(db_path)
-    pipeline.BOARD_PATH = pathlib.Path(board_path)
+    export.BOARD_PATH = pathlib.Path(board_path)
     try:
-        return pipeline.export()
+        return export.export()
     finally:
-        store.DB_PATH, pipeline.BOARD_PATH = saved_db, saved_board
+        store.DB_PATH, export.BOARD_PATH = saved_db, saved_board
 
 
 @case

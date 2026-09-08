@@ -1,5 +1,7 @@
 # build outputs / local data
 data/*.db
+data/*.db-wal
+data/*.db-shm
 data/*.json
 data/*.jsonl
 data/*.sig
