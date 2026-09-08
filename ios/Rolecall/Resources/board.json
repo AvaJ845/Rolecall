@@ -1,6 +1,6 @@
 {
-  "generated_utc": 1788833262.112583,
-  "count": 645,
+  "generated_utc": 1788834867.607271,
+  "count": 630,
   "roles": [
     {
       "company": "Robinhood",
@@ -885,7 +885,7 @@
     {
       "company": "Harvey",
       "title": "Senior or Staff Design Engineer, Design Systems",
-      "family": "design",
+      "family": "design-eng",
       "location": "New York",
       "remote": true,
       "url": "https://jobs.ashbyhq.com/harvey/9814b9ca-5917-43f8-8f76-6df7aa7e2be3",
@@ -895,7 +895,7 @@
     {
       "company": "Harvey",
       "title": "Senior or Staff Design Engineer, Design Systems",
-      "family": "design",
+      "family": "design-eng",
       "location": "San Francisco",
       "remote": true,
       "url": "https://jobs.ashbyhq.com/harvey/aede4098-91f4-44f5-9d53-27c15cb2bae7",
@@ -1584,16 +1584,6 @@
     },
     {
       "company": "Perplexity",
-      "title": "Member of Technical Staff (Software Engineer, Design System)",
-      "family": "design",
-      "location": "San Francisco",
-      "remote": true,
-      "url": "https://jobs.ashbyhq.com/perplexity/78675022-c4a7-41d2-9259-7c59be4de93c",
-      "first_seen": 1788833117.637137,
-      "last_verified": null
-    },
-    {
-      "company": "Perplexity",
       "title": "Product Manager (Builder)",
       "family": "pm",
       "location": "San Francisco",
@@ -1655,7 +1645,7 @@
     {
       "company": "Vanta",
       "title": "Senior Product Manager, Design Systems",
-      "family": "design",
+      "family": "pm",
       "location": "Remote U.S.",
       "remote": true,
       "url": "https://jobs.ashbyhq.com/vanta/f46e34d6-b3ce-4195-9aa3-7ed8eb8cdc6d",
@@ -2024,16 +2014,6 @@
     },
     {
       "company": "Peloton",
-      "title": "Sr. Hardware Product Manager",
-      "family": "pm",
-      "location": "New York, New York",
-      "remote": null,
-      "url": "https://careers.onepeloton.com/en/all-jobs/?gh_jid=8092989",
-      "first_seen": 1788833116.549533,
-      "last_verified": null
-    },
-    {
-      "company": "Peloton",
       "title": "Senior Product Manager",
       "family": "pm",
       "location": "New York, New York",
@@ -2094,42 +2074,12 @@
     },
     {
       "company": "WHOOP",
-      "title": "Director, Product Quality (Hardware)",
-      "family": "pm",
-      "location": "Boston, MA",
-      "remote": false,
-      "url": "https://jobs.ashbyhq.com/whoop/c74105e1-1cea-491f-a69c-94c7f3086682",
-      "first_seen": 1788833116.341276,
-      "last_verified": null
-    },
-    {
-      "company": "WHOOP",
       "title": "Senior Product Manager, AI",
       "family": "pm",
       "location": "Boston, MA",
       "remote": false,
       "url": "https://jobs.ashbyhq.com/whoop/676afb9d-abad-43c6-b894-6dc72ec7bf92",
       "first_seen": 1788833116.3412218,
-      "last_verified": null
-    },
-    {
-      "company": "WHOOP",
-      "title": "Senior Project Specialist, Retail Design",
-      "family": "design",
-      "location": "Boston, MA",
-      "remote": false,
-      "url": "https://jobs.ashbyhq.com/whoop/e173b334-ceae-42e6-a44b-8f8ad4a66909",
-      "first_seen": 1788833116.341013,
-      "last_verified": null
-    },
-    {
-      "company": "WHOOP",
-      "title": "Director of Product Management, Hardware",
-      "family": "pm",
-      "location": "Boston, MA",
-      "remote": false,
-      "url": "https://jobs.ashbyhq.com/whoop/ddeaeb3b-1b0a-440e-aa93-93d5cfd84152",
-      "first_seen": 1788833116.340728,
       "last_verified": null
     },
     {
@@ -2200,16 +2150,6 @@
       "remote": false,
       "url": "https://jobs.ashbyhq.com/whoop/18e5c1fa-6362-42ac-b4d3-d418727ff4ab",
       "first_seen": 1788833116.337172,
-      "last_verified": null
-    },
-    {
-      "company": "WHOOP",
-      "title": "CMF Designer II (Accessories & Apparel)",
-      "family": "design",
-      "location": "Boston, MA",
-      "remote": false,
-      "url": "https://jobs.ashbyhq.com/whoop/38c278dc-880f-4a3d-8474-b02fd1f35283",
-      "first_seen": 1788833116.3367271,
       "last_verified": null
     },
     {
@@ -2634,16 +2574,6 @@
     },
     {
       "company": "Lyft",
-      "title": "Senior Product Manager, Hardware (Bikeshare Stations) - Lyft Urban Solutions (Micromobility)",
-      "family": "pm",
-      "location": "Montreal, Canada",
-      "remote": null,
-      "url": "https://app.careerpuck.com/job-board/lyft/job/8621699002?gh_jid=8621699002",
-      "first_seen": 1788833115.817569,
-      "last_verified": null
-    },
-    {
-      "company": "Lyft",
       "title": "Product Design Manager, Design Systems",
       "family": "design",
       "location": "Toronto, Canada",
@@ -2775,7 +2705,7 @@
     {
       "company": "DoorDash",
       "title": "UX Design Engineer, Content Tooling",
-      "family": "design",
+      "family": "design-eng",
       "location": "San Francisco, CA; Sunnyvale, CA; Seattle, WA; New York, NY",
       "remote": null,
       "url": "https://job-boards.greenhouse.io/doordashusa/jobs/7767373",
@@ -2994,16 +2924,6 @@
     },
     {
       "company": "Gusto",
-      "title": "People Partner - Product and Product Design",
-      "family": "design",
-      "location": "San Francisco, CA - Hybrid",
-      "remote": null,
-      "url": "https://job-boards.greenhouse.io/gusto/jobs/8119974",
-      "first_seen": 1788833115.432579,
-      "last_verified": null
-    },
-    {
-      "company": "Gusto",
       "title": "Product Design Leader, Banking",
       "family": "design",
       "location": "Denver, CO - Hybrid; New York, New York, United States; San Francisco, CA - Hybrid",
@@ -3165,7 +3085,7 @@
     {
       "company": "Samsara",
       "title": "Staff Product Design Engineer",
-      "family": "design",
+      "family": "design-eng",
       "location": "San Francisco - SF9",
       "remote": null,
       "url": "https://www.samsara.com/company/careers/roles/7525300?gh_jid=7525300",
@@ -3320,16 +3240,6 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/reddit/jobs/8027458",
       "first_seen": 1788833114.983304,
-      "last_verified": null
-    },
-    {
-      "company": "Reddit",
-      "title": "Senior Android Engineer, Design System",
-      "family": "design",
-      "location": "Remote - United States",
-      "remote": null,
-      "url": "https://job-boards.greenhouse.io/reddit/jobs/8055374",
-      "first_seen": 1788833114.983104,
       "last_verified": null
     },
     {
@@ -4460,7 +4370,7 @@
       "remote": null,
       "url": "https://www.pinterestcareers.com/jobs/?gh_jid=8042279",
       "first_seen": 1788833096.977781,
-      "last_verified": null
+      "last_verified": 1788833296.115525
     },
     {
       "company": "Pinterest",
@@ -4470,7 +4380,7 @@
       "remote": null,
       "url": "https://www.pinterestcareers.com/jobs/?gh_jid=8015519",
       "first_seen": 1788833096.9777,
-      "last_verified": null
+      "last_verified": 1788833296.057956
     },
     {
       "company": "Pinterest",
@@ -4480,7 +4390,7 @@
       "remote": null,
       "url": "https://www.pinterestcareers.com/jobs/?gh_jid=8015494",
       "first_seen": 1788833096.9776268,
-      "last_verified": null
+      "last_verified": 1788833295.993334
     },
     {
       "company": "Pinterest",
@@ -4490,7 +4400,7 @@
       "remote": null,
       "url": "https://www.pinterestcareers.com/jobs/?gh_jid=7525112",
       "first_seen": 1788833096.977479,
-      "last_verified": null
+      "last_verified": 1788833295.930239
     },
     {
       "company": "Pinterest",
@@ -4500,7 +4410,7 @@
       "remote": null,
       "url": "https://www.pinterestcareers.com/jobs/?gh_jid=7955593",
       "first_seen": 1788833096.973341,
-      "last_verified": null
+      "last_verified": 1788833295.861102
     },
     {
       "company": "Airbnb",
@@ -4510,7 +4420,7 @@
       "remote": null,
       "url": "https://careers.airbnb.com/positions/8112204?gh_jid=8112204",
       "first_seen": 1788833096.854605,
-      "last_verified": null
+      "last_verified": 1788833295.722757
     },
     {
       "company": "Airbnb",
@@ -4520,7 +4430,7 @@
       "remote": null,
       "url": "https://careers.airbnb.com/positions/8104444?gh_jid=8104444",
       "first_seen": 1788833096.8545432,
-      "last_verified": null
+      "last_verified": 1788833294.654325
     },
     {
       "company": "Airbnb",
@@ -4530,7 +4440,7 @@
       "remote": null,
       "url": "https://careers.airbnb.com/positions/8096359?gh_jid=8096359",
       "first_seen": 1788833096.854491,
-      "last_verified": null
+      "last_verified": 1788833294.132711
     },
     {
       "company": "Airbnb",
@@ -4540,7 +4450,7 @@
       "remote": null,
       "url": "https://careers.airbnb.com/positions/8091831?gh_jid=8091831",
       "first_seen": 1788833096.854409,
-      "last_verified": null
+      "last_verified": 1788833293.441752
     },
     {
       "company": "Airbnb",
@@ -4550,7 +4460,7 @@
       "remote": null,
       "url": "https://careers.airbnb.com/positions/8081925?gh_jid=8081925",
       "first_seen": 1788833096.854221,
-      "last_verified": null
+      "last_verified": 1788833292.72632
     },
     {
       "company": "Airbnb",
@@ -4560,7 +4470,7 @@
       "remote": null,
       "url": "https://careers.airbnb.com/positions/8055637?gh_jid=8055637",
       "first_seen": 1788833096.854111,
-      "last_verified": null
+      "last_verified": 1788833291.992397
     },
     {
       "company": "Airbnb",
@@ -4570,7 +4480,7 @@
       "remote": null,
       "url": "https://careers.airbnb.com/positions/8044715?gh_jid=8044715",
       "first_seen": 1788833096.854055,
-      "last_verified": null
+      "last_verified": 1788833291.186892
     },
     {
       "company": "Airbnb",
@@ -4580,7 +4490,7 @@
       "remote": null,
       "url": "https://careers.airbnb.com/positions/7905365?gh_jid=7905365",
       "first_seen": 1788833096.85392,
-      "last_verified": null
+      "last_verified": 1788833290.265127
     },
     {
       "company": "Airbnb",
@@ -4590,7 +4500,7 @@
       "remote": null,
       "url": "https://careers.airbnb.com/positions/8171646?gh_jid=8171646",
       "first_seen": 1788833096.8532522,
-      "last_verified": null
+      "last_verified": 1788833289.466151
     },
     {
       "company": "Airbnb",
@@ -4600,7 +4510,7 @@
       "remote": null,
       "url": "https://careers.airbnb.com/positions/8113284?gh_jid=8113284",
       "first_seen": 1788833096.8523672,
-      "last_verified": null
+      "last_verified": 1788833288.72086
     },
     {
       "company": "Airbnb",
@@ -4610,7 +4520,7 @@
       "remote": null,
       "url": "https://careers.airbnb.com/positions/8121074?gh_jid=8121074",
       "first_seen": 1788833096.8522549,
-      "last_verified": null
+      "last_verified": 1788833288.180563
     },
     {
       "company": "Airbnb",
@@ -4620,7 +4530,7 @@
       "remote": null,
       "url": "https://careers.airbnb.com/positions/8007402?gh_jid=8007402",
       "first_seen": 1788833096.851268,
-      "last_verified": null
+      "last_verified": 1788833287.4386141
     },
     {
       "company": "Mercury",
@@ -4630,7 +4540,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/mercury/jobs/6181121004",
       "first_seen": 1788833096.742534,
-      "last_verified": null
+      "last_verified": 1788833286.529971
     },
     {
       "company": "Mercury",
@@ -4640,7 +4550,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/mercury/jobs/6148371004",
       "first_seen": 1788833096.74245,
-      "last_verified": null
+      "last_verified": 1788833286.386115
     },
     {
       "company": "Mercury",
@@ -4650,7 +4560,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/mercury/jobs/6126980004",
       "first_seen": 1788833096.742392,
-      "last_verified": null
+      "last_verified": 1788833286.230853
     },
     {
       "company": "Mercury",
@@ -4660,7 +4570,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/mercury/jobs/6107075004",
       "first_seen": 1788833096.742314,
-      "last_verified": null
+      "last_verified": 1788833286.0820339
     },
     {
       "company": "Mercury",
@@ -4670,7 +4580,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/mercury/jobs/6106974004",
       "first_seen": 1788833096.7421892,
-      "last_verified": null
+      "last_verified": 1788833285.930484
     },
     {
       "company": "Mercury",
@@ -4680,7 +4590,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/mercury/jobs/6098827004",
       "first_seen": 1788833096.742124,
-      "last_verified": null
+      "last_verified": 1788833285.778692
     },
     {
       "company": "Mercury",
@@ -4690,17 +4600,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/mercury/jobs/5867562004",
       "first_seen": 1788833096.742048,
-      "last_verified": null
-    },
-    {
-      "company": "Mercury",
-      "title": "Senior Frontend Engineer - Design Systems",
-      "family": "design",
-      "location": "San Francisco, CA, New York, NY, Portland, OR, or Remote within Canada or United States",
-      "remote": null,
-      "url": "https://job-boards.greenhouse.io/mercury/jobs/6110081004",
-      "first_seen": 1788833096.741162,
-      "last_verified": null
+      "last_verified": 1788833285.6413581
     },
     {
       "company": "Mercury",
@@ -4710,7 +4610,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/mercury/jobs/6145886004",
       "first_seen": 1788833096.740829,
-      "last_verified": null
+      "last_verified": 1788833285.3098729
     },
     {
       "company": "Mercury",
@@ -4720,7 +4620,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/mercury/jobs/6143552004",
       "first_seen": 1788833096.740754,
-      "last_verified": null
+      "last_verified": 1788833285.157428
     },
     {
       "company": "Mercury",
@@ -4730,7 +4630,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/mercury/jobs/6137654004",
       "first_seen": 1788833096.740619,
-      "last_verified": null
+      "last_verified": 1788833285.015831
     },
     {
       "company": "Mercury",
@@ -4740,7 +4640,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/mercury/jobs/6110742004",
       "first_seen": 1788833096.740544,
-      "last_verified": null
+      "last_verified": 1788833284.8483121
     },
     {
       "company": "Mercury",
@@ -4750,7 +4650,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/mercury/jobs/6104936004",
       "first_seen": 1788833096.740452,
-      "last_verified": null
+      "last_verified": 1788833284.6970408
     },
     {
       "company": "Mercury",
@@ -4760,7 +4660,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/mercury/jobs/5995303004",
       "first_seen": 1788833096.739219,
-      "last_verified": null
+      "last_verified": 1788833284.5476549
     },
     {
       "company": "Vercel",
@@ -4770,7 +4670,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/vercel/jobs/6147956004",
       "first_seen": 1788833096.656821,
-      "last_verified": null
+      "last_verified": 1788833284.385173
     },
     {
       "company": "Vercel",
@@ -4780,7 +4680,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/vercel/jobs/5579560004",
       "first_seen": 1788833096.656415,
-      "last_verified": null
+      "last_verified": 1788833284.207211
     },
     {
       "company": "Vercel",
@@ -4790,7 +4690,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/vercel/jobs/6160974004",
       "first_seen": 1788833096.655366,
-      "last_verified": null
+      "last_verified": 1788833284.033602
     },
     {
       "company": "Vercel",
@@ -4800,7 +4700,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/vercel/jobs/6131210004",
       "first_seen": 1788833096.655314,
-      "last_verified": null
+      "last_verified": 1788833283.865107
     },
     {
       "company": "Vercel",
@@ -4810,7 +4710,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/vercel/jobs/6115991004",
       "first_seen": 1788833096.654827,
-      "last_verified": null
+      "last_verified": 1788833283.6759942
     },
     {
       "company": "Affirm",
@@ -4820,7 +4720,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/affirm/jobs/7799295003",
       "first_seen": 1788833096.574732,
-      "last_verified": null
+      "last_verified": 1788833283.458653
     },
     {
       "company": "Affirm",
@@ -4830,7 +4730,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/affirm/jobs/7605936003",
       "first_seen": 1788833096.5747042,
-      "last_verified": null
+      "last_verified": 1788833283.277408
     },
     {
       "company": "Affirm",
@@ -4840,7 +4740,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/affirm/jobs/7818070003",
       "first_seen": 1788833096.5742238,
-      "last_verified": null
+      "last_verified": 1788833283.121579
     },
     {
       "company": "Affirm",
@@ -4850,7 +4750,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/affirm/jobs/7818068003",
       "first_seen": 1788833096.574186,
-      "last_verified": null
+      "last_verified": 1788833282.97388
     },
     {
       "company": "Affirm",
@@ -4860,7 +4760,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/affirm/jobs/7929525003",
       "first_seen": 1788833096.574137,
-      "last_verified": null
+      "last_verified": 1788833282.8030322
     },
     {
       "company": "Affirm",
@@ -4870,7 +4770,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/affirm/jobs/7929523003",
       "first_seen": 1788833096.574108,
-      "last_verified": null
+      "last_verified": 1788833282.647027
     },
     {
       "company": "Affirm",
@@ -4880,7 +4780,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/affirm/jobs/7801336003",
       "first_seen": 1788833096.5740778,
-      "last_verified": null
+      "last_verified": 1788833282.4589498
     },
     {
       "company": "Affirm",
@@ -4890,7 +4790,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/affirm/jobs/7780490003",
       "first_seen": 1788833096.574046,
-      "last_verified": null
+      "last_verified": 1788833282.263157
     },
     {
       "company": "Affirm",
@@ -4900,7 +4800,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/affirm/jobs/7776439003",
       "first_seen": 1788833096.574006,
-      "last_verified": null
+      "last_verified": 1788833282.0775108
     },
     {
       "company": "Affirm",
@@ -4910,7 +4810,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/affirm/jobs/7776437003",
       "first_seen": 1788833096.573964,
-      "last_verified": null
+      "last_verified": 1788833281.9302819
     },
     {
       "company": "Affirm",
@@ -4920,7 +4820,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/affirm/jobs/7773693003",
       "first_seen": 1788833096.573924,
-      "last_verified": null
+      "last_verified": 1788833281.727891
     },
     {
       "company": "Affirm",
@@ -4930,17 +4830,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/affirm/jobs/7773691003",
       "first_seen": 1788833096.573888,
-      "last_verified": null
-    },
-    {
-      "company": "Affirm",
-      "title": "Chief of Staff Director, Product",
-      "family": "pm",
-      "location": "Remote US",
-      "remote": null,
-      "url": "https://job-boards.greenhouse.io/affirm/jobs/7808142003",
-      "first_seen": 1788833096.5734038,
-      "last_verified": null
+      "last_verified": 1788833281.352813
     },
     {
       "company": "Affirm",
@@ -4950,7 +4840,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/affirm/jobs/7822254003",
       "first_seen": 1788833096.5713012,
-      "last_verified": null
+      "last_verified": 1788833281.025601
     },
     {
       "company": "Affirm",
@@ -4960,7 +4850,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/affirm/jobs/7694940003",
       "first_seen": 1788833096.5712671,
-      "last_verified": null
+      "last_verified": 1788833280.87142
     },
     {
       "company": "Affirm",
@@ -4970,7 +4860,7 @@
       "remote": null,
       "url": "https://job-boards.greenhouse.io/affirm/jobs/7694938003",
       "first_seen": 1788833096.5712352,
-      "last_verified": null
+      "last_verified": 1788833280.657119
     },
     {
       "company": "Instacart",
@@ -4980,7 +4870,7 @@
       "remote": null,
       "url": "https://instacart.careers/job/?gh_jid=8175791",
       "first_seen": 1788833096.465139,
-      "last_verified": null
+      "last_verified": 1788833280.423019
     },
     {
       "company": "Instacart",
@@ -4990,7 +4880,7 @@
       "remote": null,
       "url": "https://instacart.careers/job/?gh_jid=8143272",
       "first_seen": 1788833096.4650922,
-      "last_verified": null
+      "last_verified": 1788833280.249366
     },
     {
       "company": "Instacart",
@@ -5000,7 +4890,7 @@
       "remote": null,
       "url": "https://instacart.careers/job/?gh_jid=8143270",
       "first_seen": 1788833096.465056,
-      "last_verified": null
+      "last_verified": 1788833280.171065
     },
     {
       "company": "Instacart",
@@ -5010,7 +4900,7 @@
       "remote": null,
       "url": "https://instacart.careers/job/?gh_jid=8120471",
       "first_seen": 1788833096.46502,
-      "last_verified": null
+      "last_verified": 1788833280.113489
     },
     {
       "company": "Instacart",
@@ -5020,7 +4910,7 @@
       "remote": null,
       "url": "https://instacart.careers/job/?gh_jid=8120469",
       "first_seen": 1788833096.464981,
-      "last_verified": null
+      "last_verified": 1788833280.054434
     },
     {
       "company": "Instacart",
@@ -5030,7 +4920,7 @@
       "remote": null,
       "url": "https://instacart.careers/job/?gh_jid=8077512",
       "first_seen": 1788833096.4649441,
-      "last_verified": null
+      "last_verified": 1788833279.9845319
     },
     {
       "company": "Instacart",
@@ -5040,7 +4930,7 @@
       "remote": null,
       "url": "https://instacart.careers/job/?gh_jid=8077510",
       "first_seen": 1788833096.464906,
-      "last_verified": null
+      "last_verified": 1788833279.921707
     },
     {
       "company": "Instacart",
@@ -5050,7 +4940,7 @@
       "remote": null,
       "url": "https://instacart.careers/job/?gh_jid=8014062",
       "first_seen": 1788833096.4648662,
-      "last_verified": null
+      "last_verified": 1788833279.857331
     },
     {
       "company": "Instacart",
@@ -5060,7 +4950,7 @@
       "remote": null,
       "url": "https://instacart.careers/job/?gh_jid=8014060",
       "first_seen": 1788833096.4648268,
-      "last_verified": null
+      "last_verified": 1788833279.769333
     },
     {
       "company": "Instacart",
@@ -5070,7 +4960,7 @@
       "remote": null,
       "url": "https://instacart.careers/job/?gh_jid=7963726",
       "first_seen": 1788833096.464791,
-      "last_verified": null
+      "last_verified": 1788833279.706184
     },
     {
       "company": "Instacart",
@@ -5080,7 +4970,7 @@
       "remote": null,
       "url": "https://instacart.careers/job/?gh_jid=7963724",
       "first_seen": 1788833096.464732,
-      "last_verified": null
+      "last_verified": 1788833279.640768
     },
     {
       "company": "Instacart",
@@ -5090,7 +4980,7 @@
       "remote": null,
       "url": "https://instacart.careers/job/?gh_jid=8160010",
       "first_seen": 1788833096.4646971,
-      "last_verified": null
+      "last_verified": 1788833279.578685
     },
     {
       "company": "Instacart",
@@ -5100,7 +4990,7 @@
       "remote": null,
       "url": "https://instacart.careers/job/?gh_jid=8160008",
       "first_seen": 1788833096.4646668,
-      "last_verified": null
+      "last_verified": 1788833279.516005
     },
     {
       "company": "Instacart",
@@ -5110,7 +5000,7 @@
       "remote": null,
       "url": "https://instacart.careers/job/?gh_jid=8141483",
       "first_seen": 1788833096.4630022,
-      "last_verified": null
+      "last_verified": 1788833279.4592268
     },
     {
       "company": "Instacart",
@@ -5120,7 +5010,7 @@
       "remote": null,
       "url": "https://instacart.careers/job/?gh_jid=8141481",
       "first_seen": 1788833096.4626381,
-      "last_verified": null
+      "last_verified": 1788833279.38697
     },
     {
       "company": "Coinbase",
@@ -5130,7 +5020,7 @@
       "remote": null,
       "url": "https://www.coinbase.com/careers/positions/8148171?gh_jid=8148171",
       "first_seen": 1788833096.369805,
-      "last_verified": null
+      "last_verified": 1788833279.0939069
     },
     {
       "company": "Coinbase",
@@ -5140,7 +5030,7 @@
       "remote": null,
       "url": "https://www.coinbase.com/careers/positions/8060662?gh_jid=8060662",
       "first_seen": 1788833096.369754,
-      "last_verified": null
+      "last_verified": 1788833279.032066
     },
     {
       "company": "Coinbase",
@@ -5150,7 +5040,7 @@
       "remote": null,
       "url": "https://www.coinbase.com/careers/positions/8017607?gh_jid=8017607",
       "first_seen": 1788833096.369685,
-      "last_verified": null
+      "last_verified": 1788833278.970657
     },
     {
       "company": "Coinbase",
@@ -5160,7 +5050,7 @@
       "remote": null,
       "url": "https://www.coinbase.com/careers/positions/7997785?gh_jid=7997785",
       "first_seen": 1788833096.3696299,
-      "last_verified": null
+      "last_verified": 1788833278.910073
     },
     {
       "company": "Coinbase",
@@ -5170,7 +5060,7 @@
       "remote": null,
       "url": "https://www.coinbase.com/careers/positions/7789404?gh_jid=7789404",
       "first_seen": 1788833096.369567,
-      "last_verified": null
+      "last_verified": 1788833278.846635
     },
     {
       "company": "Coinbase",
@@ -5180,7 +5070,7 @@
       "remote": null,
       "url": "https://www.coinbase.com/careers/positions/7701642?gh_jid=7701642",
       "first_seen": 1788833096.369515,
-      "last_verified": null
+      "last_verified": 1788833278.7840168
     },
     {
       "company": "Coinbase",
@@ -5190,7 +5080,7 @@
       "remote": null,
       "url": "https://www.coinbase.com/careers/positions/7304930?gh_jid=7304930",
       "first_seen": 1788833096.369462,
-      "last_verified": null
+      "last_verified": 1788833278.714732
     },
     {
       "company": "Coinbase",
@@ -5200,7 +5090,7 @@
       "remote": null,
       "url": "https://www.coinbase.com/careers/positions/8031208?gh_jid=8031208",
       "first_seen": 1788833096.366832,
-      "last_verified": null
+      "last_verified": 1788833278.648938
     },
     {
       "company": "Coinbase",
@@ -5210,7 +5100,7 @@
       "remote": null,
       "url": "https://www.coinbase.com/careers/positions/8126896?gh_jid=8126896",
       "first_seen": 1788833096.363808,
-      "last_verified": null
+      "last_verified": 1788833278.579041
     },
     {
       "company": "Coinbase",
@@ -5220,7 +5110,7 @@
       "remote": null,
       "url": "https://www.coinbase.com/careers/positions/8114474?gh_jid=8114474",
       "first_seen": 1788833096.363768,
-      "last_verified": null
+      "last_verified": 1788833278.5057228
     },
     {
       "company": "Coinbase",
@@ -5230,7 +5120,7 @@
       "remote": null,
       "url": "https://www.coinbase.com/careers/positions/8064324?gh_jid=8064324",
       "first_seen": 1788833096.363735,
-      "last_verified": null
+      "last_verified": 1788833278.443645
     },
     {
       "company": "Coinbase",
@@ -5240,7 +5130,7 @@
       "remote": null,
       "url": "https://www.coinbase.com/careers/positions/8014564?gh_jid=8014564",
       "first_seen": 1788833096.363342,
-      "last_verified": null
+      "last_verified": 1788833278.382081
     },
     {
       "company": "Databricks",
@@ -5250,7 +5140,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=7586263002",
       "first_seen": 1788833076.224276,
-      "last_verified": null
+      "last_verified": 1788833278.256943
     },
     {
       "company": "Databricks",
@@ -5260,7 +5150,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8584704002",
       "first_seen": 1788833076.217761,
-      "last_verified": null
+      "last_verified": 1788833277.955901
     },
     {
       "company": "Databricks",
@@ -5270,7 +5160,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8429978002",
       "first_seen": 1788833076.217699,
-      "last_verified": null
+      "last_verified": 1788833277.607733
     },
     {
       "company": "Databricks",
@@ -5280,7 +5170,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8427954002",
       "first_seen": 1788833076.2176409,
-      "last_verified": null
+      "last_verified": 1788833277.3212202
     },
     {
       "company": "Databricks",
@@ -5290,7 +5180,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8420607002",
       "first_seen": 1788833076.2175832,
-      "last_verified": null
+      "last_verified": 1788833277.04086
     },
     {
       "company": "Databricks",
@@ -5300,7 +5190,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8394060002",
       "first_seen": 1788833076.217536,
-      "last_verified": null
+      "last_verified": 1788833276.7223098
     },
     {
       "company": "Databricks",
@@ -5310,7 +5200,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8387085002",
       "first_seen": 1788833076.217498,
-      "last_verified": null
+      "last_verified": 1788833276.275397
     },
     {
       "company": "Databricks",
@@ -5320,7 +5210,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8326570002",
       "first_seen": 1788833076.217461,
-      "last_verified": null
+      "last_verified": 1788833275.979747
     },
     {
       "company": "Databricks",
@@ -5330,7 +5220,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8326513002",
       "first_seen": 1788833076.217419,
-      "last_verified": null
+      "last_verified": 1788833275.606496
     },
     {
       "company": "Databricks",
@@ -5340,7 +5230,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8235785002",
       "first_seen": 1788833076.217377,
-      "last_verified": null
+      "last_verified": 1788833275.303317
     },
     {
       "company": "Databricks",
@@ -5350,7 +5240,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8200462002",
       "first_seen": 1788833076.217331,
-      "last_verified": null
+      "last_verified": 1788833275.0004961
     },
     {
       "company": "Databricks",
@@ -5360,7 +5250,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8200284002",
       "first_seen": 1788833076.21729,
-      "last_verified": null
+      "last_verified": 1788833274.675157
     },
     {
       "company": "Databricks",
@@ -5370,7 +5260,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8186386002",
       "first_seen": 1788833076.21725,
-      "last_verified": null
+      "last_verified": 1788833274.368868
     },
     {
       "company": "Databricks",
@@ -5380,7 +5270,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8136204002",
       "first_seen": 1788833076.217215,
-      "last_verified": null
+      "last_verified": 1788833274.012949
     },
     {
       "company": "Databricks",
@@ -5390,7 +5280,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8136071002",
       "first_seen": 1788833076.217176,
-      "last_verified": null
+      "last_verified": 1788833273.7414138
     },
     {
       "company": "Databricks",
@@ -5400,7 +5290,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=7863522002",
       "first_seen": 1788833076.2171369,
-      "last_verified": null
+      "last_verified": 1788833273.458772
     },
     {
       "company": "Databricks",
@@ -5410,7 +5300,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=7863365002",
       "first_seen": 1788833076.2170959,
-      "last_verified": null
+      "last_verified": 1788833273.156456
     },
     {
       "company": "Databricks",
@@ -5420,7 +5310,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=7680573002",
       "first_seen": 1788833076.217055,
-      "last_verified": null
+      "last_verified": 1788833272.89472
     },
     {
       "company": "Databricks",
@@ -5430,7 +5320,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=7649411002",
       "first_seen": 1788833076.217008,
-      "last_verified": null
+      "last_verified": 1788833272.6143968
     },
     {
       "company": "Databricks",
@@ -5440,7 +5330,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=7649409002",
       "first_seen": 1788833076.216979,
-      "last_verified": null
+      "last_verified": 1788833272.167948
     },
     {
       "company": "Databricks",
@@ -5450,7 +5340,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=7110509002",
       "first_seen": 1788833076.216924,
-      "last_verified": null
+      "last_verified": 1788833271.784116
     },
     {
       "company": "Databricks",
@@ -5460,7 +5350,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=7110499002",
       "first_seen": 1788833076.21689,
-      "last_verified": null
+      "last_verified": 1788833271.446573
     },
     {
       "company": "Databricks",
@@ -5470,7 +5360,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=6883068002",
       "first_seen": 1788833076.2168598,
-      "last_verified": null
+      "last_verified": 1788833271.186653
     },
     {
       "company": "Databricks",
@@ -5480,7 +5370,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=6322654002",
       "first_seen": 1788833076.216825,
-      "last_verified": null
+      "last_verified": 1788833270.777465
     },
     {
       "company": "Databricks",
@@ -5490,7 +5380,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8679974002",
       "first_seen": 1788833076.215786,
-      "last_verified": null
+      "last_verified": 1788833270.480989
     },
     {
       "company": "Databricks",
@@ -5500,7 +5390,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8560772002",
       "first_seen": 1788833076.21555,
-      "last_verified": null
+      "last_verified": 1788833270.1164029
     },
     {
       "company": "Databricks",
@@ -5510,7 +5400,7 @@
       "remote": null,
       "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8203285002",
       "first_seen": 1788833076.214227,
-      "last_verified": null
+      "last_verified": 1788833269.614323
     },
     {
       "company": "Stripe",
@@ -5520,7 +5410,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=8164479",
       "first_seen": 1788833076.033914,
-      "last_verified": null
+      "last_verified": 1788833269.168166
     },
     {
       "company": "Stripe",
@@ -5530,7 +5420,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=7144975",
       "first_seen": 1788833076.032799,
-      "last_verified": null
+      "last_verified": 1788833267.714022
     },
     {
       "company": "Stripe",
@@ -5540,7 +5430,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=8165259",
       "first_seen": 1788833076.0327759,
-      "last_verified": null
+      "last_verified": 1788833267.268482
     },
     {
       "company": "Stripe",
@@ -5550,7 +5440,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=8174316",
       "first_seen": 1788833076.0327501,
-      "last_verified": null
+      "last_verified": 1788833266.828434
     },
     {
       "company": "Stripe",
@@ -5560,7 +5450,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=8155002",
       "first_seen": 1788833076.0327208,
-      "last_verified": null
+      "last_verified": 1788833266.39198
     },
     {
       "company": "Stripe",
@@ -5570,7 +5460,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=8128499",
       "first_seen": 1788833076.0326989,
-      "last_verified": null
+      "last_verified": 1788833265.6309981
     },
     {
       "company": "Stripe",
@@ -5580,7 +5470,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=8096726",
       "first_seen": 1788833076.032674,
-      "last_verified": null
+      "last_verified": 1788833265.0408802
     },
     {
       "company": "Stripe",
@@ -5590,7 +5480,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=8031782",
       "first_seen": 1788833076.032649,
-      "last_verified": null
+      "last_verified": 1788833264.6038558
     },
     {
       "company": "Stripe",
@@ -5600,7 +5490,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=7980578",
       "first_seen": 1788833076.032628,
-      "last_verified": null
+      "last_verified": 1788833263.929641
     },
     {
       "company": "Stripe",
@@ -5610,7 +5500,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=7954207",
       "first_seen": 1788833076.032609,
-      "last_verified": null
+      "last_verified": 1788833263.45411
     },
     {
       "company": "Stripe",
@@ -5620,7 +5510,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=7954118",
       "first_seen": 1788833076.032588,
-      "last_verified": null
+      "last_verified": 1788833263.032356
     },
     {
       "company": "Stripe",
@@ -5630,7 +5520,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=7925550",
       "first_seen": 1788833076.0325708,
-      "last_verified": null
+      "last_verified": 1788833262.581175
     },
     {
       "company": "Stripe",
@@ -5640,7 +5530,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=7861422",
       "first_seen": 1788833076.032553,
-      "last_verified": null
+      "last_verified": 1788833262.1354969
     },
     {
       "company": "Stripe",
@@ -5650,7 +5540,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=7663023",
       "first_seen": 1788833076.032536,
-      "last_verified": null
+      "last_verified": 1788833261.35567
     },
     {
       "company": "Stripe",
@@ -5660,7 +5550,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=7568117",
       "first_seen": 1788833076.0325172,
-      "last_verified": null
+      "last_verified": 1788833260.943135
     },
     {
       "company": "Stripe",
@@ -5670,7 +5560,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=7202630",
       "first_seen": 1788833076.032497,
-      "last_verified": null
+      "last_verified": 1788833260.3873658
     },
     {
       "company": "Stripe",
@@ -5680,7 +5570,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=8122188",
       "first_seen": 1788833076.032467,
-      "last_verified": null
+      "last_verified": 1788833259.824341
     },
     {
       "company": "Stripe",
@@ -5690,7 +5580,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=7812856",
       "first_seen": 1788833076.032438,
-      "last_verified": null
+      "last_verified": 1788833259.406305
     },
     {
       "company": "Stripe",
@@ -5700,7 +5590,7 @@
       "remote": null,
       "url": "https://stripe.com/jobs/search?gh_jid=7392697",
       "first_seen": 1788833076.0315058,
-      "last_verified": null
+      "last_verified": 1788833258.881523
     },
     {
       "company": "Stripe",
@@ -5884,16 +5774,6 @@
     },
     {
       "company": "Stripe",
-      "title": "Product Manager, Hardware",
-      "family": "pm",
-      "location": "San Francisco, Seattle",
-      "remote": null,
-      "url": "https://stripe.com/jobs/search?gh_jid=7586413",
-      "first_seen": 1788833076.028706,
-      "last_verified": 1788833248.829663
-    },
-    {
-      "company": "Stripe",
       "title": "Staff Product Manager, Issuing",
       "family": "pm",
       "location": "London",
@@ -6021,26 +5901,6 @@
       "url": "https://job-boards.greenhouse.io/anthropic/jobs/5397737008",
       "first_seen": 1788833075.8607821,
       "last_verified": 1788833242.686133
-    },
-    {
-      "company": "Anthropic",
-      "title": "Physical Security Design Lead and Contract Document Specialist",
-      "family": "design",
-      "location": "Boston, MA; Remote-Friendly (Travel-Required) | San Francisco, CA | Seattle, WA | New York City, NY; Washington, DC",
-      "remote": null,
-      "url": "https://job-boards.greenhouse.io/anthropic/jobs/5393039008",
-      "first_seen": 1788833075.8605819,
-      "last_verified": 1788833242.519677
-    },
-    {
-      "company": "Anthropic",
-      "title": "Policy Design Manager, Conventional Weapons",
-      "family": "design",
-      "location": "Remote-Friendly (Travel-Required) | San Francisco, CA | New York City, NY; Washington, DC",
-      "remote": null,
-      "url": "https://job-boards.greenhouse.io/anthropic/jobs/5392184008",
-      "first_seen": 1788833075.856401,
-      "last_verified": 1788833242.3316789
     },
     {
       "company": "Anthropic",
@@ -6391,16 +6251,6 @@
       "url": "https://boards.greenhouse.io/figma/jobs/6126976004?gh_jid=6126976004",
       "first_seen": 1788833075.569505,
       "last_verified": 1788833231.226708
-    },
-    {
-      "company": "Figma",
-      "title": "Executive Assistant, Design",
-      "family": "design",
-      "location": "San Francisco, CA \u2022 New York, NY \u2022 United States",
-      "remote": null,
-      "url": "https://boards.greenhouse.io/figma/jobs/6115082004?gh_jid=6115082004",
-      "first_seen": 1788833075.569487,
-      "last_verified": 1788833231.03684
     },
     {
       "company": "Figma",
