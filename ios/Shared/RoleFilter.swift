@@ -1,8 +1,8 @@
 import Foundation
 
-/// The reader's current filter. Lives only in memory — there is nothing to persist and
-/// nothing to sync.
-struct RoleFilter: Equatable {
+/// The reader's current filter. Persisted on device only, so the app opens the way they
+/// left it — nothing here is synced or transmitted.
+struct RoleFilter: Equatable, Codable {
 
     /// The families Rolecall leads with: the product-design vertical proper. Product
     /// Management is classified by the engine but is **off by default** — it outnumbers
@@ -35,6 +35,22 @@ struct RoleFilter: Equatable {
         }
         if remoteOnly { parts.append("Remote only") }
         return parts.joined(separator: " · ")
+    }
+
+    // MARK: on-device persistence
+
+    private static let storeKey = "filter.v1"
+
+    static func loadPersisted(_ defaults: UserDefaults = SharedContainer.defaults) -> RoleFilter {
+        guard let data = defaults.data(forKey: storeKey),
+              let filter = try? JSONDecoder().decode(RoleFilter.self, from: data)
+        else { return RoleFilter() }
+        return filter
+    }
+
+    func persist(_ defaults: UserDefaults = SharedContainer.defaults) {
+        guard let data = try? JSONEncoder().encode(self) else { return }
+        defaults.set(data, forKey: Self.storeKey)
     }
 }
 
