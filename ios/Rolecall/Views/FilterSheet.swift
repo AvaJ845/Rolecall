@@ -8,6 +8,9 @@ struct FilterSheet: View {
     let remoteCount: Int
     /// Companies on the board, for the "exclude" picker.
     var companies: [String] = []
+    /// How many roles the given filter (plus the board's current search) would show —
+    /// so the sheet can echo the result live as you adjust it.
+    var matchCount: ((RoleFilter) -> Int)? = nil
     @Environment(\.dismiss) private var dismiss
     @Environment(\.isPlus) private var isPlus
     @State private var showPaywall = false
@@ -16,6 +19,10 @@ struct FilterSheet: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: Theme.Metric.sectionGap) {
+                    if let matchCount {
+                        countLine(matchCount(filter))
+                    }
+
                     section("Role family") {
                         VStack(spacing: 0) {
                             ForEach(RoleFamily.allCases) { family in
@@ -74,6 +81,21 @@ struct FilterSheet: View {
         }
     }
 
+    /// Live count of what the current filter would show, at the top of the sheet.
+    private func countLine(_ n: Int) -> some View {
+        let noun = n == 1 ? "role" : "roles"
+        let text = n == 0 ? "No roles match — loosen a filter"
+            : filter.isActive ? "\(n) \(noun) match"
+            : "\(n) \(noun)"
+        return Text(text)
+            .font(.subheadline.weight(.medium))
+            .foregroundStyle(n == 0 ? Theme.Palette.caution : Theme.Palette.inkSecondary)
+            .contentTransition(.numericText())
+            .animation(.easeOut(duration: 0.2), value: n)
+            .accessibilityLabel(n == 0 ? "No roles match the current filter"
+                                : "\(n) \(noun) match the current filter")
+    }
+
     // MARK: advanced (Plus)
 
     @ViewBuilder
@@ -102,15 +124,21 @@ struct FilterSheet: View {
                 Button {
                     showPaywall = true
                 } label: {
-                    Text("Filter by seniority, how recently a role was posted, and hide companies you're not interested in.")
-                        .font(.footnote)
-                        .foregroundStyle(Theme.Palette.inkSecondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(16)
-                        .contentShape(Rectangle())
+                    HStack(spacing: 12) {
+                        Text("Filter by seniority, how recently a role was posted, and hide companies you're not interested in.")
+                            .font(.footnote)
+                            .foregroundStyle(Theme.Palette.inkSecondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Image(systemName: "chevron.forward")
+                            .font(.footnote.weight(.semibold))
+                            .foregroundStyle(Theme.Palette.inkTertiary)
+                    }
+                    .padding(16)
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .cardSurface()
+                .accessibilityHint("Opens Rolecall Plus")
             }
         }
     }

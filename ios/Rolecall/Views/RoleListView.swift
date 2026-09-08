@@ -64,7 +64,8 @@ struct RoleListView: View {
                     filter: $filter,
                     counts: familyCounts,
                     remoteCount: store.board.roles.filter(\.isRemote).count,
-                    companies: uniqueCompanies
+                    companies: uniqueCompanies,
+                    matchCount: matchCount
                 )
                 .presentationDetents([.medium, .large])
             }
@@ -285,6 +286,13 @@ struct RoleListView: View {
 
     private var uniqueCompanies: [String] {
         Array(Set(store.board.roles.map(\.company))).sorted()
+    }
+
+    /// Roles a candidate filter would show, honouring the board's current search and the
+    /// hidden set — feeds the live count in the filter sheet.
+    private func matchCount(_ candidate: RoleFilter) -> Int {
+        let visible = store.board.roles.filter { tracked.status(for: $0)?.isHidden != true }
+        return Self.search(visible, query: query).filter { candidate.matches($0, now: now) }.count
     }
 
     private func sectionHeader(_ title: String, count: Int) -> some View {
