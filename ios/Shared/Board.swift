@@ -20,10 +20,13 @@ struct Board: Codable, Hashable {
         try Role.makeDecoder().decode(Board.self, from: data)
     }
 
-    func encoded() throws -> Data {
+    /// `pretty` is for the rare case a human reads the output. The on-device cache file
+    /// (`SharedContainer.writeBoard`) is machine-read only, so it is written compact —
+    /// pretty-printing a multi-thousand-role board is pure main-thread/disk overhead.
+    func encoded(pretty: Bool = false) throws -> Data {
         let e = JSONEncoder()
         e.dateEncodingStrategy = .secondsSince1970
-        e.outputFormatting = [.prettyPrinted, .sortedKeys]
+        e.outputFormatting = pretty ? [.prettyPrinted, .sortedKeys] : [.sortedKeys]
         return try e.encode(self)
     }
 

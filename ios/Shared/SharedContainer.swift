@@ -35,11 +35,16 @@ enum SharedContainer {
     }
 
     /// Write the merged board where the widget can find it. Best-effort and atomic.
+    ///
+    /// One write, not two: when the App Group container is available (every provisioned
+    /// build) that is the single source of truth. The Application Support copy is only a
+    /// fallback for an unsigned simulator that has no container at all.
     static func writeBoard(_ board: Board) {
         guard let data = try? board.encoded() else { return }
-        let targets = [boardFile, Optional(localBoardFile)].compactMap { $0 }
-        for url in targets {
-            try? data.write(to: url, options: .atomic)
+        if let shared = boardFile {
+            try? data.write(to: shared, options: .atomic)
+        } else {
+            try? data.write(to: localBoardFile, options: .atomic)
         }
     }
 
