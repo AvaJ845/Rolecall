@@ -17,6 +17,7 @@ import random
 import re
 import sys
 import time
+import urllib.parse as urllib_parse
 
 from . import store
 from .ats import fetch_company, resolve_ats
@@ -153,10 +154,28 @@ def ingest():
 
 # --- verify -------------------------------------------------------------
 
-def verify(limit: int = 300, min_age_hours: float = 0.0):
+def _short_url(url: str) -> str:
+    """Company-careers host + a truncated path, no query string. Used in CI logs so the
+    6-hourly build history is not a timestamped 'who is hiring designers' record (P0-16).
+    The full URL is in the DB; pass --verbose to print it for local debugging."""
+    try:
+        parts = urllib_parse.urlsplit(url or "")
+    except ValueError:
+        return "<unparseable url>"
+    host = parts.netloc or "?"
+    path = parts.path or "/"
+    if len(path) > 16:
+        path = path[:15] + "…"
+    return "{}{}".format(host, path)
+
+
+def verify(limit: int = 300, min_age_hours: float = 0.0, verbose: bool = False):
     """Secondary signal: HTTP-check live postings and flag ones that no longer look live.
     The authoritative freshness signal is still ingest (feed presence); this catches
-    'still in the feed but the page is dead' and measures link health."""
+    'still in the feed but the page is dead' and measures link health.
+
+    `verbose` (local `--verbose` only; CI never passes it) prints the full posting URL
+    for each flagged row. By default only the host + a truncated path is logged (P0-16)."""
     conn = store.connect()
     run_id = store.start_run(conn, "verify")
     cutoff = store.now() - min_age_hours * 3600
@@ -192,12 +211,13 @@ def verify(limit: int = 300, min_age_hours: float = 0.0):
             (store.now(), code, flag, p["key"]),
         )
         checked += 1
+        loc = p["url"] if verbose else _short_url(p["url"])
         if flag in dead_flags:
             dead += 1
-            print("  DEAD  {:<26} {:<18} {}".format(p["company_name"][:26], flag, p["url"]))
+            print("  DEAD  {:<26} {:<18} {}".format(p["company_name"][:26], flag, loc))
         elif flag:
             ambiguous += 1
-            print("  ????  {:<26} {:<18} {}".format(p["company_name"][:26], flag, p["url"]))
+            print("  ????  {:<26} {:<18} {}".format(p["company_name"][:26], flag, loc))
         if checked % 25 == 0:
             conn.commit()
     conn.commit()
