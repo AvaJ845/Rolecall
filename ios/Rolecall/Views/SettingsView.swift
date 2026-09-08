@@ -27,6 +27,21 @@ struct SettingsView: View {
         }
     }
 
+    /// A list row that opens a web page — with the trailing glyph iOS uses to say
+    /// "this leaves the app".
+    private func externalLink(_ title: String, _ urlString: String) -> some View {
+        Link(destination: URL(string: urlString)!) {
+            HStack {
+                Text(title)
+                Spacer()
+                Image(systemName: "arrow.up.right")
+                    .font(.footnote)
+                    .foregroundStyle(.tertiary)
+            }
+        }
+        .accessibilityLabel("\(title). Opens in the browser.")
+    }
+
     private var version: String {
         let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
         let b = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
@@ -98,28 +113,16 @@ struct SettingsView: View {
                 .onChange(of: settings.morningRead) { _, on in handleDigestToggle(on) }
                 .onChange(of: settings.weeklyRecap) { _, on in handleDigestToggle(on) }
 
-                Section("Applications") {
+                Section("Job search") {
                     NavigationLink {
                         SavedSearchesView()
                     } label: {
-                        HStack {
-                            Label("Saved searches", systemImage: "bookmark")
-                            Spacer()
-                            Text("\(searches.searches.count)")
-                                .foregroundStyle(.secondary)
-                                .monospacedDigit()
-                        }
+                        LabeledContent("Saved searches", value: "\(searches.searches.count)")
                     }
                     NavigationLink {
                         AppliedReportView()
                     } label: {
-                        HStack {
-                            Label("Applied roles", systemImage: "checkmark.circle")
-                            Spacer()
-                            Text("\(tracked.appliedCount)")
-                                .foregroundStyle(.secondary)
-                                .monospacedDigit()
-                        }
+                        LabeledContent("Applications", value: "\(tracked.appliedCount)")
                     }
                     Toggle(isOn: $settings.autoClearOldRoles) {
                         VStack(alignment: .leading, spacing: 2) {
@@ -134,13 +137,13 @@ struct SettingsView: View {
                     Text("Rolecall keeps everything on this device. No account, no analytics, no trackers. Nothing you do here is sent anywhere.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
-                    Link("Privacy Policy", destination: URL(string: "https://rolecalljobs.com/privacy/")!)
-                    Link("Terms of Use", destination: URL(string: "https://rolecalljobs.com/terms/")!)
+                    externalLink("Privacy Policy", "https://rolecalljobs.com/privacy/")
+                    externalLink("Terms of Use", "https://rolecalljobs.com/terms/")
                 }
 
                 Section {
                     Button(role: .destructive) { confirmingWipe = true } label: {
-                        Text("Clear all my data")
+                        Text("Clear all data")
                     }
                 } footer: {
                     Text("Removes every saved role, application, and preference. The job board itself is unaffected.")
@@ -170,7 +173,7 @@ struct SettingsView: View {
             } message: {
                 Text("Turn on notifications for Rolecall in the Settings app to get digests.")
             }
-            .alert("Clear all your data?", isPresented: $confirmingWipe) {
+            .alert("Clear all data?", isPresented: $confirmingWipe) {
                 Button("Clear everything", role: .destructive) {
                     tracked.wipeAll()
                     searches.wipeAll()

@@ -96,11 +96,17 @@ final class ScreenshotTests: XCTestCase {
             app.buttons["Done"].firstMatch.tap()
         }
 
-        // 5 — no account, no trackers
+        // 5 — no account, no trackers (scroll to the privacy promise the caption is about)
         let settings = app.navigationBars.buttons["Settings"]
         if settings.waitForExistence(timeout: 5) {
             settings.tap()
             _ = app.staticTexts["Appearance"].waitForExistence(timeout: 5)
+            let clearButton = app.buttons["Clear all data"]
+            var tries = 0
+            while !clearButton.isHittable && tries < 8 {
+                app.swipeUp()
+                tries += 1
+            }
             shot("05-privacy")
         }
     }
