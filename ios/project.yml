@@ -88,6 +88,10 @@ targets:
         UILaunchScreen:
           UIColorName: Paper
         UIApplicationSupportsIndirectInputEvents: true
+        UIBackgroundModes:
+          - fetch
+        BGTaskSchedulerPermittedIdentifiers:
+          - com.avaresearch.rolecall.refresh
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationLandscapeLeft

@@ -22,10 +22,18 @@ struct RolecallApp: App {
                     if settings.autoClearOldRoles { tracked.autoClear() }
                 }
                 .onChange(of: scenePhase) { _, phase in
-                    // Mark the visit as the app leaves the foreground, so the next launch
-                    // can quietly flag what arrived since.
-                    if phase != .active { tracked.recordVisit() }
+                    guard phase != .active else { return }
+                    // Mark the visit so the next launch can flag what's new, and refresh
+                    // the digests against the board we currently hold.
+                    tracked.recordVisit()
+                    Digest.scheduleBackgroundRefresh()
+                    Task {
+                        await Digest.reschedule(board: store.board, tracked: tracked, settings: settings)
+                    }
                 }
+        }
+        .backgroundTask(.appRefresh(Digest.refreshTaskID)) {
+            await Digest.runBackgroundRefresh()
         }
     }
 }
