@@ -12,7 +12,7 @@ import os
 import pathlib
 import urllib.parse as urllib_parse
 
-from . import store
+from . import config, store
 from ._util import DATA
 
 BOARD_PATH = DATA / "board.json"
@@ -105,7 +105,15 @@ def export():
             print("error: {}".format(err))
             return 1
 
-    BOARD_PATH.write_text(json.dumps(
-        {"generated_utc": store.now(), "count": len(out), "roles": out}, indent=2))
-    print("wrote {} live roles -> {}".format(len(out), BOARD_PATH))
+    # P0-11: stamp the ruleset that produced this snapshot. The signature is over the
+    # exact bytes, so `meta` is covered automatically; the app decodes it as optional.
+    board = {
+        "generated_utc": store.now(),
+        "count": len(out),
+        "meta": config.meta(),
+        "roles": out,
+    }
+    BOARD_PATH.write_text(json.dumps(board, indent=2))
+    print("wrote {} live roles (classifier {}) -> {}".format(
+        len(out), config.CLASSIFIER_VERSION, BOARD_PATH))
     return 0

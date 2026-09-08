@@ -1,5 +1,21 @@
 import Foundation
 
+/// The ruleset that produced a board snapshot (engine `config.py`, written into
+/// `board.json`'s `meta` block — P0-11). Optional and fully defaulted so snapshots from
+/// before `meta` existed still decode. Nothing in the UI depends on it yet; it is for
+/// debuggability and future migrations. The signature covers it automatically.
+struct BoardMeta: Codable, Hashable {
+    var classifierVersion: String?
+    var includePM: Bool?
+    var vertical: String?
+
+    enum CodingKeys: String, CodingKey {
+        case classifierVersion = "classifier_version"
+        case includePM = "include_pm"
+        case vertical
+    }
+}
+
 /// A whole board snapshot — the file the engine writes to `data/board.json` and the
 /// app bundles and later fetches from `BoardSource.remoteURL`.
 struct Board: Codable, Hashable {
@@ -8,10 +24,19 @@ struct Board: Codable, Hashable {
     let generatedUTC: Date
     let count: Int
     let roles: [Role]
+    /// Nil for snapshots written before the engine stamped `meta` (P0-11).
+    var meta: BoardMeta?
 
     enum CodingKeys: String, CodingKey {
         case generatedUTC = "generated_utc"
-        case count, roles
+        case count, roles, meta
+    }
+
+    init(generatedUTC: Date, count: Int, roles: [Role], meta: BoardMeta? = nil) {
+        self.generatedUTC = generatedUTC
+        self.count = count
+        self.roles = roles
+        self.meta = meta
     }
 
     static let empty = Board(generatedUTC: .distantPast, count: 0, roles: [])
@@ -60,7 +85,8 @@ struct Board: Codable, Hashable {
             }
             byID[role.id] = nil
         }
-        return Board(generatedUTC: newer.generatedUTC, count: merged.count, roles: merged)
+        return Board(generatedUTC: newer.generatedUTC, count: merged.count, roles: merged,
+                     meta: newer.meta)
     }
 
     /// The roles Rolecall will actually show: `https` only — an `http:` or `javascript:`
@@ -72,7 +98,7 @@ struct Board: Codable, Hashable {
             guard role.url.scheme?.lowercased() == "https" else { return false }
             return seen.insert(role.id).inserted
         }
-        return Board(generatedUTC: generatedUTC, count: safe.count, roles: safe)
+        return Board(generatedUTC: generatedUTC, count: safe.count, roles: safe, meta: meta)
     }
 
     /// A fetched remote snapshot must clear this bar before it may replace what the app

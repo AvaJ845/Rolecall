@@ -45,6 +45,40 @@ final class BoardDecodingTests: XCTestCase {
         }
     }
 
+    // P0-11: `meta` is optional. A board from before the engine stamped it must still
+    // decode (meta == nil); a board with it exposes the ruleset.
+    func testDecodesBoardWithoutMeta() throws {
+        let json = Data("""
+        {"generated_utc": 1788800000, "count": 1, "roles": [
+          {"company":"Acme","title":"Product Designer","family":"design",
+           "location":"NYC","remote":false,"url":"https://jobs.example.com/1",
+           "first_seen":1788000000,"last_verified":null}
+        ]}
+        """.utf8)
+        let board = try Board.decode(from: json)
+        XCTAssertNil(board.meta)
+        XCTAssertEqual(board.roles.count, 1)
+    }
+
+    func testDecodesBoardWithMeta() throws {
+        let json = Data("""
+        {"generated_utc": 1788800000, "count": 1,
+         "meta": {"classifier_version":"2026-09-08","include_pm":true,"vertical":"product-design"},
+         "roles": [
+          {"company":"Acme","title":"Product Designer","family":"design",
+           "location":"NYC","remote":false,"url":"https://jobs.example.com/1",
+           "first_seen":1788000000,"last_verified":null}
+        ]}
+        """.utf8)
+        let board = try Board.decode(from: json)
+        XCTAssertEqual(board.meta?.classifierVersion, "2026-09-08")
+        XCTAssertEqual(board.meta?.includePM, true)
+        XCTAssertEqual(board.meta?.vertical, "product-design")
+        XCTAssertEqual(board.sanitized().meta?.classifierVersion, "2026-09-08")
+        let reencoded = try board.encoded()
+        XCTAssertEqual(try Board.decode(from: reencoded).meta, board.meta)
+    }
+
     func testFamilyCoverage() throws {
         let board = try Board.decode(from: try realBoardData())
         let families = Set(board.roles.map(\.family))
