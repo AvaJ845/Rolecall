@@ -6,6 +6,7 @@ struct RolecallApp: App {
     @StateObject private var store = BoardStore()
     @StateObject private var tracked = TrackedRoles()
     @StateObject private var settings = AppSettings()
+    @StateObject private var plus = Store()
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
@@ -14,6 +15,8 @@ struct RolecallApp: App {
                 .environmentObject(store)
                 .environmentObject(tracked)
                 .environmentObject(settings)
+                .environmentObject(plus)
+                .environment(\.isPlus, plus.isPlus)
                 .tint(Theme.Palette.accent)
                 .preferredColorScheme(settings.appearance.colorScheme)
                 .task {

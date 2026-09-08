@@ -23,6 +23,8 @@
 		3D2D7CB8E4DA36C42939132D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DC06CED1727BB85A8802550 /* Assets.xcassets */; };
 		42F1A9A0545BF178F0A7E12D /* RolecallApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D931CFA6BB1424C365C5E1 /* RolecallApp.swift */; };
 		47831395BD6B0D62467589C1 /* board.json in Resources */ = {isa = PBXBuildFile; fileRef = 28D3B01EA53F47D2EF8C5077 /* board.json */; };
+		497522E93FAC6D8875DE6E56 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A30DC62932DC42994AA477C /* Store.swift */; };
+		4DB05D2FC29C53BEEC1DFE64 /* ProGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37773F8FA096C3685769BE88 /* ProGate.swift */; };
 		4FAF55E4ED229E87640A1DB6 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D7AAA421E8C6D856D16E6179 /* PrivacyInfo.xcprivacy */; };
 		5532BE814EA3354A50B3BFF0 /* RoleFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ED051EF7914A562765A6D7 /* RoleFilter.swift */; };
 		652D1B1E5797738F83B5E5A7 /* SharedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B79DA24CF107491B4917097 /* SharedContainer.swift */; };
@@ -49,6 +51,7 @@
 		AB9E53EC8F744984849CDC54 /* RefreshBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46694D7F3993715B1A9D7372 /* RefreshBanner.swift */; };
 		AD7BDBAFD286189F9A765BB6 /* Freshness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A34A687016866AAB163C6A4 /* Freshness.swift */; };
 		B68182104E888974801E16A4 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 597605252330CC321D998919 /* AppIntents.framework */; };
+		B8B93AD2822E060A63BB07BA /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDDA953425C8974785B7AE0 /* PaywallView.swift */; };
 		C072FDC3E4E1932C732D3F47 /* TrackedRoles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A1057451EF45E9F791DC2C /* TrackedRoles.swift */; };
 		C4714123610E29CAADFBC4FF /* board.json in Resources */ = {isa = PBXBuildFile; fileRef = 28D3B01EA53F47D2EF8C5077 /* board.json */; };
 		C4FC3A24CCC683577462FB92 /* RoleFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6421776046395804F5B6E103 /* RoleFamily.swift */; };
@@ -109,12 +112,16 @@
 		279FCE1AF1784F3BD179460C /* Digest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Digest.swift; sourceTree = "<group>"; };
 		28D3B01EA53F47D2EF8C5077 /* board.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = board.json; sourceTree = "<group>"; };
 		2B6E7CDF97BF66ACC9E6D59C /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		37773F8FA096C3685769BE88 /* ProGate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProGate.swift; sourceTree = "<group>"; };
 		3F9C4FBB2D85967A3CE7A0E6 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		45C93CE57026B5DD5A5DAA3B /* FilterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSheet.swift; sourceTree = "<group>"; };
 		46694D7F3993715B1A9D7372 /* RefreshBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshBanner.swift; sourceTree = "<group>"; };
 		4935575786063CC269B2F031 /* RoleRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleRow.swift; sourceTree = "<group>"; };
+		4A30DC62932DC42994AA477C /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		4B30618D1CA7D87E8E795B8D /* FreshnessFormatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreshnessFormatTests.swift; sourceTree = "<group>"; };
+		4BDDA953425C8974785B7AE0 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		4DC06CED1727BB85A8802550 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4E31A27792A31482FF3B765A /* RolecallProducts.storekit */ = {isa = PBXFileReference; path = RolecallProducts.storekit; sourceTree = "<group>"; };
 		597605252330CC321D998919 /* AppIntents.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppIntents.framework; path = System/Library/Frameworks/AppIntents.framework; sourceTree = SDKROOT; };
 		6421776046395804F5B6E103 /* RoleFamily.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleFamily.swift; sourceTree = "<group>"; };
 		67A1057451EF45E9F791DC2C /* TrackedRoles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedRoles.swift; sourceTree = "<group>"; };
@@ -165,6 +172,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E611E0BCF7F9DE1A1CD7A8A /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				4BDDA953425C8974785B7AE0 /* PaywallView.swift */,
+				37773F8FA096C3685769BE88 /* ProGate.swift */,
+				4E31A27792A31482FF3B765A /* RolecallProducts.storekit */,
+				4A30DC62932DC42994AA477C /* Store.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
 		0F9B076491B45D7BA1D65733 /* RolecallWidget */ = {
 			isa = PBXGroup;
 			children = (
@@ -278,6 +296,7 @@
 				723E8179BF290F2F641FD571 /* App */,
 				505190181168F8F19FB5FE28 /* Data */,
 				377BF410A153D1ED8F847594 /* Resources */,
+				0E611E0BCF7F9DE1A1CD7A8A /* Store */,
 				4BBCB5BE9E3B8EC25B27A887 /* Views */,
 				D1284D1D0C5C04B8F1DDF4E7 /* Info.plist */,
 				C31A62EE4941FB9BD97CA26F /* Rolecall.entitlements */,
@@ -511,6 +530,8 @@
 				F0182DA8B755B3C365EFC70D /* FreshnessChecker.swift in Sources */,
 				8C6C89B661BE10BAB53A346C /* Haptics.swift in Sources */,
 				2A081FAB164AE733062D51F0 /* IconPickerRow.swift in Sources */,
+				B8B93AD2822E060A63BB07BA /* PaywallView.swift in Sources */,
+				4DB05D2FC29C53BEEC1DFE64 /* ProGate.swift in Sources */,
 				AB9E53EC8F744984849CDC54 /* RefreshBanner.swift in Sources */,
 				0B79266BEE89070A0D6C46EC /* Role.swift in Sources */,
 				3251BAA27BDE40360930C33E /* RoleDetailView.swift in Sources */,
@@ -522,6 +543,7 @@
 				72039F29F34F7D4EADB06EC4 /* RolecallIntents.swift in Sources */,
 				303A53A2A2C75A7CA59AC057 /* SettingsView.swift in Sources */,
 				FB211D62B2371788971615C2 /* SharedContainer.swift in Sources */,
+				497522E93FAC6D8875DE6E56 /* Store.swift in Sources */,
 				3ABA9C5CBEEBE3C53BFECD5A /* Theme.swift in Sources */,
 				74648DEAE7AD0229B4EDE45D /* TrackedRoles.swift in Sources */,
 				2C5DD56270F7007E1AF173C7 /* TrackedRolesView.swift in Sources */,

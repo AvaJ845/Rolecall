@@ -24,7 +24,12 @@ targets:
     platform: iOS
     sources:
       - path: Rolecall
+        excludes:
+          - "Store/RolecallProducts.storekit"
       - path: Shared
+      # StoreKit test config — used by the scheme (run/test), not bundled into the app.
+      - path: Rolecall/Store/RolecallProducts.storekit
+        buildPhase: none
     dependencies:
       - target: RolecallWidget
       - sdk: AppIntents.framework
@@ -251,9 +256,11 @@ schemes:
         RolecallWidget: all
     run:
       config: Debug
+      storeKitConfiguration: Rolecall/Store/RolecallProducts.storekit
     test:
       config: Debug
       gatherCoverageData: false
+      storeKitConfiguration: Rolecall/Store/RolecallProducts.storekit
       targets:
         - RolecallTests
         - RolecallUITests
