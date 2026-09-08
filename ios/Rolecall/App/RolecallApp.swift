@@ -7,6 +7,7 @@ struct RolecallApp: App {
     @StateObject private var tracked = TrackedRoles()
     @StateObject private var settings = AppSettings()
     @StateObject private var plus = Store()
+    @StateObject private var searches = SavedSearches()
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
@@ -16,6 +17,7 @@ struct RolecallApp: App {
                 .environmentObject(tracked)
                 .environmentObject(settings)
                 .environmentObject(plus)
+                .environmentObject(searches)
                 .environment(\.isPlus, plus.isPlus)
                 .tint(Theme.Palette.accent)
                 .preferredColorScheme(settings.appearance.colorScheme)
@@ -37,7 +39,8 @@ struct RolecallApp: App {
                     tracked.recordVisit()
                     Digest.scheduleBackgroundRefresh()
                     Task {
-                        await Digest.reschedule(board: store.board, tracked: tracked, settings: settings)
+                        await Digest.reschedule(board: store.board, tracked: tracked,
+                                                settings: settings, searches: searches, isPlus: plus.isPlus)
                     }
                 }
         }

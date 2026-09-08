@@ -7,6 +7,8 @@ struct RoleListView: View {
 
     @EnvironmentObject private var store: BoardStore
     @EnvironmentObject private var tracked: TrackedRoles
+    @EnvironmentObject private var searches: SavedSearches
+    @Environment(\.isPlus) private var isPlus
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -14,6 +16,10 @@ struct RoleListView: View {
     @State private var query = ""
     @State private var showingFilter = false
     @State private var showingSettings = false
+    @State private var showingSaveSearch = false
+    @State private var showingSavedSearches = false
+    @State private var showPaywall = false
+    @State private var searchName = ""
     @State private var mode: Mode = .board
     @State private var now = Date()
 
@@ -53,12 +59,35 @@ struct RoleListView: View {
                 FilterSheet(
                     filter: $filter,
                     counts: familyCounts,
-                    remoteCount: store.board.roles.filter(\.isRemote).count
+                    remoteCount: store.board.roles.filter(\.isRemote).count,
+                    companies: uniqueCompanies
                 )
                 .presentationDetents([.medium, .large])
             }
             .sheet(isPresented: $showingSettings) {
                 SettingsView()
+            }
+            .sheet(isPresented: $showingSavedSearches) {
+                NavigationStack {
+                    SavedSearchesView { search in
+                        filter = search.filter
+                        query = search.query
+                        rebuild()
+                    }
+                }
+            }
+            .sheet(isPresented: $showPaywall) { PaywallView(feature: .savedSearches) }
+            .alert("Name this search", isPresented: $showingSaveSearch) {
+                TextField("e.g. Staff, remote", text: $searchName)
+                Button("Save") {
+                    let name = searchName.trimmingCharacters(in: .whitespaces)
+                    searches.add(SavedSearch(name: name.isEmpty ? filter.summary : name,
+                                             filter: filter, query: query))
+                    searchName = ""
+                }
+                Button("Cancel", role: .cancel) { searchName = "" }
+            } message: {
+                Text("Rolecall keeps this filter so you can jump back to it.")
             }
         }
         .onAppear(perform: rebuild)
@@ -219,16 +248,37 @@ struct RoleListView: View {
             .accessibilityLabel("Settings")
         }
         ToolbarItem(placement: .topBarTrailing) {
-            Button {
-                showingFilter = true
+            Menu {
+                Button {
+                    showingFilter = true
+                } label: { Label("Filter", systemImage: "line.3.horizontal.decrease") }
+
+                Button {
+                    if searches.canAddWithoutPlus || isPlus {
+                        showingSaveSearch = true
+                    } else {
+                        showPaywall = true
+                    }
+                } label: { Label("Save this search", systemImage: "bookmark") }
+                .disabled(mode != .board)
+
+                if !searches.searches.isEmpty {
+                    Button {
+                        showingSavedSearches = true
+                    } label: { Label("Saved searches (\(searches.searches.count))", systemImage: "bookmark.fill") }
+                }
             } label: {
                 Image(systemName: filter.isActive
                       ? "line.3.horizontal.decrease.circle.fill"
                       : "line.3.horizontal.decrease.circle")
             }
-            .accessibilityLabel(filter.isActive ? "Filter, active" : "Filter")
+            .accessibilityLabel(filter.isActive ? "Filter and searches, filter active" : "Filter and searches")
             .disabled(mode != .board)
         }
+    }
+
+    private var uniqueCompanies: [String] {
+        Array(Set(store.board.roles.map(\.company))).sorted()
     }
 
     private func sectionHeader(_ title: String, count: Int) -> some View {
@@ -330,4 +380,6 @@ struct RoleListView: View {
         .environmentObject(BoardStore())
         .environmentObject(TrackedRoles())
         .environmentObject(AppSettings())
+        .environmentObject(Store())
+        .environmentObject(SavedSearches())
 }

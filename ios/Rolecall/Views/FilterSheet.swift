@@ -6,7 +6,11 @@ struct FilterSheet: View {
     @Binding var filter: RoleFilter
     let counts: [RoleFamily: Int]
     let remoteCount: Int
+    /// Companies on the board, for the "exclude" picker.
+    var companies: [String] = []
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.isPlus) private var isPlus
+    @State private var showPaywall = false
 
     var body: some View {
         NavigationStack {
@@ -49,6 +53,8 @@ struct FilterSheet: View {
                         .tint(Theme.Palette.accent)
                         .cardSurface()
                     }
+
+                    advancedSection
                 }
                 .padding(Theme.Metric.gutter)
             }
@@ -64,6 +70,95 @@ struct FilterSheet: View {
                     Button("Done") { dismiss() }.fontWeight(.semibold)
                 }
             }
+            .sheet(isPresented: $showPaywall) { PaywallView(feature: .advancedFilters) }
+        }
+    }
+
+    // MARK: advanced (Plus)
+
+    @ViewBuilder
+    private var advancedSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 6) {
+                Text("ADVANCED")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(Theme.Palette.inkTertiary)
+                    .tracking(0.6)
+                PlusBadge()
+            }
+
+            if isPlus {
+                VStack(spacing: 0) {
+                    seniorityRow
+                    Divider().overlay(Theme.Palette.hairline)
+                    postedWithinRow
+                    if !excludedList.isEmpty {
+                        Divider().overlay(Theme.Palette.hairline)
+                        excludedRow
+                    }
+                }
+                .cardSurface()
+            } else {
+                Button {
+                    showPaywall = true
+                } label: {
+                    Text("Filter by seniority, how recently a role was posted, and hide companies you're not interested in.")
+                        .font(.footnote)
+                        .foregroundStyle(Theme.Palette.inkSecondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(16)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .cardSurface()
+            }
+        }
+    }
+
+    private var seniorityRow: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Seniority").foregroundStyle(Theme.Palette.ink)
+            FlowChips(Seniority.allCases.map(\.label),
+                      isOn: { label in filter.seniorities.contains(where: { $0.label == label }) },
+                      toggle: { label in
+                          guard let s = Seniority.allCases.first(where: { $0.label == label }) else { return }
+                          Haptics.selection()
+                          if filter.seniorities.contains(s) { filter.seniorities.remove(s) }
+                          else { filter.seniorities.insert(s) }
+                      })
+        }
+        .padding(16)
+    }
+
+    private var postedWithinRow: some View {
+        let options: [(String, Int?)] = [("Any time", nil), ("24 hours", 1), ("3 days", 3), ("Week", 7), ("Month", 30)]
+        return VStack(alignment: .leading, spacing: 8) {
+            Text("Posted within").foregroundStyle(Theme.Palette.ink)
+            FlowChips(options.map(\.0),
+                      isOn: { label in options.first(where: { $0.0 == label })?.1 == filter.postedWithinDays },
+                      toggle: { label in
+                          Haptics.selection()
+                          filter.postedWithinDays = options.first(where: { $0.0 == label })?.1 ?? nil
+                      })
+        }
+        .padding(16)
+    }
+
+    private var excludedList: [String] {
+        companies.filter { !$0.isEmpty }.sorted().prefix(80).map { $0 }
+    }
+
+    private var excludedRow: some View {
+        NavigationLink {
+            ExcludedCompaniesView(excluded: $filter.excludedCompanies, all: excludedList)
+        } label: {
+            HStack {
+                Text("Hidden companies").foregroundStyle(Theme.Palette.ink)
+                Spacer()
+                Text(filter.excludedCompanies.isEmpty ? "None" : "\(filter.excludedCompanies.count)")
+                    .foregroundStyle(Theme.Palette.inkSecondary)
+            }
+            .padding(16)
         }
     }
 
@@ -112,5 +207,107 @@ private extension View {
                 RoundedRectangle(cornerRadius: Theme.Metric.cardRadius, style: .continuous)
                     .stroke(Theme.Palette.hairline, lineWidth: 1)
             )
+    }
+}
+
+/// A wrapping row of selectable chips.
+struct FlowChips: View {
+    let labels: [String]
+    let isOn: (String) -> Bool
+    let toggle: (String) -> Void
+
+    init(_ labels: [String], isOn: @escaping (String) -> Bool, toggle: @escaping (String) -> Void) {
+        self.labels = labels
+        self.isOn = isOn
+        self.toggle = toggle
+    }
+
+    var body: some View {
+        FlowLayout(spacing: 8) {
+            ForEach(labels, id: \.self) { label in
+                let on = isOn(label)
+                Button { toggle(label) } label: {
+                    Text(label)
+                        .font(.footnote.weight(.medium))
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 7)
+                        .background(on ? Theme.Palette.accent : Theme.Palette.surfaceRaised)
+                        .foregroundStyle(on ? .white : Theme.Palette.ink)
+                        .clipShape(Capsule())
+                        .overlay(Capsule().stroke(Theme.Palette.hairline, lineWidth: on ? 0 : 1))
+                }
+                .buttonStyle(.plain)
+                .accessibilityAddTraits(on ? [.isSelected] : [])
+            }
+        }
+    }
+}
+
+/// Minimal flow layout (iOS 16+ Layout).
+struct FlowLayout: Layout {
+    var spacing: CGFloat = 8
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        let maxW = proposal.width ?? .infinity
+        var x: CGFloat = 0, y: CGFloat = 0, rowH: CGFloat = 0
+        for v in subviews {
+            let s = v.sizeThatFits(.unspecified)
+            if x + s.width > maxW, x > 0 { x = 0; y += rowH + spacing; rowH = 0 }
+            x += s.width + spacing
+            rowH = max(rowH, s.height)
+        }
+        return CGSize(width: maxW == .infinity ? x : maxW, height: y + rowH)
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        var x = bounds.minX, y = bounds.minY, rowH: CGFloat = 0
+        for v in subviews {
+            let s = v.sizeThatFits(.unspecified)
+            if x + s.width > bounds.maxX, x > bounds.minX { x = bounds.minX; y += rowH + spacing; rowH = 0 }
+            v.place(at: CGPoint(x: x, y: y), proposal: ProposedViewSize(s))
+            x += s.width + spacing
+            rowH = max(rowH, s.height)
+        }
+    }
+}
+
+/// Full-screen "hide companies" picker for the advanced filter.
+struct ExcludedCompaniesView: View {
+    @Binding var excluded: Set<String>
+    let all: [String]
+    @State private var query = ""
+
+    private var shown: [String] {
+        query.isEmpty ? all : all.filter { $0.localizedCaseInsensitiveContains(query) }
+    }
+
+    var body: some View {
+        List {
+            if !excluded.isEmpty {
+                Section("Hidden") {
+                    ForEach(excluded.sorted(), id: \.self) { c in
+                        Button {
+                            excluded.remove(c)
+                        } label: {
+                            HStack {
+                                Text(c).foregroundStyle(Theme.Palette.ink)
+                                Spacer()
+                                Image(systemName: "checkmark").foregroundStyle(Theme.Palette.accent)
+                            }
+                        }
+                    }
+                }
+            }
+            Section("Companies on the board") {
+                ForEach(shown.filter { !excluded.contains($0) }, id: \.self) { c in
+                    Button { excluded.insert(c) } label: {
+                        Text(c).foregroundStyle(Theme.Palette.ink)
+                    }
+                }
+            }
+        }
+        .searchable(text: $query, prompt: "Company")
+        .navigationTitle("Hidden companies")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
