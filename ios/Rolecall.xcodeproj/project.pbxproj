@@ -53,6 +53,7 @@
 		88E241DAABFE44A77E4E81D2 /* ScreenshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF34AC7CB52DF3E0551EA6A4 /* ScreenshotTests.swift */; };
 		89A0C1BA82142C54224FA310 /* RolecallWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60508F5D20B2E19C946BBBE /* RolecallWidget.swift */; };
 		8C6C89B661BE10BAB53A346C /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014094CECD5AB44C436C2483 /* Haptics.swift */; };
+		943947FFDB25BE928554A845 /* DigestBackgroundTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19A2DF36A280AF96CA15707 /* DigestBackgroundTests.swift */; };
 		951FF7D7327DADC3CB3370D3 /* ListLogicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFDE4BC83931727F1CBC2B2 /* ListLogicTests.swift */; };
 		957A03B8C98EDB7E3B3C39D6 /* FreshnessCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82A7FC3EA19B2460D96568B /* FreshnessCache.swift */; };
 		98878ED3F4790E94E5E790E8 /* ed25519_cross_impl.json in Resources */ = {isa = PBXBuildFile; fileRef = 855814611D6A97EE52486470 /* ed25519_cross_impl.json */; };
@@ -176,6 +177,7 @@
 		D2627EFBB510CB19F346E26F /* Rolecall.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Rolecall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46761A6FE7D045F5657D3D7 /* RolecallIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolecallIntents.swift; sourceTree = "<group>"; };
 		D7AAA421E8C6D856D16E6179 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		E19A2DF36A280AF96CA15707 /* DigestBackgroundTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigestBackgroundTests.swift; sourceTree = "<group>"; };
 		E365E3EAF3FBD4ACF38701B1 /* RolecallWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RolecallWidget.entitlements; sourceTree = "<group>"; };
 		E4260CD671703AC3FE3F173F /* TrackedRolesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedRolesView.swift; sourceTree = "<group>"; };
 		E5E836D335E2689ED880144A /* BoardDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDecodingTests.swift; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 				E5E836D335E2689ED880144A /* BoardDecodingTests.swift */,
 				A8C7297CFB759CA4B094DC9C /* BoardSignatureTests.swift */,
 				E9667FC916FD8E3C911BF5AF /* BoardStoreTests.swift */,
+				E19A2DF36A280AF96CA15707 /* DigestBackgroundTests.swift */,
 				6429947DAC9562A218ABD324 /* FreshnessCacheTests.swift */,
 				9EAFC586164130C2F55AD890 /* FreshnessCheckerTests.swift */,
 				4B30618D1CA7D87E8E795B8D /* FreshnessFormatTests.swift */,
@@ -615,6 +618,7 @@
 				3153A9CAAAFD4240704B52AB /* BoardDecodingTests.swift in Sources */,
 				45787BD902F67FEC0482DF3B /* BoardSignatureTests.swift in Sources */,
 				50E71E1C80EEF91F298C9DEB /* BoardStoreTests.swift in Sources */,
+				943947FFDB25BE928554A845 /* DigestBackgroundTests.swift in Sources */,
 				50485310A09E990CAC0BD33E /* FreshnessCacheTests.swift in Sources */,
 				F327B46DC3384C6EE0C0A673 /* FreshnessCheckerTests.swift in Sources */,
 				67C6E819EB8F872D96B87BB9 /* FreshnessFormatTests.swift in Sources */,

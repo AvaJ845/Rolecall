@@ -158,6 +158,8 @@ final class Store: ObservableObject {
             entitled = true
         }
         if entitled != isPlus { isPlus = entitled }
+        // P0-15: cache it for the background-refresh task, which must not init StoreKit.
+        SharedContainer.lastKnownIsPlus = entitled
     }
 
     private func handle(verificationResult: VerificationResult<Transaction>) async {
