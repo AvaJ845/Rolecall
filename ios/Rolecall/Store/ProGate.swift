@@ -28,8 +28,7 @@ enum PlusFeature: String, CaseIterable, Identifiable {
     case savedSearches
     case advancedFilters
     case reminders
-    case iCloudSync
-    case export
+    case notes
 
     var id: String { rawValue }
 
@@ -40,8 +39,7 @@ enum PlusFeature: String, CaseIterable, Identifiable {
         case .savedSearches:   return "Unlimited saved searches"
         case .advancedFilters: return "Advanced filters"
         case .reminders:       return "Follow-up reminders"
-        case .iCloudSync:      return "iCloud sync"
-        case .export:          return "Export"
+        case .notes:           return "Private notes"
         }
     }
 
@@ -56,10 +54,8 @@ enum PlusFeature: String, CaseIterable, Identifiable {
             return "Filter by seniority, team, and compensation band, not just role family."
         case .reminders:
             return "Set a nudge to follow up on an application at the right time."
-        case .iCloudSync:
-            return "Carry your saved roles and applications across your iPhone and iPad."
-        case .export:
-            return "Save your applications as a file whenever you want a copy."
+        case .notes:
+            return "Keep a private note on each application — where it stands, who you spoke to."
         }
     }
 
@@ -69,8 +65,7 @@ enum PlusFeature: String, CaseIterable, Identifiable {
         case .savedSearches:   return "bookmark"
         case .advancedFilters: return "line.3.horizontal.decrease"
         case .reminders:       return "clock.arrow.circlepath"
-        case .iCloudSync:      return "icloud"
-        case .export:          return "square.and.arrow.up"
+        case .notes:           return "square.and.pencil"
         }
     }
 }
