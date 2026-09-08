@@ -133,12 +133,16 @@ def ingest():
             else:
                 c_seen += 1
         gone = store.mark_gone_for_company(conn, c["id"], seen_keys)
-        conn.commit()
         tot_new += c_new
         tot_seen += c_seen
         tot_gone += gone
         print("  {:<16} +{:<3} ~{:<3} -{:<3}".format(c["id"], c_new, c_seen, gone))
 
+    # P0-14: one transaction for the whole run. Every upsert / mark_gone above ran in a
+    # single implicit transaction; commit it once here. A crash before this line rolls
+    # back the lot, so the DB is never observed half-updated — and the `runs` row that
+    # start_run committed still has no finished_utc, so `export` will refuse to publish.
+    conn.commit()
     store.finish_run(
         conn, run_id,
         "new={} seen={} gone={} failed={}".format(tot_new, tot_seen, tot_gone, len(failed)),
@@ -411,6 +415,15 @@ def _is_https(url: str) -> bool:
 
 def export():
     conn = store.connect()
+    # P0-14: refuse to publish off a database whose last ingest crashed (its runs row
+    # has no finished_utc) — that board would be internally inconsistent yet signed.
+    if store.last_ingest_incomplete(conn):
+        conn.close()
+        msg = ("last ingest run never finished (no finished_utc) — the DB may be "
+               "half-updated. Re-run `python3 -m engine ingest` before exporting.")
+        print("::error::{}".format(msg))
+        print("error: {}".format(msg))
+        return 1
     rows = conn.execute(
         """SELECT company_name, title, department, location, remote, url, role_family,
                   first_seen_utc, last_verified_utc, http_status

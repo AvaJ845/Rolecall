@@ -47,8 +47,26 @@ def connect():
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(str(DB_PATH))
     conn.row_factory = sqlite3.Row
+    # P0-14: a durable, crash-safe session.
+    #   WAL             — readers never block the writer; survives a killed process.
+    #   busy_timeout    — wait, don't fail, if another handle holds the write lock.
+    #   foreign_keys    — enforce referential integrity (off by default in SQLite).
+    #   synchronous     — NORMAL is safe under WAL and much faster than FULL.
+    conn.execute("PRAGMA journal_mode=WAL")
+    conn.execute("PRAGMA busy_timeout=5000")
+    conn.execute("PRAGMA foreign_keys=ON")
+    conn.execute("PRAGMA synchronous=NORMAL")
     conn.executescript(SCHEMA)
     return conn
+
+
+def last_ingest_incomplete(conn) -> bool:
+    """True if the most recent kind='ingest' run row has no finished_utc — i.e. the last
+    ingest crashed or is still running. `export` refuses to publish off such a DB."""
+    row = conn.execute(
+        "SELECT finished_utc FROM runs WHERE kind = 'ingest' ORDER BY id DESC LIMIT 1"
+    ).fetchone()
+    return row is not None and row["finished_utc"] is None
 
 
 def now() -> float:
