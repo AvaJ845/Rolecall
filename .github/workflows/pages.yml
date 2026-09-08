@@ -13,16 +13,16 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: deploy-site
   cancel-in-progress: false
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    env:
+      HAVE_CF: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -46,8 +46,13 @@ jobs:
           python3 -m engine export
           python3 -m engine stats
 
+      # SITE_BASE_URL: point the repo/Actions variable at https://rolecall.io once the
+      # custom domain is attached in Cloudflare Pages. Until then it builds for the
+      # project's *.pages.dev URL.
       - name: Build site
-        run: python3 -m web build --base-url https://rolecall.io
+        env:
+          BASE_URL: ${{ vars.SITE_BASE_URL || 'https://rolecall.pages.dev' }}
+        run: python3 -m web build --base-url "$BASE_URL"
 
       - name: Save engine state
         if: always()
@@ -60,19 +65,25 @@ jobs:
         run: |
           test -f web/dist/index.html
           test -f web/dist/board.json
-          test -f web/dist/CNAME
-          grep -q rolecall.io web/dist/CNAME
+          test -f web/dist/board/index.html
+          grep -q "<title>" web/dist/index.html
 
-      - uses: actions/upload-pages-artifact@v3
+      # Cloudflare Pages — needs two repo secrets:
+      #   CLOUDFLARE_API_TOKEN   (token with the "Cloudflare Pages: Edit" permission)
+      #   CLOUDFLARE_ACCOUNT_ID
+      # and a Pages project named "rolecall" (create once:
+      #   npx wrangler pages project create rolecall --production-branch main).
+      - name: Deploy to Cloudflare Pages
+        if: env.HAVE_CF == 'true'
+        uses: cloudflare/wrangler-action@v3
         with:
-          path: web/dist
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy web/dist --project-name=rolecall --branch=main --commit-dirty=true
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Cloudflare not configured yet
+        if: env.HAVE_CF != 'true'
+        run: |
+          echo "::warning::Site built to web/dist but not deployed. Add the CLOUDFLARE_API_TOKEN"
+          echo "::warning::and CLOUDFLARE_ACCOUNT_ID repo secrets and create the 'rolecall' Pages project."
+          ls -R web/dist | head -20

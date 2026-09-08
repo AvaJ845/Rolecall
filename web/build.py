@@ -428,7 +428,7 @@ def render_landing(data, base_url):
   <p class="price">{n} roles live now &middot; free to search &middot; no account &middot; iPhone</p>
 </div></header>
 
-<section>
+<section id="why">
   <div class="wrap">
     <h2>Not another job aggregator</h2>
     <p class="lead">Most boards scrape LinkedIn and Indeed, keep the stale posts, and bury the
@@ -867,11 +867,12 @@ def build(base_url: str) -> int:
     (DIST / "_headers").write_text(HEADERS_FILE)  # honoured by Cloudflare/Netlify; ignored by GH Pages
     shutil.copyfile(BOARD_PATH, DIST / "board.json")
 
-    # GitHub Pages: CNAME binds the custom domain; .nojekyll stops Jekyll from
-    # dropping files/dirs that begin with "_".
+    # GitHub Pages: a CNAME file binds an apex custom domain. Only emit it for the real
+    # domain — never for the *.github.io project-pages URL, which needs no CNAME and
+    # would break if one were present. .nojekyll stops Jekyll from dropping "_" files.
     host = re.sub(r"^https?://", "", base_url).split("/")[0]
-    if host and "localhost" not in host and not host.startswith("staging."):
-        (DIST / "CNAME").write_text(host + "\n")
+    if host == "rolecall.io":
+        (DIST / "CNAME").write_text("rolecall.io\n")
     (DIST / ".nojekyll").write_text("")
 
     print("built {} pages -> {}".format(2 + len(roles), DIST))
