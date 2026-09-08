@@ -59,4 +59,26 @@ struct Board: Codable, Hashable {
         }
         return Board(generatedUTC: newer.generatedUTC, count: merged.count, roles: merged)
     }
+
+    /// The roles Rolecall will actually show: `https` only — an `http:` or `javascript:`
+    /// "Apply" link on a trust surface is a phishing vector — and de-duplicated by id.
+    /// Applied to every snapshot before it reaches the UI.
+    func sanitized() -> Board {
+        var seen = Set<String>()
+        let safe = roles.filter { role in
+            guard role.url.scheme?.lowercased() == "https" else { return false }
+            return seen.insert(role.id).inserted
+        }
+        return Board(generatedUTC: generatedUTC, count: safe.count, roles: safe)
+    }
+
+    /// A fetched remote snapshot must clear this bar before it may replace what the app
+    /// already trusts: it parsed, it is strictly newer, it is not empty, and it has not
+    /// lost more than half its roles (a sign of a truncated or corrupted publish).
+    /// Belt-and-braces on top of TLS; a signed board is the next step (see NORTH_STARS).
+    func isPlausibleReplacement(for current: Board) -> Bool {
+        generatedUTC > current.generatedUTC
+            && !roles.isEmpty
+            && roles.count * 2 >= current.roles.count
+    }
 }

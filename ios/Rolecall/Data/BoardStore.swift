@@ -24,14 +24,20 @@ final class BoardStore: ObservableObject {
     private let session: URLSession
     private let remoteURL: URL
 
+    /// Hard ceiling on a downloaded board (thousands of roles are well under 2 MB). A
+    /// response larger than this is treated as hostile and ignored.
+    private let maxBoardBytes = 8 * 1024 * 1024
+
     init(session: URLSession = .shared, remoteURL: URL = BoardSource.remoteURL) {
         self.session = session
         self.remoteURL = remoteURL
 
         // Prefer a previously merged snapshot the app wrote to the shared container, if it
-        // is newer than what shipped in this build; otherwise the bundled file.
-        let bundled = BoardSource.bundledBoard()
-        if let cached = SharedContainer.currentBoard(), cached.generatedUTC > bundled.generatedUTC {
+        // is newer than what shipped in this build; otherwise the bundled file. Both are
+        // sanitised (https-only, de-duped) before anything renders them.
+        let bundled = BoardSource.bundledBoard().sanitized()
+        if let cached = SharedContainer.currentBoard()?.sanitized(),
+           cached.generatedUTC > bundled.generatedUTC {
             self.board = cached.merging(bundled)
         } else {
             self.board = bundled
@@ -41,7 +47,11 @@ final class BoardStore: ObservableObject {
 
     /// Try the single remote URL and merge a newer snapshot. Never throws to the caller;
     /// a 404 (the placeholder host) or an offline device just leaves the board as-is.
-    func refresh() async {
+    ///
+    /// `userInitiated` is false for the silent refresh on launch — a failure then is not
+    /// worth a banner, because the reader never asked. A pull-to-refresh that fails does
+    /// deserve the quiet "showing saved roles" line.
+    func refresh(userInitiated: Bool = false) async {
         lastRefreshOutcome = .refreshing
         do {
             var request = URLRequest(url: remoteURL)
@@ -52,8 +62,12 @@ final class BoardStore: ObservableObject {
                 lastRefreshOutcome = .upToDate   // nothing published yet; not an error worth showing
                 return
             }
-            let remote = try Board.decode(from: data)
-            guard remote.generatedUTC > board.generatedUTC else {
+            guard data.count <= maxBoardBytes else {
+                lastRefreshOutcome = .upToDate
+                return
+            }
+            let remote = try Board.decode(from: data).sanitized()
+            guard remote.isPlausibleReplacement(for: board) else {
                 lastRefreshOutcome = .upToDate
                 return
             }
@@ -64,7 +78,7 @@ final class BoardStore: ObservableObject {
             SharedContainer.writeBoard(merged)
             lastRefreshOutcome = .updated(added: added)
         } catch {
-            lastRefreshOutcome = .unreachable
+            lastRefreshOutcome = userInitiated ? .unreachable : .upToDate
         }
     }
 }

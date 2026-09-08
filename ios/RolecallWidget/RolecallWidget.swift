@@ -55,7 +55,10 @@ struct BoardProvider: TimelineProvider {
     private func makeEntry() -> BoardEntry {
         let board = loadBoard()
         let startOfToday = Calendar.current.startOfDay(for: Date())
-        let sorted = board.roles.sorted { $0.freshnessDate > $1.freshnessDate }
+        // The widget speaks for the design vertical the app leads with, not the PM roles.
+        let sorted = board.roles
+            .filter { RoleFilter.designFamilies.contains($0.family) }
+            .sorted { $0.freshnessDate > $1.freshnessDate }
         let today = sorted.filter { $0.freshnessDate >= startOfToday }
         return BoardEntry(
             date: Date(),

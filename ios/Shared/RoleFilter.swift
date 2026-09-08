@@ -3,28 +3,38 @@ import Foundation
 /// The reader's current filter. Lives only in memory — there is nothing to persist and
 /// nothing to sync.
 struct RoleFilter: Equatable {
-    /// Empty means "every family".
-    var families: Set<RoleFamily> = []
+
+    /// The families Rolecall leads with: the product-design vertical proper. Product
+    /// Management is classified by the engine but is **off by default** — it outnumbers
+    /// design on the board, and burying it keeps the "for designers" identity (and the
+    /// Apple design-editorial story) clean. The reader can switch it on in the filter.
+    static let designFamilies: Set<RoleFamily> = [.design, .designEng, .research]
+
+    var families: Set<RoleFamily> = RoleFilter.designFamilies
     var remoteOnly: Bool = false
 
-    var isActive: Bool { !families.isEmpty || remoteOnly }
+    /// True when the filter differs from the default design view.
+    var isActive: Bool { families != Self.designFamilies || remoteOnly }
 
     func matches(_ role: Role) -> Bool {
         if remoteOnly && !role.isRemote { return false }
-        if !families.isEmpty && !families.contains(role.family) { return false }
-        return true
+        return families.contains(role.family)
     }
 
     var summary: String {
         var parts: [String] = []
-        if !families.isEmpty {
+        if families.isEmpty {
+            parts.append("No families")
+        } else if families != Self.designFamilies {
             parts.append(families
                 .sorted { $0.rawValue < $1.rawValue }
                 .map(\.shortLabel)
                 .joined(separator: ", "))
+        } else {
+            parts.append("Design roles")
         }
         if remoteOnly { parts.append("Remote only") }
-        return parts.isEmpty ? "All roles" : parts.joined(separator: " · ")
+        return parts.joined(separator: " · ")
     }
 }
 

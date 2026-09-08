@@ -48,8 +48,17 @@ struct FreshnessChecker {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.timeoutInterval = 12
-        request.setValue("Rolecall/1.0 (+https://rolecall.app)", forHTTPHeaderField: "User-Agent")
+        // A realistic Safari UA, on purpose: (1) many corporate career hosts sit behind
+        // Cloudflare and 403 an unknown agent — that would surface as a false
+        // "may have closed"; (2) it keeps the reader's use of Rolecall from being
+        // announced to every employer whose posting they open.
+        request.setValue(
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 "
+                + "(KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
+            forHTTPHeaderField: "User-Agent")
         request.setValue("text/html,application/xhtml+xml", forHTTPHeaderField: "Accept")
+        // A liveness probe, not a page load — never attach stored cookies.
+        request.httpShouldHandleCookies = false
 
         do {
             let (data, response) = try await session.data(for: request)
