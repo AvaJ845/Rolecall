@@ -22,6 +22,7 @@
 		4FAF55E4ED229E87640A1DB6 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D7AAA421E8C6D856D16E6179 /* PrivacyInfo.xcprivacy */; };
 		5532BE814EA3354A50B3BFF0 /* RoleFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ED051EF7914A562765A6D7 /* RoleFilter.swift */; };
 		652D1B1E5797738F83B5E5A7 /* SharedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B79DA24CF107491B4917097 /* SharedContainer.swift */; };
+		66EF3CCC3A61ECDC81902741 /* CompanyMonogram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DD99B6FDB00B4E47D2B083 /* CompanyMonogram.swift */; };
 		67C6E819EB8F872D96B87BB9 /* FreshnessFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B30618D1CA7D87E8E795B8D /* FreshnessFormatTests.swift */; };
 		6C2D7566C49B904AC60E409D /* RoleRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4935575786063CC269B2F031 /* RoleRow.swift */; };
 		700584ED8193670B86D8DD19 /* RoleFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6421776046395804F5B6E103 /* RoleFamily.swift */; };
@@ -86,6 +87,7 @@
 		014094CECD5AB44C436C2483 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		087A8686ECCCC4512D3ED202 /* RoleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleDetailView.swift; sourceTree = "<group>"; };
 		0D2FD69EEAA9A2455FD0ADBB /* RolecallWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = RolecallWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		10DD99B6FDB00B4E47D2B083 /* CompanyMonogram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyMonogram.swift; sourceTree = "<group>"; };
 		28D3B01EA53F47D2EF8C5077 /* board.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = board.json; sourceTree = "<group>"; };
 		3F9C4FBB2D85967A3CE7A0E6 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		45C93CE57026B5DD5A5DAA3B /* FilterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSheet.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 		4BBCB5BE9E3B8EC25B27A887 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				10DD99B6FDB00B4E47D2B083 /* CompanyMonogram.swift */,
 				EF91D32CD4C58BCD1B691371 /* EmptyStateView.swift */,
 				45C93CE57026B5DD5A5DAA3B /* FilterSheet.swift */,
 				46694D7F3993715B1A9D7372 /* RefreshBanner.swift */,
@@ -396,6 +399,7 @@
 				C5829972C6EEFE84A30F5040 /* Board.swift in Sources */,
 				FD17B064FF90569A28AF82C6 /* BoardSource.swift in Sources */,
 				0B9323A84541FB1FDA13B6CA /* BoardStore.swift in Sources */,
+				66EF3CCC3A61ECDC81902741 /* CompanyMonogram.swift in Sources */,
 				E51AB6D6A712F0DB4C12B749 /* EmptyStateView.swift in Sources */,
 				D4AD90881ECC4CF45EDB7B20 /* FilterSheet.swift in Sources */,
 				AD7BDBAFD286189F9A765BB6 /* Freshness.swift in Sources */,

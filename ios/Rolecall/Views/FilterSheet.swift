@@ -25,16 +25,28 @@ struct FilterSheet: View {
                     }
 
                     section("Location") {
-                        Toggle(isOn: $filter.remoteOnly) {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text("Remote only").foregroundStyle(Theme.Palette.ink)
-                                Text("\(remoteCount) remote roles")
-                                    .font(.footnote)
-                                    .foregroundStyle(Theme.Palette.inkSecondary)
+                        VStack(spacing: 0) {
+                            Toggle(isOn: $filter.usAndRemoteOnly) {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("US & remote only").foregroundStyle(Theme.Palette.ink)
+                                    Text("Hide roles based outside the US")
+                                        .font(.footnote)
+                                        .foregroundStyle(Theme.Palette.inkSecondary)
+                                }
                             }
+                            .padding(16)
+                            Divider().overlay(Theme.Palette.hairline)
+                            Toggle(isOn: $filter.remoteOnly) {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("Remote only").foregroundStyle(Theme.Palette.ink)
+                                    Text("\(remoteCount) remote roles")
+                                        .font(.footnote)
+                                        .foregroundStyle(Theme.Palette.inkSecondary)
+                                }
+                            }
+                            .padding(16)
                         }
                         .tint(Theme.Palette.accent)
-                        .padding(16)
                         .cardSurface()
                     }
                 }

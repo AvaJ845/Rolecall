@@ -12,12 +12,18 @@ struct RoleFilter: Equatable, Codable {
 
     var families: Set<RoleFamily> = RoleFilter.designFamilies
     var remoteOnly: Bool = false
+    /// On by default — the board covers the US + US-remote, and showing a Singapore or
+    /// London role at a US company breaks that promise on sight.
+    var usAndRemoteOnly: Bool = true
 
-    /// True when the filter differs from the default design view.
-    var isActive: Bool { families != Self.designFamilies || remoteOnly }
+    /// True when the filter differs from the default view.
+    var isActive: Bool {
+        families != Self.designFamilies || remoteOnly || !usAndRemoteOnly
+    }
 
     func matches(_ role: Role) -> Bool {
         if remoteOnly && !role.isRemote { return false }
+        if usAndRemoteOnly && role.looksNonUS { return false }
         return families.contains(role.family)
     }
 
@@ -34,6 +40,7 @@ struct RoleFilter: Equatable, Codable {
             parts.append("Design roles")
         }
         if remoteOnly { parts.append("Remote only") }
+        if !usAndRemoteOnly { parts.append("Worldwide") }
         return parts.joined(separator: " · ")
     }
 
