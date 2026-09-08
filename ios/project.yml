@@ -1,0 +1,222 @@
+name: Rolecall
+
+# NOTE: the xcodegen on this machine is a standalone binary with no SettingPresets
+# resource bundle beside it, so it contributes *no* default build settings — not even
+# SWIFT_VERSION. Every setting an iOS target needs is therefore written out explicitly
+# below. Do not trim these back assuming Xcode's defaults will fill in; they will not.
+
+options:
+  bundleIdPrefix: com.avaresearch.rolecall
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+
+configs:
+  Debug: debug
+  Release: release
+
+targets:
+
+  # ---------------------------------------------------------------- app ----
+  Rolecall:
+    type: application
+    platform: iOS
+    sources:
+      - path: Rolecall
+      - path: Shared
+    dependencies:
+      - target: RolecallWidget
+    settings:
+      base:
+        PRODUCT_NAME: Rolecall
+        PRODUCT_BUNDLE_IDENTIFIER: com.avaresearch.rolecall
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: "1"
+
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+
+        SDKROOT: iphoneos
+        SUPPORTED_PLATFORMS: "iphoneos iphonesimulator"
+        IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ARCHS: "$(ARCHS_STANDARD)"
+
+        SWIFT_VERSION: "5.0"
+        SWIFT_STRICT_CONCURRENCY: complete
+        SWIFT_EMIT_LOC_STRINGS: YES
+        CLANG_ENABLE_OBJC_ARC: YES
+        CLANG_ENABLE_MODULES: YES
+        ENABLE_PREVIEWS: YES
+        ENABLE_USER_SCRIPT_SANDBOXING: YES
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/Frameworks"
+
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: Rolecall/Info.plist
+
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: "3L683975L8"
+      configs:
+        Debug:
+          ONLY_ACTIVE_ARCH: YES
+          ENABLE_TESTABILITY: YES
+          SWIFT_OPTIMIZATION_LEVEL: "-Onone"
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+          GCC_OPTIMIZATION_LEVEL: "0"
+          GCC_PREPROCESSOR_DEFINITIONS: "DEBUG=1 $(inherited)"
+          DEBUG_INFORMATION_FORMAT: dwarf
+        Release:
+          ONLY_ACTIVE_ARCH: NO
+          SWIFT_OPTIMIZATION_LEVEL: "-O"
+          SWIFT_COMPILATION_MODE: wholemodule
+          DEBUG_INFORMATION_FORMAT: "dwarf-with-dsym"
+          VALIDATE_PRODUCT: YES
+    entitlements:
+      path: Rolecall/Rolecall.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.avaresearch.rolecall
+    info:
+      path: Rolecall/Info.plist
+      properties:
+        CFBundleDisplayName: Rolecall
+        CFBundleName: Rolecall
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        UILaunchScreen: {}
+        UIApplicationSupportsIndirectInputEvents: true
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        ITSAppUsesNonExemptEncryption: false
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: false
+
+  # ------------------------------------------------------------- widget ----
+  RolecallWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: RolecallWidget
+      - path: Shared
+      # Fallback snapshot for a first run before the app has written the App Group copy.
+      - path: Rolecall/Resources/board.json
+        type: file
+        buildPhase: resources
+      # Shared colour tokens so the widget matches the app exactly.
+      - path: Rolecall/Resources/Assets.xcassets
+      - path: Rolecall/Resources/PrivacyInfo.xcprivacy
+        type: file
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_NAME: RolecallWidget
+        PRODUCT_BUNDLE_IDENTIFIER: com.avaresearch.rolecall.widget
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: "1"
+
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+
+        SDKROOT: iphoneos
+        SUPPORTED_PLATFORMS: "iphoneos iphonesimulator"
+        IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ARCHS: "$(ARCHS_STANDARD)"
+
+        SWIFT_VERSION: "5.0"
+        SWIFT_STRICT_CONCURRENCY: complete
+        CLANG_ENABLE_OBJC_ARC: YES
+        CLANG_ENABLE_MODULES: YES
+        ENABLE_USER_SCRIPT_SANDBOXING: YES
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"
+        SKIP_INSTALL: YES
+
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: RolecallWidget/Info.plist
+
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: "3L683975L8"
+      configs:
+        Debug:
+          ONLY_ACTIVE_ARCH: YES
+          ENABLE_TESTABILITY: YES
+          SWIFT_OPTIMIZATION_LEVEL: "-Onone"
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+          GCC_OPTIMIZATION_LEVEL: "0"
+          DEBUG_INFORMATION_FORMAT: dwarf
+        Release:
+          ONLY_ACTIVE_ARCH: NO
+          SWIFT_OPTIMIZATION_LEVEL: "-O"
+          SWIFT_COMPILATION_MODE: wholemodule
+          DEBUG_INFORMATION_FORMAT: "dwarf-with-dsym"
+          VALIDATE_PRODUCT: YES
+    entitlements:
+      path: RolecallWidget/RolecallWidget.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.avaresearch.rolecall
+    info:
+      path: RolecallWidget/Info.plist
+      properties:
+        CFBundleDisplayName: Rolecall
+        CFBundleName: RolecallWidget
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+
+  # -------------------------------------------------------------- tests ----
+  RolecallTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: RolecallTests
+      # The board snapshot the app ships (a verbatim copy of the engine's
+      # data/board.json), bundled into the test target so the decode test runs against
+      # the real contract file. Uses the committed in-repo copy — data/board.json itself
+      # is git-ignored engine output.
+      - path: Rolecall/Resources/board.json
+        type: file
+        buildPhase: resources
+    dependencies:
+      - target: Rolecall
+    settings:
+      base:
+        PRODUCT_NAME: RolecallTests
+        PRODUCT_BUNDLE_IDENTIFIER: com.avaresearch.rolecall.tests
+        IPHONEOS_DEPLOYMENT_TARGET: "17.0"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ARCHS: "$(ARCHS_STANDARD)"
+        SDKROOT: iphoneos
+        SUPPORTED_PLATFORMS: "iphoneos iphonesimulator"
+        SWIFT_VERSION: "5.0"
+        SWIFT_STRICT_CONCURRENCY: complete
+        GENERATE_INFOPLIST_FILE: YES
+        CLANG_ENABLE_MODULES: YES
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Rolecall.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Rolecall"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: "3L683975L8"
+      configs:
+        Debug:
+          ONLY_ACTIVE_ARCH: YES
+          SWIFT_OPTIMIZATION_LEVEL: "-Onone"
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+        Release:
+          ONLY_ACTIVE_ARCH: NO
+
+schemes:
+  Rolecall:
+    build:
+      targets:
+        Rolecall: all
+        RolecallWidget: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      gatherCoverageData: false
+      targets:
+        - RolecallTests

@@ -14,6 +14,11 @@ ATS adapters. Each returns a list of normalised posting dicts:
 All four endpoints below are PUBLIC and UNAUTHENTICATED — they return exactly what the
 company chose to publish on its own careers page. No API key, no scraping of LinkedIn /
 Indeed, no ToS grey area.
+
+Companies migrate between ATS vendors (observed: Vercel and Mercury both moved Ashby ->
+Greenhouse in 2026). A slug that starts returning an empty feed is usually a migration,
+not a hiring freeze. `resolve_ats()` re-probes all four vendors for a slug so the
+registry can be corrected; `python -m engine resolve` runs it across the whole registry.
 """
 from __future__ import annotations
 
@@ -157,3 +162,20 @@ def fetch_company(company: dict):
     if ats not in ADAPTERS:
         raise ValueError("unknown ATS: {}".format(ats))
     return ADAPTERS[ats](company["slug"])
+
+
+def resolve_ats(slug: str):
+    """
+    Probe every vendor for `slug`. Returns {vendor: role_count} for the vendors that
+    currently return a non-empty feed. Used to detect ATS migrations and to bootstrap
+    new registry entries (the slug is nearly always the company's short name).
+    """
+    found = {}
+    for vendor, fn in ADAPTERS.items():
+        try:
+            rows = fn(slug)
+        except Exception:
+            continue
+        if rows:
+            found[vendor] = len(rows)
+    return found
