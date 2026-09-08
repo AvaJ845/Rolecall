@@ -1,0 +1,17 @@
+version: 2
+
+# Keep the SHA-pinned actions in .github/workflows/ moving forward. Dependabot
+# opens a weekly PR that bumps each `uses:` SHA to the latest release and updates
+# the trailing `# vX.Y.Z` comment. Review the changelog before merging — a pinned
+# SHA is only as good as the diff you read.
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
+    groups:
+      actions:
+        patterns:
+          - "*"
