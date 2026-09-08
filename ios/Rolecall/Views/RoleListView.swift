@@ -3,17 +3,21 @@ import SwiftUI
 /// The whole app. Opens straight here — no tab bar, no onboarding, no welcome screen.
 struct RoleListView: View {
 
+    enum Mode: String, CaseIterable { case board = "Board", saved = "Saved", applied = "Applied" }
+
     @EnvironmentObject private var store: BoardStore
+    @EnvironmentObject private var tracked: TrackedRoles
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    @State private var filter = RoleFilter()
+    @State private var filter = RoleFilter.loadPersisted()
     @State private var query = ""
     @State private var showingFilter = false
+    @State private var mode: Mode = .board
     @State private var now = Date()
 
-    /// Sections are derived from board + filter + search, not recomputed on the 60s
-    /// clock tick — the tick only refreshes the relative-time text inside each row.
+    /// Sections are derived from board + filter + search + hidden set, not recomputed on
+    /// the 60s clock tick — the tick only refreshes the relative-time text in each row.
     @State private var sections: [RoleSection] = []
     @State private var bannerOutcome: BoardStore.RefreshOutcome = .idle
 
@@ -24,14 +28,17 @@ struct RoleListView: View {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 0, pinnedViews: [.sectionHeaders]) {
                     header
-                    content
+                    if tracked.hasActivity { modePicker }
+                    switch mode {
+                    case .board:   boardContent
+                    case .saved:   TrackedRolesView(kind: .saved)
+                    case .applied: TrackedRolesView(kind: .applied)
+                    }
                 }
                 .padding(.bottom, 32)
             }
             .rolecallBackground()
-            .overlay(alignment: .top) {
-                RefreshBanner(outcome: bannerOutcome)
-            }
+            .overlay(alignment: .top) { RefreshBanner(outcome: bannerOutcome) }
             .navigationDestination(for: Role.self) { RoleDetailView(role: $0) }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { toolbarContent }
@@ -51,6 +58,8 @@ struct RoleListView: View {
         .onAppear(perform: rebuild)
         .onChange(of: store.board.generatedUTC) { rebuild() }
         .onChange(of: query) { rebuild() }
+        .onChange(of: filter) { _, f in f.persist(); rebuild() }
+        .onChange(of: tracked.states) { rebuild() }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { now = Date(); rebuild() }
         }
@@ -58,10 +67,10 @@ struct RoleListView: View {
         .onReceive(Timer.publish(every: 60, on: .main, in: .common).autoconnect()) { now = $0 }
     }
 
-    // MARK: content
+    // MARK: board content
 
     @ViewBuilder
-    private var content: some View {
+    private var boardContent: some View {
         if store.board.roles.isEmpty {
             EmptyStateView(
                 title: "No roles loaded yet",
@@ -71,8 +80,7 @@ struct RoleListView: View {
             )
             .padding(.top, 40)
         } else if sections.isEmpty {
-            filteredEmptyState
-                .padding(.top, 40)
+            filteredEmptyState.padding(.top, 40)
         } else {
             ForEach(sections) { section in
                 sectionView(section)
@@ -96,9 +104,12 @@ struct RoleListView: View {
             let roles = section.roles
             ForEach(Array(roles.enumerated()), id: \.element.id) { index, role in
                 NavigationLink(value: role) {
-                    RoleRow(role: role, now: now)
+                    RoleRow(role: role, now: now,
+                            status: tracked.status(for: role),
+                            isNew: tracked.isNew(role))
                 }
                 .buttonStyle(.plain)
+                .contextMenu { RoleContextMenu(role: role) }
                 if index < roles.count - 1 {
                     Divider()
                         .overlay(Theme.Palette.hairline)
@@ -114,7 +125,7 @@ struct RoleListView: View {
 
     private var header: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("\(visibleCount) live \(visibleCount == 1 ? "role" : "roles")")
+            Text(headline)
                 .font(.rolecallDisplay(.title))
                 .foregroundStyle(Theme.Palette.ink)
                 .contentTransition(.numericText())
@@ -126,15 +137,47 @@ struct RoleListView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, Theme.Metric.gutter)
         .padding(.top, 8)
-        .padding(.bottom, 20)
+        .padding(.bottom, mode == .board ? 20 : 12)
         .accessibilityElement(children: .combine)
     }
 
+    private var modePicker: some View {
+        Picker("View", selection: $mode.animation(.easeInOut(duration: 0.15))) {
+            ForEach(Mode.allCases, id: \.self) { m in
+                Text(label(for: m)).tag(m)
+            }
+        }
+        .pickerStyle(.segmented)
+        .padding(.horizontal, Theme.Metric.gutter)
+        .padding(.bottom, 16)
+    }
+
+    private func label(for m: Mode) -> String {
+        switch m {
+        case .board: return "Board"
+        case .saved: return tracked.savedCount > 0 ? "Saved \(tracked.savedCount)" : "Saved"
+        case .applied: return tracked.appliedCount > 0 ? "Applied \(tracked.appliedCount)" : "Applied"
+        }
+    }
+
+    private var headline: String {
+        switch mode {
+        case .board:   return "\(visibleCount) live \(visibleCount == 1 ? "role" : "roles")"
+        case .saved:   return "Saved"
+        case .applied: return "Applications"
+        }
+    }
+
     private var subtitle: String {
-        if !query.isEmpty { return "Matching “\(query)”." }
-        var s = "Product-design roles straight from company career pages, each verified still open."
-        if filter.isActive { s = "\(filter.summary). " + s }
-        return s
+        switch mode {
+        case .saved:   return "Roles you're keeping an eye on."
+        case .applied: return "Track where each one stands."
+        case .board:
+            if !query.isEmpty { return "Matching “\(query)”." }
+            var s = "Product-design roles straight from company career pages, each verified still open."
+            if filter.isActive { s = "\(filter.summary). " + s }
+            return s
+        }
     }
 
     @ToolbarContentBuilder
@@ -154,6 +197,7 @@ struct RoleListView: View {
                       : "line.3.horizontal.decrease.circle")
             }
             .accessibilityLabel(filter.isActive ? "Filter, active" : "Filter")
+            .disabled(mode != .board)
         }
     }
 
@@ -198,7 +242,9 @@ struct RoleListView: View {
     // MARK: actions
 
     private func rebuild() {
-        let searched = Self.search(store.board.roles, query: query)
+        guard mode == .board else { return }
+        let visible = store.board.roles.filter { tracked.status(for: $0)?.isHidden != true }
+        let searched = Self.search(visible, query: query)
         let next = RoleSectioning.sections(from: searched, filter: filter, now: now)
         if reduceMotion {
             sections = next
@@ -250,5 +296,7 @@ struct RoleListView: View {
 }
 
 #Preview {
-    RoleListView().environmentObject(BoardStore())
+    RoleListView()
+        .environmentObject(BoardStore())
+        .environmentObject(TrackedRoles())
 }

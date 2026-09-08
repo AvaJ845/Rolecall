@@ -3,11 +3,14 @@ import SwiftUI
 struct RoleDetailView: View {
 
     let role: Role
+    @EnvironmentObject private var tracked: TrackedRoles
     @Environment(\.openURL) private var openURL
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var freshness: FreshnessChecker.Status? = nil
     @State private var checking = false
     @State private var now = Date()
+
+    private var status: RoleStatus? { tracked.status(for: role) }
 
     var body: some View {
         ScrollView {
@@ -23,8 +26,31 @@ struct RoleDetailView: View {
         .safeAreaInset(edge: .bottom) { applyBar }
         .navigationTitle(role.company)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar { detailToolbar }
         .task { await runCheck() }
         .onReceive(Timer.publish(every: 60, on: .main, in: .common).autoconnect()) { now = $0 }
+    }
+
+    @ToolbarContentBuilder
+    private var detailToolbar: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            ShareLink(item: role.url,
+                      subject: Text("\(role.title) — \(role.company)"),
+                      message: Text("\(role.title) at \(role.company)")) {
+                Image(systemName: "square.and.arrow.up")
+            }
+            .accessibilityLabel("Share role")
+        }
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                Haptics.selection()
+                tracked.toggleSaved(role)
+            } label: {
+                Image(systemName: status?.isSaved == true ? "heart.fill" : "heart")
+                    .foregroundStyle(status?.isSaved == true ? Theme.Palette.accent : Theme.Palette.ink)
+            }
+            .accessibilityLabel(status?.isSaved == true ? "Saved. Tap to remove." : "Save role")
+        }
     }
 
     // MARK: blocks
@@ -125,23 +151,67 @@ struct RoleDetailView: View {
     private var applyBar: some View {
         VStack(spacing: 0) {
             Divider().overlay(Theme.Palette.hairline)
-            Button(action: open) {
-                HStack(spacing: 8) {
-                    Text("Apply on \(applyHost)")
-                        .font(.headline)
-                    Image(systemName: "arrow.up.forward")
-                        .font(.subheadline.weight(.semibold))
+            VStack(spacing: 10) {
+                Button(action: open) {
+                    HStack(spacing: 8) {
+                        Text("Apply on \(applyHost)")
+                            .font(.headline)
+                        Image(systemName: "arrow.up.forward")
+                            .font(.subheadline.weight(.semibold))
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
+                .background(Theme.Palette.accent)
+                .foregroundStyle(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                .accessibilityHint("Opens \(role.company)'s own application page in the browser.")
+
+                appliedControl
             }
-            .background(Theme.Palette.accent)
-            .foregroundStyle(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
             .padding(Theme.Metric.gutter)
-            .accessibilityHint("Opens \(role.company)'s own application page in the browser.")
         }
         .background(Theme.Palette.paper)
+        .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: status)
+    }
+
+    @ViewBuilder
+    private var appliedControl: some View {
+        if let app = status?.application {
+            Menu {
+                Picker("Stage", selection: stageBinding) {
+                    ForEach(ApplicationStage.allCases) { Text($0.label).tag($0) }
+                }
+                Button(role: .destructive) { tracked.unmarkApplied(role) } label: {
+                    Label("Unmark as applied", systemImage: "arrow.uturn.backward")
+                }
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "checkmark.circle.fill").foregroundStyle(Theme.Palette.verified)
+                    Text("\(app.stage.label) · applied \(Freshness.compactAgo(since: app.appliedOn, relativeTo: now))")
+                        .foregroundStyle(Theme.Palette.inkSecondary)
+                    Image(systemName: "chevron.up.chevron.down").font(.caption2).foregroundStyle(Theme.Palette.inkTertiary)
+                }
+                .font(.footnote.weight(.medium))
+            }
+            .accessibilityLabel("Application stage: \(app.stage.label). Tap to update.")
+        } else {
+            Button {
+                Haptics.selection()
+                tracked.markApplied(role)
+            } label: {
+                Text("I applied — track this")
+                    .font(.footnote.weight(.medium))
+                    .foregroundStyle(Theme.Palette.accent)
+            }
+        }
+    }
+
+    private var stageBinding: Binding<ApplicationStage> {
+        Binding(
+            get: { status?.application?.stage ?? .applied },
+            set: { newStage in tracked.updateApplication(for: role) { $0.stage = newStage } }
+        )
     }
 
     // MARK: actions

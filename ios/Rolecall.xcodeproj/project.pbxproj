@@ -10,6 +10,8 @@
 		0B79266BEE89070A0D6C46EC /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C14B5A3DB373DD3985A3087 /* Role.swift */; };
 		0B9323A84541FB1FDA13B6CA /* BoardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA42C4C43AB5E33AF40992 /* BoardStore.swift */; };
 		2BD64801F4BA388DC56F4383 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D7AAA421E8C6D856D16E6179 /* PrivacyInfo.xcprivacy */; };
+		2C26C6DD1D177DE141CB7287 /* TrackedRolesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD1753C00400063C0B67FA6 /* TrackedRolesTests.swift */; };
+		2C5DD56270F7007E1AF173C7 /* TrackedRolesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4260CD671703AC3FE3F173F /* TrackedRolesView.swift */; };
 		2EEE3D78214A230D05283B6A /* RolecallWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0D2FD69EEAA9A2455FD0ADBB /* RolecallWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3153A9CAAAFD4240704B52AB /* BoardDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E836D335E2689ED880144A /* BoardDecodingTests.swift */; };
 		3251BAA27BDE40360930C33E /* RoleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087A8686ECCCC4512D3ED202 /* RoleDetailView.swift */; };
@@ -24,6 +26,7 @@
 		6C2D7566C49B904AC60E409D /* RoleRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4935575786063CC269B2F031 /* RoleRow.swift */; };
 		700584ED8193670B86D8DD19 /* RoleFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6421776046395804F5B6E103 /* RoleFamily.swift */; };
 		723CFE35912C9F896F3FBD2B /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C4FBB2D85967A3CE7A0E6 /* MockURLProtocol.swift */; };
+		74648DEAE7AD0229B4EDE45D /* TrackedRoles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A1057451EF45E9F791DC2C /* TrackedRoles.swift */; };
 		7ADE5B3F9B65C37E242555A5 /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C14B5A3DB373DD3985A3087 /* Role.swift */; };
 		813B4A388DA97B05FEDF22CF /* Freshness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A34A687016866AAB163C6A4 /* Freshness.swift */; };
 		8414A8DD743004A5F2342EDD /* board.json in Resources */ = {isa = PBXBuildFile; fileRef = 28D3B01EA53F47D2EF8C5077 /* board.json */; };
@@ -34,6 +37,7 @@
 		9E99B44881A052E91711155E /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E178EF27AAD907122B2B0E /* Board.swift */; };
 		AB9E53EC8F744984849CDC54 /* RefreshBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46694D7F3993715B1A9D7372 /* RefreshBanner.swift */; };
 		AD7BDBAFD286189F9A765BB6 /* Freshness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A34A687016866AAB163C6A4 /* Freshness.swift */; };
+		C072FDC3E4E1932C732D3F47 /* TrackedRoles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A1057451EF45E9F791DC2C /* TrackedRoles.swift */; };
 		C4714123610E29CAADFBC4FF /* board.json in Resources */ = {isa = PBXBuildFile; fileRef = 28D3B01EA53F47D2EF8C5077 /* board.json */; };
 		C4FC3A24CCC683577462FB92 /* RoleFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6421776046395804F5B6E103 /* RoleFamily.swift */; };
 		C5829972C6EEFE84A30F5040 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E178EF27AAD907122B2B0E /* Board.swift */; };
@@ -90,8 +94,10 @@
 		4B30618D1CA7D87E8E795B8D /* FreshnessFormatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreshnessFormatTests.swift; sourceTree = "<group>"; };
 		4DC06CED1727BB85A8802550 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6421776046395804F5B6E103 /* RoleFamily.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleFamily.swift; sourceTree = "<group>"; };
+		67A1057451EF45E9F791DC2C /* TrackedRoles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedRoles.swift; sourceTree = "<group>"; };
 		6A34A687016866AAB163C6A4 /* Freshness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Freshness.swift; sourceTree = "<group>"; };
 		7A312F6DBECFEA599C93FB18 /* BoardSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardSource.swift; sourceTree = "<group>"; };
+		8BD1753C00400063C0B67FA6 /* TrackedRolesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedRolesTests.swift; sourceTree = "<group>"; };
 		8C14B5A3DB373DD3985A3087 /* Role.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Role.swift; sourceTree = "<group>"; };
 		8CEDE3401C50B16FC67867B0 /* FreshnessChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreshnessChecker.swift; sourceTree = "<group>"; };
 		90E178EF27AAD907122B2B0E /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
@@ -110,6 +116,7 @@
 		D2627EFBB510CB19F346E26F /* Rolecall.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Rolecall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7AAA421E8C6D856D16E6179 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		E365E3EAF3FBD4ACF38701B1 /* RolecallWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RolecallWidget.entitlements; sourceTree = "<group>"; };
+		E4260CD671703AC3FE3F173F /* TrackedRolesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackedRolesView.swift; sourceTree = "<group>"; };
 		E5E836D335E2689ED880144A /* BoardDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDecodingTests.swift; sourceTree = "<group>"; };
 		EF91D32CD4C58BCD1B691371 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		F2D931CFA6BB1424C365C5E1 /* RolecallApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolecallApp.swift; sourceTree = "<group>"; };
@@ -156,6 +163,7 @@
 				BC72955FB9D67016E30285E5 /* RoleListView.swift */,
 				4935575786063CC269B2F031 /* RoleRow.swift */,
 				BA529BCE78090F9C57775C5A /* Theme.swift */,
+				E4260CD671703AC3FE3F173F /* TrackedRolesView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -198,6 +206,7 @@
 				4B30618D1CA7D87E8E795B8D /* FreshnessFormatTests.swift */,
 				ABFDE4BC83931727F1CBC2B2 /* ListLogicTests.swift */,
 				3F9C4FBB2D85967A3CE7A0E6 /* MockURLProtocol.swift */,
+				8BD1753C00400063C0B67FA6 /* TrackedRolesTests.swift */,
 			);
 			path = RolecallTests;
 			sourceTree = "<group>";
@@ -224,6 +233,7 @@
 				6421776046395804F5B6E103 /* RoleFamily.swift */,
 				B9ED051EF7914A562765A6D7 /* RoleFilter.swift */,
 				9B79DA24CF107491B4917097 /* SharedContainer.swift */,
+				67A1057451EF45E9F791DC2C /* TrackedRoles.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -375,6 +385,7 @@
 				5532BE814EA3354A50B3BFF0 /* RoleFilter.swift in Sources */,
 				89A0C1BA82142C54224FA310 /* RolecallWidget.swift in Sources */,
 				652D1B1E5797738F83B5E5A7 /* SharedContainer.swift in Sources */,
+				C072FDC3E4E1932C732D3F47 /* TrackedRoles.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +411,8 @@
 				42F1A9A0545BF178F0A7E12D /* RolecallApp.swift in Sources */,
 				FB211D62B2371788971615C2 /* SharedContainer.swift in Sources */,
 				3ABA9C5CBEEBE3C53BFECD5A /* Theme.swift in Sources */,
+				74648DEAE7AD0229B4EDE45D /* TrackedRoles.swift in Sources */,
+				2C5DD56270F7007E1AF173C7 /* TrackedRolesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,6 +425,7 @@
 				67C6E819EB8F872D96B87BB9 /* FreshnessFormatTests.swift in Sources */,
 				951FF7D7327DADC3CB3370D3 /* ListLogicTests.swift in Sources */,
 				723CFE35912C9F896F3FBD2B /* MockURLProtocol.swift in Sources */,
+				2C26C6DD1D177DE141CB7287 /* TrackedRolesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
