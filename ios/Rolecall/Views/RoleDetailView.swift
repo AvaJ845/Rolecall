@@ -150,7 +150,7 @@ struct RoleDetailView: View {
                 .font(.caption2)
                 .foregroundStyle(Theme.Palette.inkTertiary)
                 .accessibilityHidden(true)
-            Text("Straight from \(role.company)'s own careers feed. The moment \(role.company) closes this role, it leaves Rolecall — usually within the hour.")
+            Text("Straight from \(role.company)'s own careers feed. When \(role.company) closes this role, it leaves Rolecall — usually within a few hours.")
                 .font(.footnote)
                 .foregroundStyle(Theme.Palette.inkSecondary)
                 .fixedSize(horizontal: false, vertical: true)
