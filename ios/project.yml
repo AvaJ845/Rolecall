@@ -192,6 +192,12 @@ targets:
       - path: Rolecall/Resources/board.json
         type: file
         buildPhase: resources
+      # Cross-implementation crypto fixture: an Ed25519 (pubkey, message, signature)
+      # triple produced by the Python engine (engine/ed25519.py), verified here with
+      # CryptoKit so the two implementations are proven to agree. See BoardSignatureTests.
+      - path: RolecallTests/Fixtures/ed25519_cross_impl.json
+        type: file
+        buildPhase: resources
     dependencies:
       - target: Rolecall
     settings:

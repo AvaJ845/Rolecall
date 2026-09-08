@@ -39,4 +39,37 @@ final class BoardSignatureTests: XCTestCase {
         XCTAssertEqual(bytes?.count, 32, "the embedded Ed25519 public key must be 32 bytes")
         XCTAssertNotNil(try? Curve25519.Signing.PublicKey(rawRepresentation: bytes!))
     }
+
+    /// P0-8: the vendored Python Ed25519 (`engine/ed25519.py`) and Apple's CryptoKit must
+    /// agree, or a board the engine signs would fail verification on device (or worse).
+    /// The fixture is a `(pubkey, message, signature)` triple the Python impl produced;
+    /// this verifies it with CryptoKit — the same call `BoardSignature.isValid` makes.
+    func testEd25519CrossImplementationFixture() throws {
+        struct Fixture: Decodable {
+            let public_key_hex: String
+            let message_utf8: String
+            let signature_hex: String
+        }
+        let url = try XCTUnwrap(
+            Bundle(for: Self.self).url(forResource: "ed25519_cross_impl", withExtension: "json"),
+            "cross-impl fixture missing from the test bundle")
+        let fx = try JSONDecoder().decode(Fixture.self, from: Data(contentsOf: url))
+        let message = Data(fx.message_utf8.utf8)
+
+        // The real path: BoardSignature.isValid, with the fixture's key.
+        XCTAssertTrue(
+            BoardSignature.isValid(board: message,
+                                   signatureHex: fx.signature_hex,
+                                   keyHex: fx.public_key_hex),
+            "Python-produced signature must verify under CryptoKit")
+
+        // Direct CryptoKit check, and a tamper negative.
+        let keyBytes = try XCTUnwrap(Data(hexString: fx.public_key_hex))
+        let sigBytes = try XCTUnwrap(Data(hexString: fx.signature_hex))
+        let key = try Curve25519.Signing.PublicKey(rawRepresentation: keyBytes)
+        XCTAssertEqual(sigBytes.count, 64)
+        XCTAssertTrue(key.isValidSignature(sigBytes, for: message))
+        XCTAssertFalse(key.isValidSignature(sigBytes, for: message + Data([0x21])),
+                       "a one-byte change to the message must break the signature")
+    }
 }

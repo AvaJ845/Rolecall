@@ -25,11 +25,32 @@ concurrency:
 
 jobs:
   # ---------------------------------------------------------------------------
+  # Engine unit tests — Ed25519 (RFC 8032 vectors + negatives), SSRF guard,
+  # classifier, board-shrink guard. Runs first and gates everything downstream:
+  # a regression in the signing primitive must never reach a publish. No
+  # secrets, no network, stdlib only.
+  # ---------------------------------------------------------------------------
+  engine-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+
+      - name: Run engine test suite
+        run: python3 -m engine.tests
+
+  # ---------------------------------------------------------------------------
   # Job A — pull feeds, classify, verify, export. Parses attacker-influenceable
   # data from the public internet, so it must NOT see the signing key.
   # ---------------------------------------------------------------------------
   build-board:
     runs-on: ubuntu-latest
+    needs: engine-tests
     permissions:
       contents: read
     steps:
