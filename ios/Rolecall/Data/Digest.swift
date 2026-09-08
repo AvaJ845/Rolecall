@@ -10,6 +10,7 @@ enum Digest {
     static let refreshTaskID = "com.avaresearch.rolecall.refresh"
     private static let morningID = "rolecall.digest.morning"
     private static let weeklyID = "rolecall.digest.weekly"
+    private static func alertID(_ id: UUID) -> String { "rolecall.search.\(id.uuidString)" }
 
     // MARK: permission
 
@@ -30,15 +31,25 @@ enum Digest {
 
     // MARK: scheduling
 
-    /// Rebuild the pending digest notifications from the current board + settings. Safe to
-    /// call often (on background, on toggle change, at the end of a bg refresh).
+    /// Rebuild the pending digest + saved-search-alert notifications from the current
+    /// board + settings. Safe to call often (on background, on toggle change, at the end
+    /// of a bg refresh). Saved-search alerts only fire when `isPlus` is true.
     @MainActor
-    static func reschedule(board: Board, tracked: TrackedRoles, settings: AppSettings) async {
+    static func reschedule(board: Board, tracked: TrackedRoles, settings: AppSettings,
+                           searches: SavedSearches? = nil, isPlus: Bool = false) async {
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: [morningID, weeklyID])
 
-        guard settings.morningRead || settings.weeklyRecap else { return }
+        let alerting = (isPlus ? searches?.searches.filter(\.notify) : nil) ?? []
+        let wantDigests = settings.morningRead || settings.weeklyRecap
+
+        guard wantDigests || !alerting.isEmpty else { return }
         guard await ensureAuthorised() else { return }
+
+        if !alerting.isEmpty, let searches {
+            await scheduleSearchAlerts(alerting, board: board, searches: searches, center: center)
+        }
+        guard wantDigests else { return }
 
         let designFamilies = RoleFilter.designFamilies
         let now = Date()
@@ -68,6 +79,26 @@ enum Digest {
                 if tracked.appliedCount > 0 { body += " \(tracked.appliedCount) in progress." }
                 add(center, id: weeklyID, title: "This week on Rolecall", body: body, trigger: trigger)
             }
+        }
+    }
+
+    /// One notification per saved search that has genuinely new matching roles. Fires
+    /// almost immediately (the board was just refreshed); if nothing's new, nothing fires.
+    @MainActor
+    private static func scheduleSearchAlerts(_ list: [SavedSearch], board: Board,
+                                             searches: SavedSearches,
+                                             center: UNUserNotificationCenter) async {
+        let now = Date()
+        for search in list {
+            let new = search.newRoles(in: board, now: now)
+            guard !new.isEmpty else { continue }
+            let n = new.count
+            let lead = new.prefix(2).map { "\($0.title) at \($0.company)" }.joined(separator: ", ")
+            add(center, id: alertID(search.id),
+                title: "\(n) new \(n == 1 ? "role" : "roles") · \(search.name)",
+                body: n <= 2 ? lead : "\(lead), and \(n - 2) more.",
+                trigger: UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false))
+            searches.markNotified(search.id, at: now)
         }
     }
 
@@ -106,9 +137,15 @@ enum Digest {
     static func runBackgroundRefresh() async {
         scheduleBackgroundRefresh()
         let settings = AppSettings()
-        guard settings.morningRead || settings.weeklyRecap else { return }
+        let searches = SavedSearches()
+        let plus = Store()
+        // Give the entitlement listener a beat to settle before we read isPlus.
+        try? await Task.sleep(nanoseconds: 400_000_000)
+        let hasAlerts = plus.isPlus && searches.searches.contains(where: \.notify)
+        guard settings.morningRead || settings.weeklyRecap || hasAlerts else { return }
         let store = BoardStore()
         await store.refresh()
-        await reschedule(board: store.board, tracked: TrackedRoles(), settings: settings)
+        await reschedule(board: store.board, tracked: TrackedRoles(), settings: settings,
+                         searches: searches, isPlus: plus.isPlus)
     }
 }

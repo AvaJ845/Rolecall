@@ -6,6 +6,7 @@ struct SettingsView: View {
     @EnvironmentObject private var tracked: TrackedRoles
     @EnvironmentObject private var store: BoardStore
     @EnvironmentObject private var plus: Store
+    @EnvironmentObject private var searches: SavedSearches
     @Environment(\.isPlus) private var isPlus
     @Environment(\.dismiss) private var dismiss
     @State private var confirmingWipe = false
@@ -99,6 +100,17 @@ struct SettingsView: View {
 
                 Section("Applications") {
                     NavigationLink {
+                        SavedSearchesView()
+                    } label: {
+                        HStack {
+                            Label("Saved searches", systemImage: "bookmark")
+                            Spacer()
+                            Text("\(searches.searches.count)")
+                                .foregroundStyle(.secondary)
+                                .monospacedDigit()
+                        }
+                    }
+                    NavigationLink {
                         AppliedReportView()
                     } label: {
                         HStack {
@@ -159,6 +171,7 @@ struct SettingsView: View {
             .alert("Clear all your data?", isPresented: $confirmingWipe) {
                 Button("Clear everything", role: .destructive) {
                     tracked.wipeAll()
+                    searches.wipeAll()
                     settings.resetAll()
                     iconOption = .classic
                     Task { await AppIconOption.apply(.classic) }

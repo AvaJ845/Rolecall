@@ -47,6 +47,21 @@ struct Role: Codable, Identifiable, Hashable {
 
     var isRemote: Bool { remote == true }
 
+    /// Coarse seniority parsed from the title, for the advanced filter. Checked most-
+    /// senior-first so "Senior Staff Designer" reads as staff, "Lead Product Designer" as
+    /// lead. Anything without a marker is `.mid`.
+    var seniority: Seniority {
+        let t = " " + title.lowercased() + " "
+        if t.contains("intern") { return .intern }
+        if t.range(of: #"\b(director|head of|vp|vice president|chief)\b"#, options: .regularExpression) != nil { return .director }
+        if t.contains("principal") { return .principal }
+        if t.range(of: #"\b(staff)\b"#, options: .regularExpression) != nil { return .staff }
+        if t.range(of: #"\b(lead|manager)\b"#, options: .regularExpression) != nil { return .lead }
+        if t.range(of: #"\b(senior|sr\.?|staff)\b"#, options: .regularExpression) != nil { return .senior }
+        if t.range(of: #"\b(junior|jr\.?|associate|entry|new grad|graduate|early career)\b"#, options: .regularExpression) != nil { return .junior }
+        return .mid
+    }
+
     /// The board's promise is "one region you can actually cover" — the US, plus
     /// US-remote. A role whose location clearly names somewhere else is filtered out by
     /// default. Deliberately conservative: unknown / empty / US-looking all pass; only an
