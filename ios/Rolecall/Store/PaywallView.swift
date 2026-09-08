@@ -104,6 +104,21 @@ struct PaywallView: View {
 
     @ViewBuilder
     private var planPicker: some View {
+        #if DEBUG
+        if PaywallDemo.isActive {
+            VStack(spacing: 10) {
+                ForEach(PaywallDemo.plans) { demoRow($0) }
+            }
+        } else {
+            livePlanPicker
+        }
+        #else
+        livePlanPicker
+        #endif
+    }
+
+    @ViewBuilder
+    private var livePlanPicker: some View {
         if products.isEmpty {
             HStack {
                 if store.isLoadingProducts { ProgressView() }
@@ -193,7 +208,7 @@ struct PaywallView: View {
             .background(Theme.Palette.accent)
             .foregroundStyle(.white)
             .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-            .disabled(selected == nil || working)
+            .disabled(isBuyDisabled)
             .padding(.horizontal, Theme.Metric.gutter)
             .padding(.top, 8)
 
@@ -209,7 +224,17 @@ struct PaywallView: View {
 
     // MARK: actions / copy
 
+    private var isBuyDisabled: Bool {
+        #if DEBUG
+        if PaywallDemo.isActive { return false }
+        #endif
+        return selected == nil || working
+    }
+
     private func buy() {
+        #if DEBUG
+        if PaywallDemo.isActive { return }   // review screenshot only — no transaction
+        #endif
         guard let product = selected else { return }
         working = true
         Task {
@@ -231,6 +256,9 @@ struct PaywallView: View {
     }
 
     private var buyTitle: String {
+        #if DEBUG
+        if PaywallDemo.isActive { return "Start 7 days free" }
+        #endif
         guard let p = selected else { return "Choose a plan" }
         return hasTrial(p) ? "Start 7 days free" : "Subscribe \(p.displayPrice)"
     }
@@ -266,4 +294,74 @@ struct PaywallView: View {
         + "Apple Account › Subscriptions. Rolecall keeps no account and no server record of "
         + "your subscription."
     }
+
+    #if DEBUG
+    private func demoRow(_ plan: PaywallDemo.Plan) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: plan.selected ? "largecircle.fill.circle" : "circle")
+                .foregroundStyle(plan.selected ? Theme.Palette.accent : Theme.Palette.inkTertiary)
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(spacing: 6) {
+                    Text(plan.title)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(Theme.Palette.ink)
+                    if let tag = plan.tag {
+                        Text(tag)
+                            .font(.caption2.weight(.semibold))
+                            .padding(.horizontal, 6).padding(.vertical, 2)
+                            .background(Theme.Palette.accent.opacity(0.14))
+                            .foregroundStyle(Theme.Palette.accent)
+                            .clipShape(Capsule())
+                    }
+                }
+                Text(plan.detail)
+                    .font(.footnote)
+                    .foregroundStyle(Theme.Palette.inkSecondary)
+            }
+            Spacer()
+            Text(plan.price)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Theme.Palette.ink)
+                .monospacedDigit()
+        }
+        .padding(14)
+        .background(Theme.Palette.surface)
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .stroke(plan.selected ? Theme.Palette.accent : Theme.Palette.hairline,
+                        lineWidth: plan.selected ? 2 : 1)
+        )
+    }
+    #endif
 }
+
+#if DEBUG
+/// A fixed, offline stand-in for the two Rolecall Plus products, used only to capture the
+/// App Store Connect subscription review screenshot (`-uitest-paywall`). Never reachable
+/// in a shipping build — the whole type is `#if DEBUG`. The strings mirror
+/// `RolecallProducts.storekit` so the screenshot is accurate.
+enum PaywallDemo {
+    static var isActive: Bool {
+        ProcessInfo.processInfo.arguments.contains("-uitest-paywall")
+    }
+
+    struct Plan: Identifiable {
+        let id = UUID()
+        let title: String
+        let detail: String
+        let price: String
+        let tag: String?
+        let selected: Bool
+    }
+
+    static let plans: [Plan] = [
+        Plan(title: "Monthly",
+             detail: "7 days free, then $4.99 / month",
+             price: "$4.99", tag: nil, selected: true),
+        Plan(title: "Yearly",
+             detail: "7 days free, then $29.99 / year  ·  $2.50/mo",
+             price: "$29.99", tag: "Best value", selected: false),
+    ]
+}
+#endif
