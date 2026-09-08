@@ -1,0 +1,34 @@
+{
+  "images": [
+    {
+      "filename": "Rolecall_WatchIcon_Light_1088.png",
+      "idiom": "watch",
+      "platform": "watchos",
+      "size": "1088x1088",
+      "scale": "1x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "light"
+        }
+      ]
+    },
+    {
+      "filename": "Rolecall_WatchIcon_Dark_1088.png",
+      "idiom": "watch",
+      "platform": "watchos",
+      "size": "1088x1088",
+      "scale": "1x",
+      "appearances": [
+        {
+          "appearance": "luminosity",
+          "value": "dark"
+        }
+      ]
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  }
+}
