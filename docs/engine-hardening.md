@@ -277,10 +277,38 @@ board.
    whose live count fell > 30 % vs the last committed board (fail the CI run
    loudly instead of publishing a thin board).
 
+### Finding (2026-09-08, verified in code)
+
+**A failed `fetch_company` does not shrink `board.json`.** Code path:
+
+- `engine/pipeline.py` `ingest()` — `rows = fetch_company(c)` is wrapped in
+  `try/except Exception`; on any error the loop does `continue` **before**
+  reaching `store.mark_gone_for_company(...)`.
+- `engine/store.py` `mark_gone_for_company()` is the *only* code that flips a
+  posting to `status='gone'` from feed absence, and it is keyed on the
+  `seen_keys` collected in that same iteration — so if the iteration is skipped,
+  none of that company's rows are touched.
+- `engine/pipeline.py` `export()` emits every row `WHERE status = 'live'`, so
+  the company keeps its full prior presence in the board.
+- After P0-2, `get_json` raises `RuntimeError` for non-2xx / blocked / partial
+  transport failures, which is caught the same way — still no shrink.
+
+So the client-side per-company check (step 2) is **not** needed: a feed *error*
+cannot gut a company. The one residual path is a feed that returns HTTP 200 with
+a *valid but partial* body (an empty `jobs` array, or half the list) — that
+would populate `seen_keys` short and `mark_gone_for_company` would retire the
+rest. That is an engine-side concern, addressed by step 3 only.
+
+**Implemented:** step 3. `export()` reads the count of the board already on disk
+(the previous run's, restored from the CI cache) and refuses — non-zero exit,
+`::error::` annotation — to write a board whose live count fell more than 30%
+(`BOARD_SHRINK_LIMIT`). `ROLECALL_ALLOW_BOARD_SHRINK=1` overrides for a genuine
+prune. Steps 1–2 (client `isPlausibleReplacement`) intentionally left as-is.
+
 ### Acceptance criteria
-- [ ] A written note in this file stating whether a failed feed shrinks `board.json` (with the code path).
-- [ ] If it can: a test where the candidate board has company X at 0 (was 40) and the replacement is rejected.
-- [ ] Engine: a synthetic "half the companies returned empty" board fails `export` with a non-zero exit and a clear message.
+- [x] A written note in this file stating whether a failed feed shrinks `board.json` (with the code path).
+- [ ] If it can: a test where the candidate board has company X at 0 (was 40) and the replacement is rejected. — _N/A: a failed feed provably cannot; see finding._
+- [x] Engine: a synthetic "half the companies returned empty" board fails `export` with a non-zero exit and a clear message.
 
 ### Risk if skipped
 One bad upstream morning quietly halves a user's board.
