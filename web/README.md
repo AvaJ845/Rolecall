@@ -7,8 +7,8 @@ No pip installs, no build toolchain, no third-party runtime code (the one except
 ## Build
 
 ```
-python3 -m web build                          # base URL https://rolecall.io
-python3 -m web build --base-url https://staging.rolecall.io
+python3 -m web build                                  # base URL https://rolecall.io
+python3 -m web build --base-url https://rolecall.pages.dev
 ```
 
 Reads `../data/board.json` and writes `web/dist/`:
@@ -21,9 +21,9 @@ Reads `../data/board.json` and writes `web/dist/`:
 | `sitemap.xml` | landing + board + every job page | |
 | `robots.txt` | allow all, points at the sitemap | |
 | `board.json` | the **full** `../data/board.json` — the same deploy hosts the iOS app's feed (the app does its own filtering) | |
-| `CNAME` | `rolecall.io` — binds the GitHub Pages custom domain | |
-| `.nojekyll` | stops GitHub Pages' Jekyll from dropping `_`-prefixed files | |
-| `_headers` | CORS + cache-control — honoured by Cloudflare/Netlify, **ignored by GitHub Pages** (the iOS app doesn't need CORS; the web board never `fetch`es) | |
+| `404.html` | Cloudflare Pages serves this with a real 404 status for unmatched routes | |
+| `_headers` | CORS (`Access-Control-Allow-Origin: *`) + cache-control for `board.json` and pages — honoured by Cloudflare Pages | |
+| `CNAME` / `.nojekyll` | only emitted when `--base-url` host is `rolecall.io`; irrelevant on Cloudflare | |
 
 The **rendered pages** show the same slice the app leads with: the product-design
 vertical (design · design-eng · research; **PM excluded**), US + US-remote. The copied
@@ -33,7 +33,7 @@ vertical (design · design-eng · research; **PM excluded**), US + US-remote. Th
 
 ## Deploy — Cloudflare Pages (current)
 
-`.github/workflows/pages.yml` runs on push to `main` (when `web/` or `engine/` changes),
+`.github/workflows/deploy.yml` runs on push to `main` (when `web/` or `engine/` changes),
 on a 6-hourly cron, and on manual dispatch. It ingests a fresh board, exports it, builds
 `web/dist/`, and deploys it to Cloudflare Pages with `wrangler`. The engine's SQLite DB is
 cached between runs so `first_seen` (and "new today") stays stable. Cloudflare honours the
@@ -48,7 +48,7 @@ cached between runs so `first_seen` (and "new today") stays stable. Cloudflare h
 3. Repo → **Settings → Secrets and variables → Actions → New repository secret**:
    - `CLOUDFLARE_API_TOKEN` — the token from step 2
    - `CLOUDFLARE_ACCOUNT_ID` — from any Cloudflare dashboard URL, or `wrangler whoami`
-4. Push (or **Actions → Deploy rolecall.io → Run workflow**). Until the secrets exist the
+4. Push (or **Actions → Build and deploy rolecall.io → Run workflow**). Until the secrets exist the
    workflow still builds and just skips the deploy with a warning.
 5. First deploy lands at `https://rolecall.pages.dev`.
 
