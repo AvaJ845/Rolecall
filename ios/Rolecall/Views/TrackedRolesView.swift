@@ -11,6 +11,9 @@ struct TrackedRolesView: View {
     @EnvironmentObject private var tracked: TrackedRoles
     @State private var now = Date()
 
+    /// Matches RoleListView: divider starts where the row text starts.
+    @ScaledMetric(relativeTo: .body) private var monogramTile: CGFloat = 40
+
     private var roles: [Role] {
         let matching: (RoleStatus) -> Bool = kind == .saved ? \.isSaved : \.isApplied
         return tracked.roles(in: store.board, matching: matching)
@@ -29,19 +32,21 @@ struct TrackedRolesView: View {
     var body: some View {
         Group {
             if roles.isEmpty {
-                EmptyStateView(title: emptyTitle, message: emptyMessage)
+                EmptyStateView(title: emptyTitle, message: emptyMessage,
+                               icon: kind == .saved ? "heart" : "checkmark.circle")
                     .padding(.top, 40)
             } else {
                 LazyVStack(alignment: .leading, spacing: 0) {
                     ForEach(Array(roles.enumerated()), id: \.element.id) { index, role in
                         NavigationLink(value: role) {
-                            RoleRow(role: role, now: now, status: tracked.status(for: role))
+                            RoleRow(role: role, now: now, status: tracked.status(for: role),
+                                    showsStatusBadge: false)
                         }
                         .buttonStyle(.plain)
                         .contextMenu { RoleContextMenu(role: role) }
                         if index < roles.count - 1 {
                             Divider().overlay(Theme.Palette.hairline)
-                                .padding(.leading, Theme.Metric.gutter)
+                                .padding(.leading, Theme.Metric.gutter + monogramTile + 13)
                         }
                     }
                 }

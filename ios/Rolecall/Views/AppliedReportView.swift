@@ -22,7 +22,8 @@ struct AppliedReportView: View {
             if entries.isEmpty {
                 EmptyStateView(
                     title: "No applications yet",
-                    message: "When you apply to a role, mark it applied to track it here."
+                    message: "When you apply to a role, mark it applied to track it here.",
+                    icon: "tray"
                 )
             } else {
                 List {

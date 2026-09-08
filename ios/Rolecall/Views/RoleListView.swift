@@ -12,6 +12,10 @@ struct RoleListView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
+    /// Aligns the between-row divider with the start of a row's text, tracking the
+    /// monogram tile as it grows with Dynamic Type (tile 40 + 13 spacing at default).
+    @ScaledMetric(relativeTo: .body) private var monogramTile: CGFloat = 40
+
     @State private var filter = RoleFilter.loadPersisted()
     @State private var query = ""
     @State private var showingFilter = false
@@ -110,6 +114,7 @@ struct RoleListView: View {
             EmptyStateView(
                 title: "No roles loaded yet",
                 message: "Rolecall couldn't reach the board. It fills in the moment you're back online.",
+                icon: "wifi.slash",
                 actionTitle: "Try again",
                 action: { Task { await refresh() } }
             )
@@ -129,6 +134,7 @@ struct RoleListView: View {
         EmptyStateView(
             title: emptyTitle,
             message: emptyMessage,
+            icon: query.isEmpty ? "line.3.horizontal.decrease" : "text.magnifyingglass",
             actionTitle: canClear ? "Clear" : nil,
             action: canClear ? { clearAll() } : nil
         )
@@ -149,7 +155,7 @@ struct RoleListView: View {
                 if index < roles.count - 1 {
                     Divider()
                         .overlay(Theme.Palette.hairline)
-                        .padding(.leading, Theme.Metric.gutter + 53)  // clears the monogram
+                        .padding(.leading, Theme.Metric.gutter + monogramTile + 13)  // clears the monogram
                 }
             }
         } header: {
