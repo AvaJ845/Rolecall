@@ -42,6 +42,7 @@
 		8C6C89B661BE10BAB53A346C /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014094CECD5AB44C436C2483 /* Haptics.swift */; };
 		951FF7D7327DADC3CB3370D3 /* ListLogicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABFDE4BC83931727F1CBC2B2 /* ListLogicTests.swift */; };
 		9E99B44881A052E91711155E /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E178EF27AAD907122B2B0E /* Board.swift */; };
+		AB4E84E2E5277906A46363C4 /* Digest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279FCE1AF1784F3BD179460C /* Digest.swift */; };
 		AB9E53EC8F744984849CDC54 /* RefreshBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46694D7F3993715B1A9D7372 /* RefreshBanner.swift */; };
 		AD7BDBAFD286189F9A765BB6 /* Freshness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A34A687016866AAB163C6A4 /* Freshness.swift */; };
 		C072FDC3E4E1932C732D3F47 /* TrackedRoles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A1057451EF45E9F791DC2C /* TrackedRoles.swift */; };
@@ -94,6 +95,7 @@
 		087A8686ECCCC4512D3ED202 /* RoleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleDetailView.swift; sourceTree = "<group>"; };
 		0D2FD69EEAA9A2455FD0ADBB /* RolecallWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = RolecallWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		10DD99B6FDB00B4E47D2B083 /* CompanyMonogram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyMonogram.swift; sourceTree = "<group>"; };
+		279FCE1AF1784F3BD179460C /* Digest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Digest.swift; sourceTree = "<group>"; };
 		28D3B01EA53F47D2EF8C5077 /* board.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = board.json; sourceTree = "<group>"; };
 		2B6E7CDF97BF66ACC9E6D59C /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		3F9C4FBB2D85967A3CE7A0E6 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				8F41D5766356C89101E20DD0 /* AppIconOption.swift */,
 				7A312F6DBECFEA599C93FB18 /* BoardSource.swift */,
 				C8FA42C4C43AB5E33AF40992 /* BoardStore.swift */,
+				279FCE1AF1784F3BD179460C /* Digest.swift */,
 				8CEDE3401C50B16FC67867B0 /* FreshnessChecker.swift */,
 				014094CECD5AB44C436C2483 /* Haptics.swift */,
 			);
@@ -420,6 +423,7 @@
 				FD17B064FF90569A28AF82C6 /* BoardSource.swift in Sources */,
 				0B9323A84541FB1FDA13B6CA /* BoardStore.swift in Sources */,
 				66EF3CCC3A61ECDC81902741 /* CompanyMonogram.swift in Sources */,
+				AB4E84E2E5277906A46363C4 /* Digest.swift in Sources */,
 				E51AB6D6A712F0DB4C12B749 /* EmptyStateView.swift in Sources */,
 				D4AD90881ECC4CF45EDB7B20 /* FilterSheet.swift in Sources */,
 				AD7BDBAFD286189F9A765BB6 /* Freshness.swift in Sources */,

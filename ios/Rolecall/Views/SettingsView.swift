@@ -8,6 +8,20 @@ struct SettingsView: View {
     @State private var confirmingWipe = false
     @State private var iconOption: AppIconOption = .current
 
+    @State private var notificationsDenied = false
+
+    private func handleDigestToggle(_ turnedOn: Bool) {
+        Task {
+            if turnedOn, await Digest.ensureAuthorised() == false {
+                // permission refused — revert the switches and tell them why
+                settings.morningRead = false
+                settings.weeklyRecap = false
+                notificationsDenied = true
+            }
+            await Digest.reschedule(board: store.board, tracked: tracked, settings: settings)
+        }
+    }
+
     private var version: String {
         let v = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
         let b = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
@@ -32,6 +46,17 @@ struct SettingsView: View {
                         }
                     }
                 }
+
+                Section {
+                    Toggle("Morning read", isOn: $settings.morningRead)
+                    Toggle("Weekly recap", isOn: $settings.weeklyRecap)
+                } header: {
+                    Text("Digests")
+                } footer: {
+                    Text("A quiet local notification — the count of new roles, computed on your device. Nothing fires when there's nothing new.")
+                }
+                .onChange(of: settings.morningRead) { _, on in handleDigestToggle(on) }
+                .onChange(of: settings.weeklyRecap) { _, on in handleDigestToggle(on) }
 
                 Section("Applications") {
                     NavigationLink {
@@ -80,6 +105,16 @@ struct SettingsView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Done") { dismiss() }.fontWeight(.semibold)
                 }
+            }
+            .alert("Notifications are off", isPresented: $notificationsDenied) {
+                Button("Open Settings") {
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                Button("Not now", role: .cancel) { }
+            } message: {
+                Text("Turn on notifications for Rolecall in the Settings app to get digests.")
             }
             .alert("Clear all your data?", isPresented: $confirmingWipe) {
                 Button("Clear everything", role: .destructive) {
