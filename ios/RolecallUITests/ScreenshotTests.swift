@@ -15,6 +15,14 @@ final class ScreenshotTests: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
         app.launchArguments += ["-uitest-seed", "-uitest-live", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+
+        // The paywall review screenshot renders the two Rolecall Plus plans from a
+        // fixed offline stand-in — StoreKit product loading is not reachable under
+        // `xcodebuild test` in the simulator.
+        if name.contains("Paywall") {
+            app.launchArguments.append("-uitest-paywall")
+        }
+
         app.launch()
     }
 
@@ -23,6 +31,30 @@ final class ScreenshotTests: XCTestCase {
         a.name = name
         a.lifetime = .keepAlways
         add(a)
+    }
+
+    /// App Store Connect requires a review screenshot for every in-app subscription,
+    /// showing where the customer reaches and buys it. One capture of the paywall covers
+    /// both products in the "Rolecall Plus" group.
+    func test_capturePaywallForSubscriptionReview() {
+        XCTAssertTrue(app.staticTexts["Rolecall"].waitForExistence(timeout: 10))
+
+        let settings = app.navigationBars.buttons["Settings"]
+        XCTAssertTrue(settings.waitForExistence(timeout: 5))
+        settings.tap()
+
+        let plusRow = app.buttons.matching(
+            NSPredicate(format: "label CONTAINS 'Rolecall Plus'")
+        ).firstMatch
+        XCTAssertTrue(plusRow.waitForExistence(timeout: 5))
+        plusRow.tap()
+
+        XCTAssertTrue(
+            app.buttons["Start 7 days free"].waitForExistence(timeout: 10),
+            "the paywall should show the trial buy bar"
+        )
+        _ = app.staticTexts["Run a serious search."].waitForExistence(timeout: 5)
+        shot("06-paywall")
     }
 
     func test_captureAppStoreScreens() {
