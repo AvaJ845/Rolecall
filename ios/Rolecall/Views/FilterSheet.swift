@@ -69,6 +69,7 @@ struct FilterSheet: View {
     private func familyRow(_ family: RoleFamily) -> some View {
         let selected = filter.families.contains(family)
         return Button {
+            Haptics.selection()
             if selected { filter.families.remove(family) } else { filter.families.insert(family) }
         } label: {
             HStack {

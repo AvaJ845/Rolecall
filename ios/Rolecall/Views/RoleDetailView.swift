@@ -4,6 +4,7 @@ struct RoleDetailView: View {
 
     let role: Role
     @Environment(\.openURL) private var openURL
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var freshness: FreshnessChecker.Status? = nil
     @State private var checking = false
     @State private var now = Date()
@@ -23,6 +24,7 @@ struct RoleDetailView: View {
         .navigationTitle(role.company)
         .navigationBarTitleDisplayMode(.inline)
         .task { await runCheck() }
+        .onReceive(Timer.publish(every: 60, on: .main, in: .common).autoconnect()) { now = $0 }
     }
 
     // MARK: blocks
@@ -71,9 +73,17 @@ struct RoleDetailView: View {
                 .stroke(Theme.Palette.hairline, lineWidth: 1)
         )
         .contentShape(Rectangle())
-        .onTapGesture { if freshness == .mayHaveClosed { open() } }
+        .onTapGesture {
+            switch freshness {
+            case .mayHaveClosed: open()
+            case .couldNotCheck: Task { await runCheck() }
+            default: break
+            }
+        }
+        .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: freshness)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(statusHeadline). \(statusDetail)")
+        .accessibilityHint(freshness == .couldNotCheck ? "Double tap to check again." : "")
     }
 
     private var factsBlock: some View {
@@ -140,9 +150,11 @@ struct RoleDetailView: View {
 
     private func runCheck() async {
         checking = true
-        freshness = await FreshnessChecker().check(role.url)
+        let result = await FreshnessChecker().check(role.url)
         checking = false
         now = Date()
+        freshness = result
+        if result == .mayHaveClosed { Haptics.warning() }
     }
 
     // MARK: status presentation
@@ -154,7 +166,7 @@ struct RoleDetailView: View {
         let known = ["greenhouse.io", "ashbyhq.com", "lever.co", "workable.com",
                      "myworkdayjobs.com", "jobs.lever.co", "boards.greenhouse.io"]
         if known.contains(where: host.hasSuffix) {
-            return "\(role.company)"
+            return role.company
         }
         return host.replacingOccurrences(of: "www.", with: "")
     }
@@ -193,7 +205,8 @@ struct RoleDetailView: View {
             return "The page 404'd or bounced to a careers index. Tap to check on the company site."
         case .couldNotCheck:
             return "You may be offline. The engine last saw this role "
-                + Freshness.compactAgo(since: role.freshnessDate, relativeTo: now) + "."
+                + Freshness.compactAgo(since: role.freshnessDate, relativeTo: now)
+                + ". Tap to check again."
         case .none:
             return "Opening \(role.company)'s page to confirm the role is still accepting applications."
         }
