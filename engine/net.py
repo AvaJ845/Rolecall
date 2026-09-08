@@ -9,7 +9,7 @@ import urllib.request
 # Honest identifying UA for the public ATS JSON APIs — they don't bot-block and we want
 # to be a good citizen / reachable if a provider has a question.
 UA_API = (
-    "RolecallEngine/0.1 (+https://rolecall.app; research spike; "
+    "RolecallEngine/0.1 (+https://rolecalljobs.com; research spike; "
     "contact avaresearchLLC@gmail.com)"
 )
 
