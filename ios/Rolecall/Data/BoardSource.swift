@@ -9,6 +9,13 @@ enum BoardSource {
     /// any non-success as "no update" and keeps the bundled snapshot.
     static let remoteURL = URL(string: "https://rolecalljobs.com/board.json")!
 
+    /// P0-7: the single-artifact envelope —
+    /// `{ "format": 2, "sig": "<hex>", "board": "<board.json text>" }`. One fetch gets the
+    /// board and the signature that covers its exact bytes, so the app never verifies a
+    /// fresh board against a stale cached signature during a Cloudflare deploy. `BoardStore`
+    /// falls back to `remoteURL` + `board.json.sig` when this 404s (older edge).
+    static let remoteURLV2 = URL(string: "https://rolecalljobs.com/board.v2.json")!
+
     /// The snapshot shipped inside the app bundle, copied from `data/board.json` at build.
     static func bundledBoard() -> Board {
         guard let url = Bundle.main.url(forResource: "board", withExtension: "json"),

@@ -126,11 +126,13 @@ jobs:
             echo "::warning::ROLECALL_SIGNING_KEY not set — board.json will ship unsigned and the app will reject remote updates."
           fi
 
-      - name: Upload signature
+      - name: Upload signature + v2 envelope
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: board-sig
-          path: data/board.json.sig
+          path: |
+            data/board.json.sig
+            data/board.v2.json
           if-no-files-found: ignore
           retention-days: 1
 

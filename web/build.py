@@ -995,6 +995,18 @@ HEADERS_FILE = """# Cloudflare Pages / Netlify header rules.
   Cache-Control: public, max-age=300, s-maxage=300
   Content-Type: application/json; charset=utf-8
 
+# P0-7: the detached signature and the v2 envelope MUST share board.json's cache policy,
+# or the edge can expire them at different times and the app sees a board/sig skew.
+/board.json.sig
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300, s-maxage=300
+  Content-Type: text/plain; charset=utf-8
+
+/board.v2.json
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300, s-maxage=300
+  Content-Type: application/json; charset=utf-8
+
 /jobs/*
   Cache-Control: public, max-age=900, s-maxage=3600
 
@@ -1058,6 +1070,12 @@ def build(base_url: str) -> int:
     sig = BOARD_PATH.with_suffix(".json.sig")
     if sig.exists():
         shutil.copyfile(sig, DIST / "board.json.sig")   # detached Ed25519 signature for the app
+    v2 = BOARD_PATH.with_name("board.v2.json")
+    if v2.exists():
+        # P0-7: board + signature as one artifact — the app fetches this single URL so the
+        # edge can't serve a new board against a stale cached signature. Legacy two-file
+        # layout above stays for one release.
+        shutil.copyfile(v2, DIST / "board.v2.json")
 
     print("built {} pages -> {}".format(2 + len(roles), DIST))
     print("  landing : index.html")

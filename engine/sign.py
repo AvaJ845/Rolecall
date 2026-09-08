@@ -14,6 +14,7 @@ The signature is over the exact bytes of data/board.json. board.json.sig is the 
 """
 from __future__ import annotations
 
+import json
 import os
 import pathlib
 
@@ -22,6 +23,11 @@ from . import ed25519
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 BOARD = ROOT / "data" / "board.json"
 SIG = ROOT / "data" / "board.json.sig"
+# P0-7: board + signature as ONE artifact the app fetches in one request, so the edge
+# can never serve a new board against a stale cached signature (the 4x/day deploy skew).
+# `board` is the *exact text* of board.json embedded as a JSON string — decode it, UTF-8
+# it, and you have byte-for-byte what `sig` signs. No canonicalisation, no ambiguity.
+BOARD_V2 = ROOT / "data" / "board.v2.json"
 PUBKEY_FILE = pathlib.Path(__file__).resolve().parent / "board_pubkey.hex"
 
 
@@ -61,4 +67,14 @@ def sign() -> int:
     assert ed25519.verify(signature, data, pk), "self-verify failed"
     SIG.write_text(signature.hex() + "\n")
     print("signed {} bytes -> {}".format(len(data), SIG))
+
+    # P0-7: the single-artifact envelope. board.json is ASCII (json.dumps ensure_ascii),
+    # so board_text.encode("utf-8") == data exactly — the signature still covers the exact
+    # bytes. Written as compact JSON; the app fetches this one URL.
+    board_text = data.decode("utf-8")
+    envelope = json.dumps({"format": 2, "sig": signature.hex(), "board": board_text},
+                          separators=(",", ":"))
+    assert json.loads(envelope)["board"].encode("utf-8") == data, "envelope round-trip"
+    BOARD_V2.write_text(envelope)
+    print("wrote single-artifact envelope -> {}".format(BOARD_V2))
     return 0
