@@ -1,0 +1,663 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0B79266BEE89070A0D6C46EC /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C14B5A3DB373DD3985A3087 /* Role.swift */; };
+		0B9323A84541FB1FDA13B6CA /* BoardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FA42C4C43AB5E33AF40992 /* BoardStore.swift */; };
+		2BD64801F4BA388DC56F4383 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D7AAA421E8C6D856D16E6179 /* PrivacyInfo.xcprivacy */; };
+		2EEE3D78214A230D05283B6A /* RolecallWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 0D2FD69EEAA9A2455FD0ADBB /* RolecallWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		3153A9CAAAFD4240704B52AB /* BoardDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E836D335E2689ED880144A /* BoardDecodingTests.swift */; };
+		3251BAA27BDE40360930C33E /* RoleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087A8686ECCCC4512D3ED202 /* RoleDetailView.swift */; };
+		3ABA9C5CBEEBE3C53BFECD5A /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA529BCE78090F9C57775C5A /* Theme.swift */; };
+		3D2D7CB8E4DA36C42939132D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DC06CED1727BB85A8802550 /* Assets.xcassets */; };
+		42F1A9A0545BF178F0A7E12D /* RolecallApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D931CFA6BB1424C365C5E1 /* RolecallApp.swift */; };
+		47831395BD6B0D62467589C1 /* board.json in Resources */ = {isa = PBXBuildFile; fileRef = 28D3B01EA53F47D2EF8C5077 /* board.json */; };
+		4FAF55E4ED229E87640A1DB6 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D7AAA421E8C6D856D16E6179 /* PrivacyInfo.xcprivacy */; };
+		652D1B1E5797738F83B5E5A7 /* SharedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B79DA24CF107491B4917097 /* SharedContainer.swift */; };
+		67C6E819EB8F872D96B87BB9 /* FreshnessFormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B30618D1CA7D87E8E795B8D /* FreshnessFormatTests.swift */; };
+		6C2D7566C49B904AC60E409D /* RoleRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4935575786063CC269B2F031 /* RoleRow.swift */; };
+		700584ED8193670B86D8DD19 /* RoleFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6421776046395804F5B6E103 /* RoleFamily.swift */; };
+		723CFE35912C9F896F3FBD2B /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F9C4FBB2D85967A3CE7A0E6 /* MockURLProtocol.swift */; };
+		7ADE5B3F9B65C37E242555A5 /* Role.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C14B5A3DB373DD3985A3087 /* Role.swift */; };
+		813B4A388DA97B05FEDF22CF /* Freshness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A34A687016866AAB163C6A4 /* Freshness.swift */; };
+		8414A8DD743004A5F2342EDD /* board.json in Resources */ = {isa = PBXBuildFile; fileRef = 28D3B01EA53F47D2EF8C5077 /* board.json */; };
+		87D6BBA2E30F04E617A3CB51 /* RoleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC72955FB9D67016E30285E5 /* RoleListView.swift */; };
+		89A0C1BA82142C54224FA310 /* RolecallWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60508F5D20B2E19C946BBBE /* RolecallWidget.swift */; };
+		9E99B44881A052E91711155E /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E178EF27AAD907122B2B0E /* Board.swift */; };
+		AACF9DCDA1147AE0363BECA7 /* RoleFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297BB37BEDEB7516EB119645 /* RoleFilter.swift */; };
+		AD7BDBAFD286189F9A765BB6 /* Freshness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A34A687016866AAB163C6A4 /* Freshness.swift */; };
+		C4714123610E29CAADFBC4FF /* board.json in Resources */ = {isa = PBXBuildFile; fileRef = 28D3B01EA53F47D2EF8C5077 /* board.json */; };
+		C4FC3A24CCC683577462FB92 /* RoleFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6421776046395804F5B6E103 /* RoleFamily.swift */; };
+		C5829972C6EEFE84A30F5040 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E178EF27AAD907122B2B0E /* Board.swift */; };
+		D4AD90881ECC4CF45EDB7B20 /* FilterSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C93CE57026B5DD5A5DAA3B /* FilterSheet.swift */; };
+		E51AB6D6A712F0DB4C12B749 /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF91D32CD4C58BCD1B691371 /* EmptyStateView.swift */; };
+		F0182DA8B755B3C365EFC70D /* FreshnessChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CEDE3401C50B16FC67867B0 /* FreshnessChecker.swift */; };
+		F327B46DC3384C6EE0C0A673 /* FreshnessCheckerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EAFC586164130C2F55AD890 /* FreshnessCheckerTests.swift */; };
+		F7ADDEAEE30CA1D2C5DFA6C1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DC06CED1727BB85A8802550 /* Assets.xcassets */; };
+		FB211D62B2371788971615C2 /* SharedContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B79DA24CF107491B4917097 /* SharedContainer.swift */; };
+		FD17B064FF90569A28AF82C6 /* BoardSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A312F6DBECFEA599C93FB18 /* BoardSource.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4CAC01C142683D91CAA0B0BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 92412185CC8E238002182008 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C83C4EE0F347AD0CE0F46C3A;
+			remoteInfo = Rolecall;
+		};
+		768BA79C76AAF7FF4E752533 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 92412185CC8E238002182008 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7E558F61DF250877B9350ED6;
+			remoteInfo = RolecallWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F4EDD54F51C0741A521124F3 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				2EEE3D78214A230D05283B6A /* RolecallWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		087A8686ECCCC4512D3ED202 /* RoleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleDetailView.swift; sourceTree = "<group>"; };
+		0D2FD69EEAA9A2455FD0ADBB /* RolecallWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = RolecallWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		28D3B01EA53F47D2EF8C5077 /* board.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = board.json; sourceTree = "<group>"; };
+		297BB37BEDEB7516EB119645 /* RoleFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleFilter.swift; sourceTree = "<group>"; };
+		3F9C4FBB2D85967A3CE7A0E6 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
+		45C93CE57026B5DD5A5DAA3B /* FilterSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSheet.swift; sourceTree = "<group>"; };
+		4935575786063CC269B2F031 /* RoleRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleRow.swift; sourceTree = "<group>"; };
+		4B30618D1CA7D87E8E795B8D /* FreshnessFormatTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreshnessFormatTests.swift; sourceTree = "<group>"; };
+		4DC06CED1727BB85A8802550 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6421776046395804F5B6E103 /* RoleFamily.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleFamily.swift; sourceTree = "<group>"; };
+		6A34A687016866AAB163C6A4 /* Freshness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Freshness.swift; sourceTree = "<group>"; };
+		7A312F6DBECFEA599C93FB18 /* BoardSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardSource.swift; sourceTree = "<group>"; };
+		8C14B5A3DB373DD3985A3087 /* Role.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Role.swift; sourceTree = "<group>"; };
+		8CEDE3401C50B16FC67867B0 /* FreshnessChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreshnessChecker.swift; sourceTree = "<group>"; };
+		90E178EF27AAD907122B2B0E /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
+		9AB2E1F666475A20805172EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9B79DA24CF107491B4917097 /* SharedContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedContainer.swift; sourceTree = "<group>"; };
+		9EAFC586164130C2F55AD890 /* FreshnessCheckerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreshnessCheckerTests.swift; sourceTree = "<group>"; };
+		BA529BCE78090F9C57775C5A /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		BC72955FB9D67016E30285E5 /* RoleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoleListView.swift; sourceTree = "<group>"; };
+		C31A62EE4941FB9BD97CA26F /* Rolecall.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Rolecall.entitlements; sourceTree = "<group>"; };
+		C60508F5D20B2E19C946BBBE /* RolecallWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolecallWidget.swift; sourceTree = "<group>"; };
+		C7E21A24250143A7D85494CC /* RolecallTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = RolecallTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8FA42C4C43AB5E33AF40992 /* BoardStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardStore.swift; sourceTree = "<group>"; };
+		D1284D1D0C5C04B8F1DDF4E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D2627EFBB510CB19F346E26F /* Rolecall.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Rolecall.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7AAA421E8C6D856D16E6179 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		E365E3EAF3FBD4ACF38701B1 /* RolecallWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RolecallWidget.entitlements; sourceTree = "<group>"; };
+		E5E836D335E2689ED880144A /* BoardDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardDecodingTests.swift; sourceTree = "<group>"; };
+		EF91D32CD4C58BCD1B691371 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		F2D931CFA6BB1424C365C5E1 /* RolecallApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolecallApp.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0F9B076491B45D7BA1D65733 /* RolecallWidget */ = {
+			isa = PBXGroup;
+			children = (
+				9AB2E1F666475A20805172EA /* Info.plist */,
+				E365E3EAF3FBD4ACF38701B1 /* RolecallWidget.entitlements */,
+				C60508F5D20B2E19C946BBBE /* RolecallWidget.swift */,
+			);
+			path = RolecallWidget;
+			sourceTree = "<group>";
+		};
+		377BF410A153D1ED8F847594 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4DC06CED1727BB85A8802550 /* Assets.xcassets */,
+				28D3B01EA53F47D2EF8C5077 /* board.json */,
+				D7AAA421E8C6D856D16E6179 /* PrivacyInfo.xcprivacy */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		3DCAE968CC78FDF98990F651 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2627EFBB510CB19F346E26F /* Rolecall.app */,
+				C7E21A24250143A7D85494CC /* RolecallTests.xctest */,
+				0D2FD69EEAA9A2455FD0ADBB /* RolecallWidget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4BBCB5BE9E3B8EC25B27A887 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EF91D32CD4C58BCD1B691371 /* EmptyStateView.swift */,
+				45C93CE57026B5DD5A5DAA3B /* FilterSheet.swift */,
+				087A8686ECCCC4512D3ED202 /* RoleDetailView.swift */,
+				BC72955FB9D67016E30285E5 /* RoleListView.swift */,
+				4935575786063CC269B2F031 /* RoleRow.swift */,
+				BA529BCE78090F9C57775C5A /* Theme.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		505190181168F8F19FB5FE28 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				7A312F6DBECFEA599C93FB18 /* BoardSource.swift */,
+				C8FA42C4C43AB5E33AF40992 /* BoardStore.swift */,
+				8CEDE3401C50B16FC67867B0 /* FreshnessChecker.swift */,
+				297BB37BEDEB7516EB119645 /* RoleFilter.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		723E8179BF290F2F641FD571 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				F2D931CFA6BB1424C365C5E1 /* RolecallApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		76A366A31DA68CD6A383D40D = {
+			isa = PBXGroup;
+			children = (
+				C00A01522BDFA0BA85A649D8 /* Rolecall */,
+				81090B45C6A7E24E18BB7F33 /* RolecallTests */,
+				0F9B076491B45D7BA1D65733 /* RolecallWidget */,
+				C84FF026A111F1B1D97D73E3 /* Shared */,
+				3DCAE968CC78FDF98990F651 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		81090B45C6A7E24E18BB7F33 /* RolecallTests */ = {
+			isa = PBXGroup;
+			children = (
+				E5E836D335E2689ED880144A /* BoardDecodingTests.swift */,
+				9EAFC586164130C2F55AD890 /* FreshnessCheckerTests.swift */,
+				4B30618D1CA7D87E8E795B8D /* FreshnessFormatTests.swift */,
+				3F9C4FBB2D85967A3CE7A0E6 /* MockURLProtocol.swift */,
+			);
+			path = RolecallTests;
+			sourceTree = "<group>";
+		};
+		C00A01522BDFA0BA85A649D8 /* Rolecall */ = {
+			isa = PBXGroup;
+			children = (
+				723E8179BF290F2F641FD571 /* App */,
+				505190181168F8F19FB5FE28 /* Data */,
+				377BF410A153D1ED8F847594 /* Resources */,
+				4BBCB5BE9E3B8EC25B27A887 /* Views */,
+				D1284D1D0C5C04B8F1DDF4E7 /* Info.plist */,
+				C31A62EE4941FB9BD97CA26F /* Rolecall.entitlements */,
+			);
+			path = Rolecall;
+			sourceTree = "<group>";
+		};
+		C84FF026A111F1B1D97D73E3 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				90E178EF27AAD907122B2B0E /* Board.swift */,
+				6A34A687016866AAB163C6A4 /* Freshness.swift */,
+				8C14B5A3DB373DD3985A3087 /* Role.swift */,
+				6421776046395804F5B6E103 /* RoleFamily.swift */,
+				9B79DA24CF107491B4917097 /* SharedContainer.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7E558F61DF250877B9350ED6 /* RolecallWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7B85E4FD37A2F99231C2E604 /* Build configuration list for PBXNativeTarget "RolecallWidget" */;
+			buildPhases = (
+				0C49DED7A6FCFAC4E338F58F /* Sources */,
+				54DEBCB4E157D848311F198D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RolecallWidget;
+			packageProductDependencies = (
+			);
+			productName = RolecallWidget;
+			productReference = 0D2FD69EEAA9A2455FD0ADBB /* RolecallWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		C83C4EE0F347AD0CE0F46C3A /* Rolecall */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9DF9115682900BF4514D3793 /* Build configuration list for PBXNativeTarget "Rolecall" */;
+			buildPhases = (
+				89F03641849628301BAF6CCE /* Sources */,
+				E0E3358C1D2A3A6732AC102E /* Resources */,
+				F4EDD54F51C0741A521124F3 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				01DB7C4CD4140C8CD74857DA /* PBXTargetDependency */,
+			);
+			name = Rolecall;
+			packageProductDependencies = (
+			);
+			productName = Rolecall;
+			productReference = D2627EFBB510CB19F346E26F /* Rolecall.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FEF3A851A1A9CBDBBEDFE60B /* RolecallTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EF84198660D01A1F4CA0CC88 /* Build configuration list for PBXNativeTarget "RolecallTests" */;
+			buildPhases = (
+				9E4E37AFE2DDF78BD39DCDB5 /* Sources */,
+				CE18CFEF842EFA45CA1EF1B6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A516DD64203DFD6583E1373E /* PBXTargetDependency */,
+			);
+			name = RolecallTests;
+			packageProductDependencies = (
+			);
+			productName = RolecallTests;
+			productReference = C7E21A24250143A7D85494CC /* RolecallTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		92412185CC8E238002182008 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					7E558F61DF250877B9350ED6 = {
+						DevelopmentTeam = 3L683975L8;
+						ProvisioningStyle = Automatic;
+					};
+					C83C4EE0F347AD0CE0F46C3A = {
+						DevelopmentTeam = 3L683975L8;
+						ProvisioningStyle = Automatic;
+					};
+					FEF3A851A1A9CBDBBEDFE60B = {
+						DevelopmentTeam = 3L683975L8;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = F26C07B0EFB78B910244CC61 /* Build configuration list for PBXProject "Rolecall" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 76A366A31DA68CD6A383D40D;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C83C4EE0F347AD0CE0F46C3A /* Rolecall */,
+				FEF3A851A1A9CBDBBEDFE60B /* RolecallTests */,
+				7E558F61DF250877B9350ED6 /* RolecallWidget */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		54DEBCB4E157D848311F198D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7ADDEAEE30CA1D2C5DFA6C1 /* Assets.xcassets in Resources */,
+				4FAF55E4ED229E87640A1DB6 /* PrivacyInfo.xcprivacy in Resources */,
+				C4714123610E29CAADFBC4FF /* board.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE18CFEF842EFA45CA1EF1B6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				47831395BD6B0D62467589C1 /* board.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E0E3358C1D2A3A6732AC102E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3D2D7CB8E4DA36C42939132D /* Assets.xcassets in Resources */,
+				2BD64801F4BA388DC56F4383 /* PrivacyInfo.xcprivacy in Resources */,
+				8414A8DD743004A5F2342EDD /* board.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0C49DED7A6FCFAC4E338F58F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E99B44881A052E91711155E /* Board.swift in Sources */,
+				813B4A388DA97B05FEDF22CF /* Freshness.swift in Sources */,
+				7ADE5B3F9B65C37E242555A5 /* Role.swift in Sources */,
+				700584ED8193670B86D8DD19 /* RoleFamily.swift in Sources */,
+				89A0C1BA82142C54224FA310 /* RolecallWidget.swift in Sources */,
+				652D1B1E5797738F83B5E5A7 /* SharedContainer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		89F03641849628301BAF6CCE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C5829972C6EEFE84A30F5040 /* Board.swift in Sources */,
+				FD17B064FF90569A28AF82C6 /* BoardSource.swift in Sources */,
+				0B9323A84541FB1FDA13B6CA /* BoardStore.swift in Sources */,
+				E51AB6D6A712F0DB4C12B749 /* EmptyStateView.swift in Sources */,
+				D4AD90881ECC4CF45EDB7B20 /* FilterSheet.swift in Sources */,
+				AD7BDBAFD286189F9A765BB6 /* Freshness.swift in Sources */,
+				F0182DA8B755B3C365EFC70D /* FreshnessChecker.swift in Sources */,
+				0B79266BEE89070A0D6C46EC /* Role.swift in Sources */,
+				3251BAA27BDE40360930C33E /* RoleDetailView.swift in Sources */,
+				C4FC3A24CCC683577462FB92 /* RoleFamily.swift in Sources */,
+				AACF9DCDA1147AE0363BECA7 /* RoleFilter.swift in Sources */,
+				87D6BBA2E30F04E617A3CB51 /* RoleListView.swift in Sources */,
+				6C2D7566C49B904AC60E409D /* RoleRow.swift in Sources */,
+				42F1A9A0545BF178F0A7E12D /* RolecallApp.swift in Sources */,
+				FB211D62B2371788971615C2 /* SharedContainer.swift in Sources */,
+				3ABA9C5CBEEBE3C53BFECD5A /* Theme.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9E4E37AFE2DDF78BD39DCDB5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3153A9CAAAFD4240704B52AB /* BoardDecodingTests.swift in Sources */,
+				F327B46DC3384C6EE0C0A673 /* FreshnessCheckerTests.swift in Sources */,
+				67C6E819EB8F872D96B87BB9 /* FreshnessFormatTests.swift in Sources */,
+				723CFE35912C9F896F3FBD2B /* MockURLProtocol.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		01DB7C4CD4140C8CD74857DA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7E558F61DF250877B9350ED6 /* RolecallWidget */;
+			targetProxy = 768BA79C76AAF7FF4E752533 /* PBXContainerItemProxy */;
+		};
+		A516DD64203DFD6583E1373E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C83C4EE0F347AD0CE0F46C3A /* Rolecall */;
+			targetProxy = 4CAC01C142683D91CAA0B0BC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		02B3DF0CB051B6EB3541BDDC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3L683975L8;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.avaresearch.rolecall.tests;
+				PRODUCT_NAME = RolecallTests;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rolecall.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Rolecall";
+			};
+			name = Debug;
+		};
+		0F9BD67DD9F9766F0CA75EDA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		1EED20CD39EBCA194F6E4FBD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = Rolecall/Rolecall.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 3L683975L8;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Rolecall/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.0;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.avaresearch.rolecall;
+				PRODUCT_NAME = Rolecall;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		627E3BDF5ED02259CDE42970 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = RolecallWidget/RolecallWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 3L683975L8;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = RolecallWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.0.0;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.avaresearch.rolecall.widget;
+				PRODUCT_NAME = RolecallWidget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		68C7C831B34619CD997D5504 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3L683975L8;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.avaresearch.rolecall.tests;
+				PRODUCT_NAME = RolecallTests;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rolecall.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Rolecall";
+			};
+			name = Release;
+		};
+		86A7D2E3D2A8DBA849FB640B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		A86535FBDA5129860C4E373D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = RolecallWidget/RolecallWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 3L683975L8;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = RolecallWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MARKETING_VERSION = 1.0.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.avaresearch.rolecall.widget;
+				PRODUCT_NAME = RolecallWidget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FAB664162FD8649AD3BE5466 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = Rolecall/Rolecall.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 3L683975L8;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1 $(inherited)";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Rolecall/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.avaresearch.rolecall;
+				PRODUCT_NAME = Rolecall;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7B85E4FD37A2F99231C2E604 /* Build configuration list for PBXNativeTarget "RolecallWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A86535FBDA5129860C4E373D /* Debug */,
+				627E3BDF5ED02259CDE42970 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9DF9115682900BF4514D3793 /* Build configuration list for PBXNativeTarget "Rolecall" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAB664162FD8649AD3BE5466 /* Debug */,
+				1EED20CD39EBCA194F6E4FBD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		EF84198660D01A1F4CA0CC88 /* Build configuration list for PBXNativeTarget "RolecallTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				02B3DF0CB051B6EB3541BDDC /* Debug */,
+				68C7C831B34619CD997D5504 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F26C07B0EFB78B910244CC61 /* Build configuration list for PBXProject "Rolecall" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				86A7D2E3D2A8DBA849FB640B /* Debug */,
+				0F9BD67DD9F9766F0CA75EDA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 92412185CC8E238002182008 /* Project object */;
+}

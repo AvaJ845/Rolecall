@@ -32,6 +32,12 @@ SHOULD_NOT_MATCH = [
     ("Design Verification Engineer", "Silicon"),
     ("Interior Designer", "Facilities"),
     ("Designer", "Sales"),                # bare title, wrong dept
+    # real false positives found in the first ingest (2026-09-07):
+    ("Data Center Design Engineer, Electrical - Industrial Compute", "Infrastructure"),
+    ("Actuator Design Engineer", "Robotics"),
+    ("Actuator Electromagnetic Design Engineer", "Hardware"),
+    ("Lead Mechanical/ Product Design Engineer, Special Projects", "Hardware"),
+    ("Manager, Software Engineering, Fullstack (Repayment UX Engineer)", "Engineering"),
 ]
 
 

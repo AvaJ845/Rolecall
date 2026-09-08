@@ -13,11 +13,12 @@ from __future__ import annotations
 import json
 import pathlib
 import random
+import re
 import sys
 import time
 
 from . import store
-from .ats import fetch_company
+from .ats import fetch_company, resolve_ats
 from .classify import classify
 from .net import check_url
 
@@ -25,17 +26,43 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 COMPANIES_PATH = ROOT / "engine" / "companies.json"
 BOARD_PATH = ROOT / "data" / "board.json"
 
-# A posting URL that redirects to one of these path shapes has almost certainly been
-# pulled — the ATS bounces closed roles to the careers index.
-_DEAD_REDIRECT_HINTS = ("/jobs", "/careers", "/job-board", "?redirect", "/postings")
+# A posting URL that redirects to a careers-index path shape has probably been pulled —
+# the ATS bounces closed roles to the index. BUT only treat it as dead if the
+# destination carries no job-identifying token (some companies, e.g. Stripe, legitimately
+# render a live posting at `/jobs/search?gh_jid=NNNN`).
+_DEAD_REDIRECT_HINTS = ("/jobs", "/careers", "/job-board", "?redirect", "/postings", "/openings")
 _DEAD_BODY_HINTS = (
     "no longer accepting applications",
     "this job is no longer",
+    "this position is no longer",
     "position has been filled",
     "job not found",
     "page not found",
     "the job you are looking for",
+    "no longer available",
+    "posting is closed",
 )
+
+# Tokens that mean "this URL still points at a specific requisition", not an index page.
+_JOB_ID_RE = re.compile(
+    r"(?:gh_jid|gh_jobid|gid|job[_-]?id|jobid|lever|ashby_jid|req[_-]?id)=[\w-]+"
+    r"|/jobs?/\d{3,}"
+    r"|/postings?/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}"
+    r"|/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}"
+    r"|/\d{5,}(?:[/?#]|$)",
+    re.I,
+)
+
+
+def _has_job_identifier(url: str) -> bool:
+    return bool(_JOB_ID_RE.search(url or ""))
+
+
+def _looks_like_index(url: str) -> bool:
+    """True if the URL path is shallow enough and hint-y enough to be a careers index."""
+    path = re.sub(r"^https?://[^/]+", "", url or "")
+    depth = path.strip("/").count("/")
+    return depth <= 2 and any(h in url for h in _DEAD_REDIRECT_HINTS)
 
 
 def load_companies():
@@ -140,16 +167,22 @@ def verify(limit: int = 300, min_age_hours: float = 0.0):
         (cutoff, limit),
     ).fetchall()
 
-    checked = flagged = 0
+    # "dead" flags mean the link is very likely broken; "ambiguous" flags mean we could
+    # not tell (bot wall, transient network) and must NOT count against accuracy.
+    dead_flags = {"http_404", "http_410", "redirect_to_index", "closed_body_text"}
+    checked = dead = ambiguous = 0
     for p in rows:
         code, final_url, body = check_url(p["url"])
         flag = None
         if code in (404, 410):
             flag = "http_{}".format(code)
+        elif code in (403, 429):
+            flag = "bot_walled"          # ambiguous
         elif code == 0:
-            flag = "unreachable"
-        elif final_url != p["url"] and any(h in final_url for h in _DEAD_REDIRECT_HINTS) \
-                and final_url.rstrip("/").count("/") <= 4:
+            flag = "unreachable"          # ambiguous
+        elif (final_url != p["url"]
+              and _looks_like_index(final_url)
+              and not _has_job_identifier(final_url)):
             flag = "redirect_to_index"
         elif any(h in body for h in _DEAD_BODY_HINTS):
             flag = "closed_body_text"
@@ -158,16 +191,52 @@ def verify(limit: int = 300, min_age_hours: float = 0.0):
             (store.now(), code, flag, p["key"]),
         )
         checked += 1
-        if flag:
-            flagged += 1
-            print("  FLAG {:<28} {:<18} {}".format(p["company_name"][:28], flag, p["url"]))
+        if flag in dead_flags:
+            dead += 1
+            print("  DEAD  {:<26} {:<18} {}".format(p["company_name"][:26], flag, p["url"]))
+        elif flag:
+            ambiguous += 1
+            print("  ????  {:<26} {:<18} {}".format(p["company_name"][:26], flag, p["url"]))
         if checked % 25 == 0:
             conn.commit()
     conn.commit()
-    store.finish_run(conn, run_id, "checked={} flagged={}".format(checked, flagged))
-    print("\nverify done: {} checked, {} flagged ({:.1f}%)".format(
-        checked, flagged, (100.0 * flagged / checked) if checked else 0.0))
+    store.finish_run(
+        conn, run_id, "checked={} dead={} ambiguous={}".format(checked, dead, ambiguous))
+    print("\nverify done: {} checked".format(checked))
+    print("  likely-dead links : {} ({:.2f}%)".format(
+        dead, (100.0 * dead / checked) if checked else 0.0))
+    print("  ambiguous (walls) : {} ({:.2f}%)".format(
+        ambiguous, (100.0 * ambiguous / checked) if checked else 0.0))
     conn.close()
+    return 0
+
+
+# --- resolve ----------------------------------------------------------
+
+def resolve():
+    """Re-probe every registry slug against all four ATS vendors and report drift:
+    an entry whose declared `ats` returns nothing but another vendor has the feed has
+    migrated and the registry needs an edit."""
+    _, companies = load_companies()
+    print("re-resolving {} companies...\n".format(len(companies)))
+    drift = []
+    dead = []
+    for c in companies:
+        found = resolve_ats(c["slug"])
+        if not found:
+            dead.append(c["id"])
+            print("  DEAD   {:<16} {:<10} no vendor returns a feed for '{}'".format(
+                c["id"], c["ats"], c["slug"]))
+        elif c["ats"] not in found:
+            best = max(found, key=found.get)
+            drift.append((c["id"], c["ats"], best))
+            print("  MOVED  {:<16} {} -> {}   {}".format(c["id"], c["ats"], best, found))
+        # else: declared ats is present -> fine
+    print("\n{} ok, {} moved, {} dead".format(
+        len(companies) - len(drift) - len(dead), len(drift), len(dead)))
+    if drift:
+        print("edit companies.json:  " + "; ".join(
+            "{} -> {}".format(i, b) for i, _, b in drift))
     return 0
 
 

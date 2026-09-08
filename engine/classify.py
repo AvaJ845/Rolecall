@@ -40,15 +40,22 @@ _PM = [
     (r"\bproduct lead\b|\bchief product officer\b|\bcpo\b", "pm"),
 ]
 
-# Hard excludes — words that contain "design"/"product"/"pm" but are not our vertical.
+# Hard excludes — words that co-occur with "design"/"product"/"engineer" but are not our
+# vertical. Order-independent; any hit short-circuits to "not a target role".
 _EXCLUDE = [
     r"instructional design|learning design|curriculum design|training design",
-    r"mechanical design|electrical design|hardware design|chip design|silicon design|asic|rtl",
-    r"circuit design|pcb design|analog design|physical design|design verification|design for test",
-    r"industrial design|cad\b|solidworks",
+    # physical / hardware / silicon engineering that borrows the word "design"
+    r"mechanical|electrical|hardware design|firmware|chip design|silicon|asic|rtl|fpga",
+    r"circuit design|pcb|analog design|physical design|design verification|design for test",
+    r"industrial design|cad\b|solidworks|actuator|electromagnet|\bgear design|thermal design",
+    r"data ?cent(er|re)|antenna|\brf design|optical design|structural design",
+    # other design disciplines that aren't digital-product design
     r"game design|level design|narrative design|systems design engineer",
     r"interior design|set design|lighting design|landscape design|floral|floor plan",
     r"packaging design|print production|prepress|apparel design|textile|jewelry",
+    # eng-management roles that only match because a design-adjacent team is named
+    r"manager,? software engineering|software engineering,",
+    # "product" roles that are not product management
     r"data product|product marketing|product counsel|product support|product specialist",
     r"product operations analyst|product analyst|product security|technical product marketing",
     r"pmo\b|program manager|project manager|portfolio manager|product owner \(scrum",

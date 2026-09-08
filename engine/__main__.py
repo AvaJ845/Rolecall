@@ -2,6 +2,7 @@
 Rolecall engine — Week-0 verification spike.
 
     python -m engine doctor            # do all seed slugs resolve?
+    python -m engine resolve           # re-probe every slug; report ATS migrations
     python -m engine ingest            # pull feeds, classify, track freshness
     python -m engine verify [N]        # HTTP-check up to N live postings
     python -m engine audit [N]         # hand-check N; prints verified-live accuracy
@@ -22,6 +23,8 @@ def main(argv):
     cmd, rest = argv[0], argv[1:]
     if cmd == "doctor":
         return pipeline.doctor()
+    if cmd == "resolve":
+        return pipeline.resolve()
     if cmd == "ingest":
         return pipeline.ingest()
     if cmd == "verify":

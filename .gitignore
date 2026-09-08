@@ -10,6 +10,21 @@ __pycache__/
 .venv/
 venv/
 
+# xcode / ios build artifacts
+ios/build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcscmblueprint
+*.xccheckout
+ios/**/*.xcodeproj/project.xcworkspace/xcuserdata/
+ios/**/*.xcodeproj/xcuserdata/
+# macOS rename-on-conflict cruft
+*[0-9].xcodeproj
+
+# web build output
+web/dist/
+
 # macOS / editors
 .DS_Store
 .idea/
