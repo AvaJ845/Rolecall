@@ -170,6 +170,18 @@ final class TrackedRoles: ObservableObject {
         defaults.set(date.timeIntervalSince1970, forKey: visitKey)
     }
 
+    /// Settings → "Tidy up automatically": drop applications with no activity for longer
+    /// than the window. Saved and not-interested entries are untouched (the latter are
+    /// pruned when their role leaves the board).
+    func autoClear(olderThanDays days: Int = 90, now: Date = Date()) {
+        let cutoff = now.addingTimeInterval(-Double(days) * 86400)
+        states = states.filter { _, status in
+            guard case let .applied(app) = status else { return true }
+            return app.updatedOn > cutoff
+        }
+        persistStates()
+    }
+
     /// Keep the store bounded: drop saved / not-interested entries for roles that have
     /// left the board; keep applications for a year regardless.
     func prune(against board: Board, now: Date = Date()) {
