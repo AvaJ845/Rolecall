@@ -489,7 +489,7 @@ def render_landing(data, base_url):
       &mdash; and drops everything else.</p></div>
       <div class="step"><p><b>Verify it&rsquo;s live.</b> Each posting is checked that it still
       opens to a real requisition. A role that has closed drops off &mdash; usually within
-      the hour.</p></div>
+      a few hours.</p></div>
       <div class="step"><p><b>Hand it over.</b> The app shows what&rsquo;s fresh, you tap
       through to the company&rsquo;s own page, and &mdash; if you want &mdash; track the
       application by hand through to an offer.</p></div>
@@ -751,7 +751,7 @@ def render_job(role, data, base_url, now):
     <h2>Why you can trust this listing</h2>
     <p>Pulled from {co}&rsquo;s public ATS feed and last confirmed open on {date} (UTC).
     If {co} closes this role, it drops off Rolecall on the next refresh &mdash; usually
-    within the hour. If this link is dead, it&rsquo;s a bug: tell us at
+    within a few hours. If this link is dead, it&rsquo;s a bug: tell us at
     <a href="mailto:{sponsor}">{sponsor}</a>.</p>
   </div>
 </article>

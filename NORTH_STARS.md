@@ -16,7 +16,8 @@ on *what we ship*; the Apple North Star wins on *how it looks and feels*.
 Operationalised:
 
 - **Completeness** — within our vertical + region, if a role is live on the company's own
-  ATS, it is in Rolecall within an hour. We publish our measured coverage number.
+  ATS, it is in Rolecall by the next refresh (the board rebuilds every few hours). We
+  publish our measured coverage number.
 - **Freshness** — every card shows `verified live · Xm ago`. A role that leaves the
   company feed disappears from Rolecall on the next ingest.
 - **Zero dead links** — target ≥ 98% verified-live accuracy, < 1 dead-link report per 100
