@@ -13,6 +13,7 @@ struct RoleListView: View {
     @State private var filter = RoleFilter.loadPersisted()
     @State private var query = ""
     @State private var showingFilter = false
+    @State private var showingSettings = false
     @State private var mode: Mode = .board
     @State private var now = Date()
 
@@ -55,6 +56,9 @@ struct RoleListView: View {
                     remoteCount: store.board.roles.filter(\.isRemote).count
                 )
                 .presentationDetents([.medium, .large])
+            }
+            .sheet(isPresented: $showingSettings) {
+                SettingsView()
             }
         }
         .onAppear(perform: rebuild)
@@ -206,6 +210,14 @@ struct RoleListView: View {
                 .foregroundStyle(Theme.Palette.ink)
                 .accessibilityAddTraits(.isHeader)
         }
+        ToolbarItem(placement: .topBarLeading) {
+            Button {
+                showingSettings = true
+            } label: {
+                Image(systemName: "gearshape")
+            }
+            .accessibilityLabel("Settings")
+        }
         ToolbarItem(placement: .topBarTrailing) {
             Button {
                 showingFilter = true
@@ -317,4 +329,5 @@ struct RoleListView: View {
     RoleListView()
         .environmentObject(BoardStore())
         .environmentObject(TrackedRoles())
+        .environmentObject(AppSettings())
 }

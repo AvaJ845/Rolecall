@@ -110,4 +110,37 @@ final class TrackedRolesTests: XCTestCase {
         store.setNotInterested(r)
         XCTAssertEqual(store.status(for: r)?.isHidden, true)
     }
+
+    func testAutoClearDropsOnlyStaleApplications() {
+        let fresh = role("https://x/fresh")
+        let stale = role("https://x/stale")
+        let saved = role("https://x/saved")
+        store.markApplied(fresh, on: Date())
+        // markApplied sets updatedOn == appliedOn, so this application is stale as-is.
+        store.markApplied(stale, on: Date(timeIntervalSinceNow: -200 * 86400))
+        store.toggleSaved(saved)
+
+        store.autoClear(olderThanDays: 90)
+
+        XCTAssertTrue(store.status(for: fresh)?.isApplied == true)
+        XCTAssertNil(store.status(for: stale), "stale application cleared")
+        XCTAssertEqual(store.status(for: saved), .saved, "saved roles untouched")
+    }
+
+    func testAppSettingsPersistAndReset() {
+        let s = AppSettings(defaults: defaults)
+        s.appearance = .dark
+        s.morningRead = true
+        s.alternateIconName = "AppIcon-Midnight"
+
+        let reloaded = AppSettings(defaults: defaults)
+        XCTAssertEqual(reloaded.appearance, .dark)
+        XCTAssertTrue(reloaded.morningRead)
+        XCTAssertEqual(reloaded.alternateIconName, "AppIcon-Midnight")
+
+        reloaded.resetAll()
+        XCTAssertEqual(reloaded.appearance, .system)
+        XCTAssertNil(reloaded.alternateIconName)
+        XCTAssertFalse(AppSettings(defaults: defaults).morningRead)
+    }
 }
