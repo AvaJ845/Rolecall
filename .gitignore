@@ -29,3 +29,6 @@ web/dist/
 .DS_Store
 .idea/
 .vscode/
+
+# ad-hoc site zips (use the workflow, not manual upload)
+web/*.zip

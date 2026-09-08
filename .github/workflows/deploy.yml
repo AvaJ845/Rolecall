@@ -1,4 +1,4 @@
-name: Deploy rolecall.io
+name: Build and deploy rolecall.io
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
     paths:
       - "web/**"
       - "engine/**"
-      - ".github/workflows/pages.yml"
+      - ".github/workflows/deploy.yml"
   schedule:
     - cron: "17 */6 * * *" # refresh the board four times a day
   workflow_dispatch:
