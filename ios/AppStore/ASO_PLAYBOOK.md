@@ -24,14 +24,22 @@ idea per frame, real captured UI, big legible captions.
 
 ### Screenshot set — target order
 
-| # | Screen | Caption (headline / subline) | Status |
+| # | Screen | Caption (headline / subline · terracotta accent) | Status |
 |---|---|---|---|
-| 1 | **Board** — "All N checked live" badge visible | *Every design job,\nverified live.* / Straight from the company. No ghost jobs, no dead links. | ✅ good |
-| 2 | **Role detail** — the verified-live proof card | *Re-checked before\nyou ever see it.* / Rolecall opens the posting and confirms the role is really there. | ⚠️ **dead whitespace in shot** |
-| 3 | **Applications** — funnel from screen to offer | *Track every application\nthrough to the offer.* / Recruiter screen, hiring manager, final round, offer — one place. | ⚠️ **all-"A" monograms, AngelList shown** |
-| 4 | **Filter sheet** — discipline scoping | *Your discipline.\nNothing else.* / Product, UX, design systems, research. US and remote. | ✅ good |
-| 5 | **Icon variants** — Classic / Midnight / Mono | *Made for the people\nwho'll judge it hardest.* / Three icons, dark mode, Dynamic Type, VoiceOver — first-pass. | ➕ **add (design-craft signal)** |
-| 6 | **Privacy** — "Data Not Collected" beat | *No account.\nNo trackers. Ever.* / Your whole search stays on your device. Nothing is sent anywhere. | ⚠️ **top crop clips header** |
+| 1 | **Board** — "All N checked live" badge visible | *Every design job,\nverified live.* / Straight from the company. No ghost jobs, no dead links. · **verified live.** | ✅ hero |
+| 2 | **Role detail** — the verified-live proof card | *Rechecked before\nyou ever see it.* / Rolecall opens the posting and confirms the role is really there. · **Rechecked** | ✅ reshot — opened from Saved list, `crop_bottom` past the empty zone, shot vertically centred |
+| 3 | **Applications** — funnel from screen to offer | *Track every application\nthrough to the offer.* / Recruiter screen, hiring manager, final round, offer — one place. · **offer.** | ✅ reseeded — Figma/Linear/Notion/Stripe/Ramp/Duolingo/Airbnb, varied monograms, no competitor |
+| 4 | **Filter sheet** — discipline scoping | *Your discipline.\nNothing else.* / Product, UX, brand, design systems, research. US and remote. · **Nothing else.** | ✅ good |
+| 5 | **Icon variants** — Classic / Midnight / Mono | *Made for the people\nwho'll judge it hardest.* / Three icons, dark mode, Dynamic Type, VoiceOver — all first-pass. · **hardest.** | ✅ added — composited in `frame.py` from the shipped 1024 PNGs |
+| 6 | **Privacy** — "Data Not Collected" beat | *No account.\nNo trackers. Ever.* / Your whole search stays on your device. Nothing is sent anywhere. · **Ever.** | ✅ reshot — scrolls to the bottom; crop opens on the Job-search card + Privacy section |
+
+Final order is fixed: 01 board → 02 verified-detail → 03 applications → 04 filter → 05 icons → 06 privacy.
+iPad set is 01–05 (privacy is iPhone-only — Settings on iPad is a small centred form-sheet that
+does not read as a trust beat). Pipeline: `ios/AppStore/capture.sh` (clean 9:41 status bar) → `frame.py`.
+
+> **Headline font gotcha:** `/System/Library/Fonts/NewYork.ttf` renders a hyphen (U+002D, and
+> U+2010/U+2011) as a blank — an en dash renders, a hyphen does not. Keep headline copy
+> hyphen-free ("Rechecked", not "Re-checked"). Sublines use SFNS and are fine.
 
 ### Fellows craft review — 2026-09-09
 
@@ -40,29 +48,32 @@ idea per frame, real captured UI, big legible captions.
 calm, distinctive, exactly the calm-privacy-first aesthetic Apple editorial
 rewards. Real UI, benefit-led captions, one idea per frame.
 
-**Fix before submission:**
-1. **02 (role detail):** ~500px dead whitespace mid-shot — the detail view's short
-   content + bottom-pinned Apply button. Fix at the source: seed a longer role, or
-   capture the detail as a partial-height card over the board, or tighten the crop.
-2. **03 (applications):** the seed sorts companies alphabetically and takes the
-   first 7 → every application is an A-company → every monogram renders "A" (reads
-   like a bug), and **AngelList (a competitor) is shown prominently** (App Review +
-   optics risk). Fix `UITestSupport` to seed a curated set of varied, recognizable,
-   **non-competitor** design employers (Figma, Linear, Notion, Stripe, Ramp,
-   Duolingo, Airbnb, Vercel, Instacart, Discord, Retool, Webflow…).
-3. **06 (privacy):** top crop clips the "Job search" section header and leaves a
-   floating white pill fragment. Fix the crop offset per-shot.
-4. **iPad set:** the frame.py comment admits cropping around "a stray simulator
-   corner artifact" — fix at capture (clean status-bar override), don't crop around.
-5. **Headline accent consistency:** #1 and #3 accent one word in terracotta; #2/#4/#6
-   don't. Accent the one payoff word in every headline, or none.
-6. **Caption tightening:** "We check it's still open before you tap through" → the
-   punchier "Re-checked before you ever see it."
+**Fixed (branch `appstore-screenshots-v2`, 2026-09-09):**
+1. **02 (role detail):** ~500px dead whitespace — resolved. The detail is opened from the
+   Saved list (so the role is always a curated non-competitor), `frame.py` `crop_bottom`
+   ends the shot just below the source note, and short shots are vertically centred in the
+   paper so the margin reads as deliberate. No app UI change was needed.
+2. **03 (applications):** `UITestSupport` now seeds a hand-picked, varied, non-competitor
+   set (`curatedCompanies`) matched to real board postings, with an explicit
+   `competitorCompanies` exclusion set (LinkedIn, Indeed, Dribbble, Wellfound, AngelList,
+   Glassdoor, Otta, …). Monograms are now F/L/N/S/R/D/A; the funnel reads applied →
+   recruiter screen → hiring manager → interviewing → final round → offer.
+3. **06 (privacy):** the test scrolls to the bottom of Settings (a fixed rest position);
+   `frame.py` crops to the Job-search card so the frame opens on a section boundary with
+   the Privacy card as the hero. No floating pill, no clipped header.
+4. **iPad set:** `capture.sh` applies `simctl status_bar override` (clean 9:41); the
+   preset crops the status bar out and a small `crop_bottom_default` + larger corner
+   radius removes the display's rounded-corner arc at the source instead of cropping
+   around it.
+5. **Headline accents:** every headline now accents exactly one payoff phrase in
+   terracotta (see the table above).
+6. **Caption tightening:** 02 is now "Rechecked before / you ever see it." ("Rechecked",
+   not "Re-checked" — the NewYork headline font drops hyphens; see the gotcha above).
 
 - [x] **Icon** — Classic / Midnight / Mono ship; legible at Home-Screen size
-- [ ] Fix screenshots 2, 3, 6 + iPad artifact per the review above
-- [ ] Add the icon-variants frame (#5)
-- [ ] Regenerate all sets: 6.9″ (1320×2868), 6.5″ (1242×2688), 13″ iPad (2048×2732)
+- [x] Fix screenshots 2, 3, 6 + iPad artifact per the review above
+- [x] Add the icon-variants frame (#5)
+- [x] Regenerate all sets: 6.9″ (1320×2868), 6.5″ (1242×2688), 13″ iPad (2048×2732 — 01–05)
 - [ ] (Optional) 15–20s App Preview — one real "open a role → verified live → apply" loop
 - [ ] Post-launch product-page A/B test: hero screenshot order first
 
