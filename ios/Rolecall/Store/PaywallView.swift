@@ -36,6 +36,7 @@ struct PaywallView: View {
                 }
                 .padding(Theme.Metric.gutter)
                 .padding(.bottom, 8)
+                .rolecallReadingColumn()
             }
             .rolecallBackground()
             .safeAreaInset(edge: .bottom) { buyBar }

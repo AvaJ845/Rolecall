@@ -64,7 +64,9 @@ struct FilterSheet: View {
                     advancedSection
                 }
                 .padding(Theme.Metric.gutter)
+                .rolecallReadingColumn()
             }
+            .rolecallScrollIndicators()
             .rolecallBackground()
             .navigationTitle("Filter")
             .navigationBarTitleDisplayMode(.inline)

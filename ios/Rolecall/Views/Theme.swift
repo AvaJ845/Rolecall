@@ -23,6 +23,26 @@ enum Theme {
         static let rowSpacing: CGFloat = 4
         static let cardRadius: CGFloat = 16
         static let sectionGap: CGFloat = 28
+        /// The board and the role page hold to a single readable column, centred on the
+        /// paper ground. A no-op on iPhone (narrower than this); on iPad it keeps the app
+        /// from reading as a stretched phone.
+        static let readingWidth: CGFloat = 700
+    }
+}
+
+extension View {
+    /// Clamp content to `Theme.Metric.readingWidth` and centre it. Apply to the scrolling
+    /// column, not the background.
+    func rolecallReadingColumn() -> some View {
+        frame(maxWidth: Theme.Metric.readingWidth)
+            .frame(maxWidth: .infinity)
+    }
+
+    /// Scroll indicators, hidden only for App Store screenshot capture (a launch arg the
+    /// shipping app is never launched with) so a mid-fade scroll bar can't land in a frame.
+    func rolecallScrollIndicators() -> some View {
+        let capturing = ProcessInfo.processInfo.arguments.contains("-uitest-seed")
+        return scrollIndicators(capturing ? .hidden : .automatic)
     }
 }
 

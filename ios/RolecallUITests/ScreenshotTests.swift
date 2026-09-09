@@ -27,6 +27,8 @@ final class ScreenshotTests: XCTestCase {
     }
 
     private func shot(_ name: String) {
+        // Let scroll indicators and any settle animation fade before the frame.
+        Thread.sleep(forTimeInterval: 1.0)
         let a = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
         a.name = name
         a.lifetime = .keepAlways

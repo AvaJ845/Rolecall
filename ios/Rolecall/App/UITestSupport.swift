@@ -28,14 +28,20 @@ enum UITestSupport {
         var byCompany: [String: Role] = [:]
         for r in design where byCompany[r.company] == nil { byCompany[r.company] = r }
         let picks = byCompany.values.sorted { $0.company < $1.company }
-        guard picks.count >= 6 else { return }
+        guard picks.count >= 14 else { return }
 
-        for r in picks[3...5] { tracked.toggleSaved(r) }
+        for r in picks[7...11] { tracked.toggleSaved(r) }
 
+        // Seven applications across the funnel — enough to fill the Applied list on a
+        // large iPad screen, still plausible for one person's search.
         let stages: [(Role, ApplicationStage, Double, Double)] = [
-            (picks[0], .recruiterScreen, -3, -1),
+            (picks[0], .recruiterScreen, -2, -1),
             (picks[1], .hiringManager, -8, -2),
             (picks[2], .offer, -16, -4),
+            (picks[3], .interviewing, -11, -3),
+            (picks[4], .applied, -1, -1),
+            (picks[5], .finalRound, -14, -2),
+            (picks[6], .recruiterScreen, -5, -2),
         ]
         for (role, stage, appliedDays, updatedDays) in stages {
             var app = Application(appliedOn: Date().addingTimeInterval(appliedDays * 86_400))

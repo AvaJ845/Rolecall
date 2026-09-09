@@ -46,8 +46,10 @@ struct RoleListView: View {
                     case .applied: TrackedRolesView(kind: .applied)
                     }
                 }
+                .rolecallReadingColumn()
                 .padding(.bottom, 32)
             }
+            .rolecallScrollIndicators()
             .rolecallBackground()
             .overlay(alignment: .top) { RefreshBanner(outcome: bannerOutcome) }
             .navigationDestination(for: Role.self) { RoleDetailView(role: $0) }

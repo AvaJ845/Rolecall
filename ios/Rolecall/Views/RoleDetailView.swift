@@ -23,7 +23,9 @@ struct RoleDetailView: View {
                 Spacer(minLength: 8)
             }
             .padding(Theme.Metric.gutter)
+            .rolecallReadingColumn()
         }
+        .rolecallScrollIndicators()
         .rolecallBackground()
         .safeAreaInset(edge: .bottom) { applyBar }
         .navigationTitle(role.company)
@@ -197,6 +199,7 @@ struct RoleDetailView: View {
                 appliedControl
             }
             .padding(Theme.Metric.gutter)
+            .rolecallReadingColumn()
         }
         .background(Theme.Palette.paper)
         .animation(reduceMotion ? nil : .easeInOut(duration: 0.2), value: status)
