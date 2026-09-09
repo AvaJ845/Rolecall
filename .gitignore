@@ -1,3 +1,6 @@
+# internal docs — kept on disk, out of the repo
+_private/
+
 # build outputs / local data
 data/*.db
 data/*.db-wal
