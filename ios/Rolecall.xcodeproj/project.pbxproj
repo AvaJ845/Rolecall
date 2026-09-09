@@ -421,7 +421,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9DF9115682900BF4514D3793 /* Build configuration list for PBXNativeTarget "Rolecall" */;
 			buildPhases = (
-				28FE88C0024633CE60B8BAB2 /* Bundled board freshness (archive only) */,
 				89F03641849628301BAF6CCE /* Sources */,
 				E0E3358C1D2A3A6732AC102E /* Resources */,
 				07535DFB1AE24369EDFE6C24 /* Frameworks */,
@@ -539,28 +538,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		28FE88C0024633CE60B8BAB2 /* Bundled board freshness (archive only) */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Bundled board freshness (archive only)";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"$ACTION\" = \"install\" ]; then\n  python3 \"$SRCROOT/../scripts/check_board_fresh.py\" \\\n    \"$SRCROOT/Rolecall/Resources/board.json\" --max-age-days 3\nelse\n  echo \"not an archive (ACTION=$ACTION) — skipping bundled-board freshness check\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0C49DED7A6FCFAC4E338F58F /* Sources */ = {
