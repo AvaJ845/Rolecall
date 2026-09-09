@@ -1,9 +1,9 @@
 import Foundation
 
-/// The ruleset that produced a board snapshot (engine `config.py`, written into
-/// `board.json`'s `meta` block — P0-11). Optional and fully defaulted so snapshots from
-/// before `meta` existed still decode. Nothing in the UI depends on it yet; it is for
-/// debuggability and future migrations. The signature covers it automatically.
+/// The ruleset that produced a board snapshot — the engine writes it into `board.json`'s
+/// `meta` block. Optional and fully defaulted so snapshots from before `meta` existed
+/// still decode. Nothing in the UI depends on it yet; it is for debuggability and future
+/// migrations. The signature covers it automatically.
 struct BoardMeta: Codable, Hashable {
     var classifierVersion: String?
     var includePM: Bool?
@@ -24,7 +24,7 @@ struct Board: Codable, Hashable {
     let generatedUTC: Date
     let count: Int
     let roles: [Role]
-    /// Nil for snapshots written before the engine stamped `meta` (P0-11).
+    /// Nil for snapshots written before the engine stamped `meta`.
     var meta: BoardMeta?
 
     enum CodingKeys: String, CodingKey {
@@ -104,7 +104,9 @@ struct Board: Codable, Hashable {
     /// A fetched remote snapshot must clear this bar before it may replace what the app
     /// already trusts: it parsed, it is strictly newer, it is not empty, and it has not
     /// lost more than half its roles (a sign of a truncated or corrupted publish).
-    /// Belt-and-braces on top of TLS; a signed board is the next step (see NORTH_STARS).
+    /// A last sanity gate *after* the Ed25519 signature has already been verified — it
+    /// bounds the damage of a validly-signed but broken publish (a truncated or half-empty
+    /// board), never a substitute for the signature.
     func isPlausibleReplacement(for current: Board) -> Bool {
         generatedUTC > current.generatedUTC
             && !roles.isEmpty

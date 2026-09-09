@@ -67,7 +67,7 @@ def audit(sample: int = 25):
     confirmed = wrong = skipped = 0
     for i, p in enumerate(picks, 1):
         print("{:>2}/{}  {} — {}".format(i, len(picks), p["company_name"], p["title"]))
-        print("      {}".format(p["url"]))  # interactive-only; not a CI log (P0-16)
+        print("      {}".format(p["url"]))  # interactive audit only — never runs in CI
         ans = ""
         while ans not in ("o", "c", "s", "q"):
             ans = input("      open / closed / skip / quit ? ").strip().lower()[:1]

@@ -2,9 +2,9 @@ import Foundation
 import StoreKit
 
 /// Everything the app knows about "Rolecall Plus" — a single optional subscription that
-/// unlocks the active-search convenience layer. The verified board stays free forever
-/// (see NORTH_STARS.md), so nothing here ever gates browsing, searching, saving a role,
-/// or applying.
+/// unlocks the active-search convenience layer. The verified board, searching it, saving
+/// a role, and marking it applied are free forever; nothing here ever gates them. Plus
+/// only ever adds an alert, a reminder, a filter, a note — never removes the free path.
 ///
 /// Entitlement lives only in StoreKit and on this device. There is no account, no server
 /// check, and nothing synced anywhere. `isPlus` is derived from
@@ -158,7 +158,7 @@ final class Store: ObservableObject {
             entitled = true
         }
         if entitled != isPlus { isPlus = entitled }
-        // P0-15: cache it for the background-refresh task, which must not init StoreKit.
+        // Cache it for the background-refresh task, which must not init StoreKit.
         SharedContainer.lastKnownIsPlus = entitled
     }
 

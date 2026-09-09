@@ -1,13 +1,12 @@
-"""Tiny stdlib-only HTTP helpers. No third-party deps by design (runs on system Python 3.9).
+"""Tiny stdlib-only HTTP helpers. No third-party deps by design.
 
-SSRF posture (P0-2): every outbound request goes through `_resolve_and_follow`, which
+SSRF posture: every outbound request goes through `_resolve_and_follow`, which
   * refuses any scheme other than http/https,
   * refuses loopback / RFC1918-private / link-local / ULA / multicast / `.local` hosts,
     resolving the name first so a public name pointing at 127.0.0.1 is still refused,
   * disables automatic redirects and follows them manually, re-validating every hop,
   * caps the redirect chain at MAX_REDIRECTS.
-This matters because these URLs come straight from third-party ATS feeds and are fetched
-from the CI job that (until P0-3) also holds the board signing key.
+These URLs come straight from third-party ATS feeds, so they are treated as hostile.
 """
 from __future__ import annotations
 

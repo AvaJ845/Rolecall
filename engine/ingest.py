@@ -87,8 +87,8 @@ def ingest():
         tot_gone += gone
         print("  {:<16} +{:<3} ~{:<3} -{:<3}".format(c["id"], c_new, c_seen, gone))
 
-    # P0-14: one transaction for the whole run — a crash before this line rolls back the
-    # lot, and the runs row start_run committed still has no finished_utc so export refuses.
+    # One transaction for the whole run: a crash before this line rolls back every upsert,
+    # and the runs row (committed by start_run) still has no finished_utc, so export refuses.
     conn.commit()
     store.finish_run(
         conn, run_id,

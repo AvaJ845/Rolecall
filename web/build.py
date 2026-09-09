@@ -1,6 +1,6 @@
 """Static site generator for rolecalljobs.com — stdlib only.
 
-Design intent (see NORTH_STARS.md and the Fellows' monetization ruling):
+Design intent:
   * Site job #1 is the funnel to the iOS app; job #2 is SEO; ads are a distant third.
   * The landing page and the board index carry NO ads, NO analytics, NO cookies,
     and make ZERO external requests.
@@ -995,8 +995,8 @@ HEADERS_FILE = """# Cloudflare Pages / Netlify header rules.
   Cache-Control: public, max-age=300, s-maxage=300
   Content-Type: application/json; charset=utf-8
 
-# P0-7: the detached signature and the v2 envelope MUST share board.json's cache policy,
-# or the edge can expire them at different times and the app sees a board/sig skew.
+# The detached signature and the v2 envelope MUST share board.json's cache policy, or the
+# edge can expire them at different times and the app sees a board/signature skew.
 /board.json.sig
   Access-Control-Allow-Origin: *
   Cache-Control: public, max-age=300, s-maxage=300
@@ -1072,8 +1072,8 @@ def build(base_url: str) -> int:
         shutil.copyfile(sig, DIST / "board.json.sig")   # detached Ed25519 signature for the app
     v2 = BOARD_PATH.with_name("board.v2.json")
     if v2.exists():
-        # P0-7: board + signature as one artifact — the app fetches this single URL so the
-        # edge can't serve a new board against a stale cached signature. Legacy two-file
+        # Board + signature as one artifact — the app fetches this single URL so the edge
+        # can't serve a new board against a stale cached signature. The legacy two-file
         # layout above stays for one release.
         shutil.copyfile(v2, DIST / "board.v2.json")
 

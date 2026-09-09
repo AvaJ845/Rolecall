@@ -40,7 +40,7 @@ final class BoardSignatureTests: XCTestCase {
         XCTAssertNotNil(try? Curve25519.Signing.PublicKey(rawRepresentation: bytes!))
     }
 
-    /// P0-8: the vendored Python Ed25519 (`engine/ed25519.py`) and Apple's CryptoKit must
+    /// The vendored Python Ed25519 (`engine/ed25519.py`) and Apple's CryptoKit must
     /// agree, or a board the engine signs would fail verification on device (or worse).
     /// The fixture is a `(pubkey, message, signature)` triple the Python impl produced;
     /// this verifies it with CryptoKit — the same call `BoardSignature.isValid` makes.

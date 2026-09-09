@@ -1,8 +1,8 @@
 """Run: python -m engine.tests.test_export_https
 
-P0-13: export() drops any live posting whose URL is not https:// before it writes
+`export()` drops any live posting whose URL is not https:// before it writes
 (and signs) board.json, and logs the dropped count. The client-side
-Board.sanitized() guard stays as defence in depth; this closes the hole for every
+`Board.sanitized()` guard stays as defence in depth; this closes the hole for every
 other consumer (web/ job pages, a future Android client).
 """
 from __future__ import annotations

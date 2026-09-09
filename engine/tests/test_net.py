@@ -1,6 +1,6 @@
 """Run: python -m engine.tests.test_net
 
-Covers P0-2: check_url / get_json scheme allowlist + SSRF host filtering, re-checked
+The check_url / get_json scheme allowlist + SSRF host filtering, re-checked
 across redirects. Fully offline — the redirect cases use a fake opener.
 """
 from __future__ import annotations

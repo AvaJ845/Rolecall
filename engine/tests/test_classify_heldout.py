@@ -1,6 +1,6 @@
 """Run: python -m engine.tests.test_classify_heldout
 
-P0-10: a held-out labelled set (engine/tests/labelled_titles.jsonl) that measures
+A held-out labelled set (engine/tests/labelled_titles.jsonl) that measures
 *which* roles the classifier over-blocks or leaks as the registry — the moat —
 grows. Asserts family assignment for target rows and precision/recall against a
 committed floor. The labels are our intended ground truth, not classify() output.

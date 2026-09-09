@@ -2,7 +2,7 @@ import XCTest
 import CryptoKit
 @testable import Rolecall
 
-/// P0-1: the board decode / sanitise / merge / write must not run on the main actor.
+/// The board decode / sanitise / merge / write must not run on the main actor.
 @MainActor
 final class BoardStoreTests: XCTestCase {
 
@@ -78,7 +78,7 @@ final class BoardStoreTests: XCTestCase {
         XCTAssertNil(outcome, "a board that shed >half its roles must not replace the trusted one")
     }
 
-    // MARK: - P0-7: board + signature as one atomically-fetched artifact
+    // MARK: - Board + signature as one atomically-fetched artifact
 
     private func hex(_ d: Data) -> String { d.map { String(format: "%02x", $0) }.joined() }
 

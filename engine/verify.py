@@ -49,8 +49,8 @@ def _looks_like_index(url: str) -> bool:
 
 def _short_url(url: str) -> str:
     """Host + a truncated path, no query string. Used in CI logs so the 6-hourly build
-    history is not a timestamped 'who is hiring designers' record (P0-16). The full URL
-    is in the DB; pass --verbose to print it for local debugging."""
+    history is not a timestamped 'who is hiring designers' record. The full URL is in
+    the DB; pass --verbose to print it for local debugging."""
     try:
         parts = urllib_parse.urlsplit(url or "")
     except ValueError:
@@ -64,7 +64,7 @@ def _short_url(url: str) -> str:
 
 def verify(limit: int = 300, min_age_hours: float = 0.0, verbose: bool = False):
     """`verbose` (local `--verbose` only; CI never passes it) prints the full posting URL
-    for each flagged row. By default only the host + a truncated path is logged (P0-16)."""
+    for each flagged row. By default only the host + a truncated path is logged."""
     conn = store.connect()
     run_id = store.start_run(conn, "verify")
     cutoff = store.now() - min_age_hours * 3600

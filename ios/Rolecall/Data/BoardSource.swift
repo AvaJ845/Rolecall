@@ -9,7 +9,7 @@ enum BoardSource {
     /// any non-success as "no update" and keeps the bundled snapshot.
     static let remoteURL = URL(string: "https://rolecalljobs.com/board.json")!
 
-    /// P0-7: the single-artifact envelope —
+    /// The single-artifact envelope —
     /// `{ "format": 2, "sig": "<hex>", "board": "<board.json text>" }`. One fetch gets the
     /// board and the signature that covers its exact bytes, so the app never verifies a
     /// fresh board against a stale cached signature during a Cloudflare deploy. `BoardStore`

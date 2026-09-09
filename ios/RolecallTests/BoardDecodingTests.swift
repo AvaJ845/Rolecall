@@ -45,7 +45,7 @@ final class BoardDecodingTests: XCTestCase {
         }
     }
 
-    // P0-11: `meta` is optional. A board from before the engine stamped it must still
+    // `meta` is optional. A board from before the engine stamped it must still
     // decode (meta == nil); a board with it exposes the ruleset.
     func testDecodesBoardWithoutMeta() throws {
         let json = Data("""

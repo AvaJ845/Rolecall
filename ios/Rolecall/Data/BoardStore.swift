@@ -104,7 +104,7 @@ final class BoardStore: ObservableObject {
     }
 
     /// Board bytes whose Ed25519 signature is verified against our key, or `nil` (having
-    /// set `lastRefreshOutcome`). P0-7: prefer the `board.v2.json` envelope — one request,
+    /// set `lastRefreshOutcome`). Prefer the `board.v2.json` envelope — one request, so
     /// board + signature can never be out of sync. Fall back to the legacy two files for
     /// an edge that hasn't picked up v2 yet, and if their signature check fails, retry the
     /// pair once with a cache-buster to close the Cloudflare deploy-skew window.

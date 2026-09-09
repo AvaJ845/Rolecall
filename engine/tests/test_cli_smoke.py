@@ -1,6 +1,6 @@
 """Run: python -m engine.tests.test_cli_smoke
 
-P0-12: after splitting pipeline.py into per-command modules, every `engine <cmd>`
+After splitting pipeline.py into per-command modules, every `engine <cmd>`
 still dispatches, and a malformed companies.json fails fast with a message naming
 the entry (instead of a KeyError deep in ingest).
 """

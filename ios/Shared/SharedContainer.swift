@@ -21,9 +21,9 @@ enum SharedContainer {
     }
 
     /// Last-known Plus entitlement, written by `Store.refreshEntitlements()` every time it
-    /// runs (P0-15). The background-refresh task reads this plain Bool instead of spinning
-    /// up the whole StoreKit stack: worst case a lapsed subscriber gets one extra alert
-    /// cycle, or a brand-new one waits a cycle. Defaults to `false` before the app has run.
+    /// runs. The background-refresh task reads this plain Bool instead of spinning up the
+    /// whole StoreKit stack: worst case a lapsed subscriber gets one extra alert cycle, or
+    /// a brand-new one waits a cycle. Defaults to `false` before the app has run.
     private static let lastKnownIsPlusKey = "entitlement.plus.lastKnown"
 
     static var lastKnownIsPlus: Bool {

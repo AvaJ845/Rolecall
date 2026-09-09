@@ -1,7 +1,7 @@
 import XCTest
 @testable import Rolecall
 
-/// P0-4: TTL cache + Wi-Fi-only short-circuit for the on-device liveness check.
+/// TTL cache + Wi-Fi-only short-circuit for the on-device liveness check.
 @MainActor
 final class FreshnessCacheTests: XCTestCase {
 

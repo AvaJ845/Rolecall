@@ -1,4 +1,4 @@
-# Held-out title -> {is_target, family} labels for the classifier (P0-10).
+# Held-out title -> {is_target, family} labels for the classifier.
 #
 # SYNTHESIZED: titles are plausible role names constructed from the seniority x specialization
 # patterns in engine/classify.py plus the real classifier false positives recorded in

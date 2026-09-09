@@ -34,7 +34,7 @@ targets:
       - target: RolecallWidget
       - sdk: AppIntents.framework
     preBuildScripts:
-      # P0-18: fail an archive if the board bundled into the app is stale. Gated on
+      # Fail an archive if the board bundled into the app is stale. Gated on
       # ACTION=install (archive) so day-to-day debug/test builds are unaffected.
       - name: "Bundled board freshness (archive only)"
         basedOnDependencyAnalysis: false

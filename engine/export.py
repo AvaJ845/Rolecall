@@ -1,9 +1,9 @@
 """`export` — write data/board.json, the artifact the app consumes.
 
 Guards, in order:
-  * refuse if the last ingest run never finished (crashed / half-updated DB) — P0-14
-  * drop any role whose URL is not https:// and log the count               — P0-13
-  * refuse if the live count fell > 30% vs the board already on disk         — P0-6
+  * refuse if the last ingest run never finished (crashed / half-updated DB)
+  * drop any role whose URL is not https:// and log the count
+  * refuse if the live count fell > 30% vs the board already on disk
 """
 from __future__ import annotations
 
@@ -17,9 +17,9 @@ from ._util import DATA
 
 BOARD_PATH = DATA / "board.json"
 
-# See P0-6: a partial upstream failure (a feed 200s with an empty/half list) *does* mark
-# the missing roles 'gone' and would otherwise ship a thin, validly signed board that
-# silently replaces a healthy one on every device.
+# A partial upstream failure (a feed 200s with an empty or half list) marks the missing
+# roles 'gone' and would otherwise ship a thin but validly signed board that silently
+# replaces a healthy one on every device. Refuse it; a real prune sets the override.
 BOARD_SHRINK_LIMIT = 0.30
 
 
@@ -105,8 +105,8 @@ def export():
             print("error: {}".format(err))
             return 1
 
-    # P0-11: stamp the ruleset that produced this snapshot. The signature is over the
-    # exact bytes, so `meta` is covered automatically; the app decodes it as optional.
+    # Stamp the ruleset that produced this snapshot. The signature is over the exact
+    # bytes, so `meta` is covered automatically; the app decodes it as optional.
     board = {
         "generated_utc": store.now(),
         "count": len(out),

@@ -11,10 +11,10 @@ on:
     - cron: "17 */6 * * *" # refresh the board four times a day
   workflow_dispatch:
 
-# Third-party and first-party actions are pinned to a full commit SHA, not a
-# moving tag (P0-9): a compromised `vN` tag would otherwise run in the job that
-# holds ROLECALL_SIGNING_KEY / CLOUDFLARE_API_TOKEN. Dependabot (.github/dependabot.yml)
-# PRs the SHAs forward weekly; keep the `# vX.Y.Z` comment in sync when merging.
+# Every action is pinned to a full commit SHA, not a moving tag: a compromised `vN` tag
+# would otherwise run in the job that holds ROLECALL_SIGNING_KEY / CLOUDFLARE_API_TOKEN.
+# Dependabot (.github/dependabot.yml) PRs the SHAs forward weekly; keep the `# vX.Y.Z`
+# comment beside each one in sync when merging those.
 
 permissions:
   contents: read

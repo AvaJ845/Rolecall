@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail if a bundled board.json is stale (P0-18).
+"""Fail if a bundled board.json is stale.
 
     python3 scripts/check_board_fresh.py [path-to-board.json] [--max-age-days N]
 

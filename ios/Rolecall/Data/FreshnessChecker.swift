@@ -5,8 +5,8 @@ import Network
 /// posting URL itself, follows redirects, and decides whether the job still looks open —
 /// so a designer never taps through to a dead link. No server sees the request.
 ///
-/// P0-4: results are cached in an in-memory `FreshnessCache` (≈15 min TTL, LRU-capped),
-/// so reopening a role does not re-fetch; and when "check links on Wi-Fi only" is on and
+/// Results are cached in an in-memory `FreshnessCache` (≈15 min TTL, LRU-capped), so
+/// reopening a role does not re-fetch; and when "check links on Wi-Fi only" is on and
 /// the path is cellular the check short-circuits to `.skippedOnCellular` instead of
 /// spending metered data the reader didn't ask for.
 struct FreshnessChecker {

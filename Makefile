@@ -18,8 +18,8 @@ test-ios:
 
 test: test-engine test-ios
 
-## P0-18: fail if the board bundled into the app is older than BOARD_MAX_AGE_DAYS.
-## Also wired as an Xcode archive build phase (see ios/project.yml).
+## Fail if the board bundled into the app is older than BOARD_MAX_AGE_DAYS. Also wired
+## as an Xcode archive build phase (see ios/project.yml) so a stale board can't ship.
 check-board:
 	$(PY) scripts/check_board_fresh.py $(BUNDLED_BOARD) --max-age-days $(BOARD_MAX_AGE_DAYS)
 

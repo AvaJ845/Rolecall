@@ -142,10 +142,11 @@ enum Digest {
     /// The body of the background-refresh task: pull a fresh board, recompute the
     /// digests, and queue the next refresh.
     ///
-    /// P0-15: no `Store()` / StoreKit init and no `Task.sleep`. `isPlus` is the plain Bool
-    /// `Store.refreshEntitlements()` last cached in the App Group defaults. `AppSettings`
-    /// and `SavedSearches` stay — cheap `UserDefaults` reads. Worst case of a stale Bool:
-    /// a lapsed subscriber gets one extra alert cycle, a new one waits one cycle.
+    /// Deliberately does no `Store()` / StoreKit init and no `Task.sleep` — a background
+    /// task must be cheap and can't afford to stand up the payment stack. `isPlus` is the
+    /// plain Bool `Store.refreshEntitlements()` last cached in the App Group defaults;
+    /// `AppSettings` and `SavedSearches` are cheap `UserDefaults` reads. Worst case of a
+    /// stale Bool: a lapsed subscriber gets one extra alert cycle, a new one waits a cycle.
     @MainActor
     static func runBackgroundRefresh() async {
         scheduleBackgroundRefresh()

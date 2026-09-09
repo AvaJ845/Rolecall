@@ -1,7 +1,7 @@
 import XCTest
 @testable import Rolecall
 
-/// P0-15: the background-refresh task must not spin up StoreKit or sleep. It reads a
+/// The background-refresh task must not spin up StoreKit or sleep. It reads a
 /// plain Bool that `Store.refreshEntitlements()` caches in the App Group.
 @MainActor
 final class DigestBackgroundTests: XCTestCase {

@@ -1,6 +1,6 @@
 """Run: python -m engine.tests.test_config_meta
 
-P0-11: INCLUDE_PM (and the classifier version + vertical) are declared in
+INCLUDE_PM (and the classifier version + vertical) are declared in
 engine/config.py, and export() stamps them into board.json's `meta` block so a
 snapshot records which ruleset produced it.
 """

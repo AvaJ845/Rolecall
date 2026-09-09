@@ -1,6 +1,6 @@
 """Run: python -m engine.tests.test_ed25519
 
-P0-8: regression tests for the vendored Ed25519 (engine/ed25519.py) — the one
+Regression tests for the vendored Ed25519 (engine/ed25519.py) — the one
 primitive that makes "you can trust this board" true.
 
   * every RFC 8032 section 7.1 Ed25519 test vector: publickey / sign / verify

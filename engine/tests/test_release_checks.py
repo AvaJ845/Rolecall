@@ -1,6 +1,6 @@
 """Run: python -m engine.tests.test_release_checks
 
-P0-18: scripts/check_board_fresh.py fails when the board bundled into the app is
+`scripts/check_board_fresh.py` fails when the board bundled into the app is
 older than the threshold, so a release cut without re-running the engine can't
 ship a stale "verified live" board.
 """

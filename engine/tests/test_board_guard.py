@@ -1,6 +1,6 @@
 """Run: python -m engine.tests.test_board_guard
 
-P0-6 step 3: the engine refuses to export a board whose live count fell >30% versus the
+The engine refuses to export a board whose live count fell >30% versus the
 board already on disk (the previous run's, restored from the CI cache).
 """
 from __future__ import annotations

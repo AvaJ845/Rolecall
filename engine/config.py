@@ -5,8 +5,9 @@ classify.py) adds or removes every PM role from the board. `export()` stamps the
 values into `board.json`'s `meta` block so a snapshot always records which ruleset
 produced it — the signature covers `meta` automatically.
 
-Bump `CLASSIFIER_VERSION` on *any* change to the rules in classify.py (see
-engine/REGISTRY.md). The held-out family test (P0-10) reads it.
+Bump `CLASSIFIER_VERSION` on *any* change to the `_DESIGN` / `_PM` / `_EXCLUDE` rules
+or the `classify()` logic. The held-out family test reads it, and it lands in every
+`board.json` so a snapshot's provenance is never ambiguous.
 """
 from __future__ import annotations
 

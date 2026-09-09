@@ -1,6 +1,6 @@
 """Run: python -m engine.tests.test_sign_envelope
 
-P0-7: `engine sign` also writes data/board.v2.json — a single artifact
+`engine sign` also writes data/board.v2.json — a single artifact
 { "format": 2, "sig": "<hex>", "board": "<exact board.json text>" } so the app
 fetches the board and its signature in one request (no deploy-window skew). The
 embedded board text's UTF-8 bytes must equal board.json byte-for-byte, and the

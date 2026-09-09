@@ -1,6 +1,6 @@
 """Run: python -m engine.tests.test_sqlite_session
 
-P0-14: the engine's SQLite session is hardened (WAL + busy_timeout + foreign_keys +
+The engine's SQLite session is hardened (WAL + busy_timeout + foreign_keys +
 synchronous=NORMAL), ingest is one transaction, and export refuses to publish off a
 DB whose last ingest never finished.
 """

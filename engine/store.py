@@ -47,7 +47,7 @@ def connect():
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(str(DB_PATH))
     conn.row_factory = sqlite3.Row
-    # P0-14: a durable, crash-safe session.
+    # A durable, crash-safe session.
     #   WAL             — readers never block the writer; survives a killed process.
     #   busy_timeout    — wait, don't fail, if another handle holds the write lock.
     #   foreign_keys    — enforce referential integrity (off by default in SQLite).

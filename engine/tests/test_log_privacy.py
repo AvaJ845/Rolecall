@@ -1,6 +1,6 @@
 """Run: python -m engine.tests.test_log_privacy
 
-P0-16: `verify` must not print full posting URLs to CI logs by default — the
+`verify` must not print full posting URLs to CI logs by default — the
 6-hourly build history would otherwise be a timestamped "who is hiring designers"
 record if the repo is ever made public. `--verbose` (never passed by CI) restores
 full URLs for local debugging.
